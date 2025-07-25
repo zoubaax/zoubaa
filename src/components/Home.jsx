@@ -1,9 +1,9 @@
 import TargetCursor from '../hooks/TargetCursor';
 import zoubaaImage from '../assets/zoubaa.jpg'; // Import the image
 
-export default function App() {
+export default function App({ drakeMode }) {
   return (
-    <div className="min-h-screen bg-[#EBE6E0] flex items-center justify-center p-8 font-sans antialiased">
+    <div className={`min-h-screen flex items-center justify-center p-8 font-sans antialiased ${drakeMode ? 'bg-[#1A1A1A]' : 'bg-[#EBE6E0]'}`}>
       <TargetCursor 
         spinDuration={2}
         hideDefaultCursor={true}
@@ -13,15 +13,15 @@ export default function App() {
         {/* Left Column - Content */}
         <div className="md:w-1/2 space-y-8 text-left">
           <div className="cursor-target group">
-            <h1 className="text-5xl font-normal text-[#4C7766] tracking-tight leading-tight">
+            <h1 className={`text-5xl font-normal tracking-tight leading-tight ${drakeMode ? 'text-[#FFD700]' : 'text-[#4C7766]'}`}>
               Mohammed <span className="font-light">Zoubaa</span>
             </h1>
-            <div className="relative w-24 h-px bg-[#4C7766]/30 mt-4 overflow-hidden">
-              <div className="absolute inset-y-0 left-0 w-full bg-[#4C7766] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 origin-left"></div>
+            <div className={`relative w-24 h-px mt-4 overflow-hidden ${drakeMode ? 'bg-[#FFD700]/30' : 'bg-[#4C7766]/30'}`}>
+              <div className={`absolute inset-y-0 left-0 w-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 origin-left ${drakeMode ? 'bg-[#FFD700]' : 'bg-[#4C7766]'}`}></div>
             </div>
           </div>
 
-          <p className="text-xl text-[#4C7766]/80 cursor-target italic transform hover:scale-[1.01] transition-transform max-w-md">
+          <p className={`text-xl cursor-target italic transform hover:scale-[1.01] transition-transform max-w-md ${drakeMode ? 'text-[#FFD700]/80' : 'text-[#4C7766]/80'}`}>
             Software Engineer specializing in web development and DevOps
           </p>
 

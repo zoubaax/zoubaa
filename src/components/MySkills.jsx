@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TargetCursor from '../hooks/TargetCursor';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
-const MySkills = () => {
+const MySkills = ({ drakeMode }) => {
   const [activeCategory, setActiveCategory] = useState('languages');
   const [hoveredSkill, setHoveredSkill] = useState(null);
 
@@ -61,31 +61,27 @@ const MySkills = () => {
   const categories = Object.keys(skillCategories);
 
   return (
-    <div className="min-h-screen bg-[#EBE6E0] flex items-center justify-center p-8 font-sans antialiased">
+    <div className={`min-h-screen flex items-center justify-center p-8 font-sans antialiased ${drakeMode ? 'bg-[#1A1A1A]' : 'bg-[#EBE6E0]'}`}>
       <TargetCursor 
         targetSelector=".cursor-target" 
         spinDuration={2} 
         hideDefaultCursor={true}
       />
-
       <div className="max-w-6xl w-full py-12">
         {/* Header */}
         <div className="cursor-target group text-center mb-16">
           <div className="inline-block mb-6">
-            <span className="px-4 py-2 bg-[#4C7766]/10 border border-[#4C7766]/20 rounded-full text-[#4C7766] text-sm font-medium tracking-wide backdrop-blur-sm">
+            <span className={`px-4 py-2 rounded-full text-sm font-medium tracking-wide backdrop-blur-sm ${drakeMode ? 'bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700]' : 'bg-[#4C7766]/10 border border-[#4C7766]/20 text-[#4C7766]'}`}>
               Technical Expertise
             </span>
           </div>
-          
-          <h1 className="text-5xl font-normal text-[#818181] tracking-tight leading-tight mb-6">
-            My <span className="text-[#4C7766] font-light">Skills</span>
+          <h1 className={`text-5xl font-normal tracking-tight leading-tight mb-6 ${drakeMode ? 'text-[#FFD700]' : 'text-[#818181]'}`}>
+            My <span className={`${drakeMode ? 'text-[#FFD700]' : 'text-[#4C7766]'} font-light`}>Skills</span>
           </h1>
-          
-          <div className="relative w-24 h-px bg-[#818181]/30 mx-auto mb-8 overflow-hidden">
-            <div className="absolute inset-y-0 left-0 w-full bg-[#818181] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 origin-left"></div>
+          <div className={`relative w-24 h-px mx-auto mb-8 overflow-hidden ${drakeMode ? 'bg-[#FFD700]/30' : 'bg-[#818181]/30'}`}>
+            <div className={`absolute inset-y-0 left-0 w-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 origin-left ${drakeMode ? 'bg-[#FFD700]' : 'bg-[#818181]'}`}></div>
           </div>
-          
-          <p className="max-w-2xl mx-auto text-xl text-[#818181]/80 italic transform hover:scale-[1.01] transition-transform">
+          <p className={`max-w-2xl mx-auto text-xl italic transform hover:scale-[1.01] transition-transform ${drakeMode ? 'text-[#FFD700]/80' : 'text-[#818181]/80'}`}>
             A comprehensive toolkit spanning modern web technologies, cloud platforms, 
             and design systems to build exceptional digital experiences.
           </p>

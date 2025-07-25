@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Code, Palette, Layers, Zap, Database, Globe, Figma, Monitor, Cpu, Sparkles } from 'lucide-react';
 
-const WorkHistory = () => {
+const WorkHistory = ({ drakeMode }) => {
   const [showAll, setShowAll] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -64,17 +64,17 @@ const WorkHistory = () => {
   const displayedExperiences = showAll ? experiences : experiences.slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#EBE6E0] text-[#1A1A1A] py-20 px-6 overflow-hidden">
+    <div className={`min-h-screen py-20 px-6 overflow-hidden ${drakeMode ? 'bg-[#1A1A1A] text-[#FFD700]' : 'bg-[#EBE6E0] text-[#1A1A1A]'}`}>
       <div className="max-w-5xl mx-auto">
         {/* Header Section */}
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <div className="inline-block">
-            <h2 className="text-5xl md:text-6xl font-light mb-6 tracking-[-0.02em] text-[#2C2C2C]">
+            <h2 className={`text-5xl md:text-6xl font-light mb-6 tracking-[-0.02em] ${drakeMode ? 'text-[#FFD700]' : 'text-[#2C2C2C]'}`}>
               Work History
             </h2>
-            <div className="w-0 h-[1px] bg-[#4C7766] mx-auto mb-8 animate-[expandWidth_1.5s_ease-out_0.5s_forwards]"></div>
+            <div className={`w-0 h-[1px] mx-auto mb-8 animate-[expandWidth_1.5s_ease-out_0.5s_forwards] ${drakeMode ? 'bg-[#FFD700]' : 'bg-[#4C7766]'}`}></div>
           </div>
-          <p className="max-w-2xl mx-auto text-lg md:text-xl leading-relaxed text-[#5A5A5A] font-light">
+          <p className={`max-w-2xl mx-auto text-lg md:text-xl leading-relaxed font-light ${drakeMode ? 'text-[#FFD700]/80' : 'text-[#5A5A5A]'}`}>
             Crafting digital experiences with innovative industry leaders and building 
             exceptional products that make a difference.
           </p>

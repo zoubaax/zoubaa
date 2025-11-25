@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+// removed Link import
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
 import TargetCursor from '../hooks/TargetCursor';
@@ -18,6 +18,19 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
 
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
+
+  // new helper: smooth-scroll to section id
+  const scrollToSection = (e, id) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // fallback: scroll to top if id not found
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    closeMenu();
+  };
 
   return (
     <>
@@ -39,14 +52,14 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
       >
         {/* Logo */}
         <div className="flex-shrink-0 cursor-target">
-          {/* use Link to navigate to "/" */}
-          <Link to="/" aria-label="Go to home">
+          {/* changed to in-page anchor */}
+          <a href="#home" aria-label="Go to home" onClick={(e) => scrollToSection(e, 'home')}>
             <img
               src={drakeMode ? logoDark : logoLight}
               alt="Zoubaa Logo"
               className="h-10 w-auto cursor-pointer transition-all duration-300 transform hover:scale-105"
             />
-          </Link>
+          </a>
         </div>
 
         {/* Desktop Navigation */}
@@ -59,17 +72,18 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
         >
           {/* only include routes that exist and map Home -> "/" */}
           {['Home', 'About', 'Skills', 'Contact'].map((item) => {
-            const path = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
+            const id = item === 'Home' ? 'home' : item.toLowerCase();
             return (
               <li key={item} className="cursor-target">
-                <Link
-                  to={path}
+                <a
+                  href={`#${id}`}
+                  onClick={(e) => scrollToSection(e, id)}
                   className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
                     drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
                   }`}
                 >
                   {item}
-                </Link>
+                </a>
               </li>
             );
           })}
@@ -113,8 +127,9 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
           </button>
 
           {/* Explore Button */}
-          <Link
-            to="/contact"
+          <a
+            href="#contact"
+            onClick={(e) => scrollToSection(e, 'contact')}
             className={`cursor-target hidden lg:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-medium text-sm transform hover:-translate-y-0.5 ${
               drakeMode
                 ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
@@ -136,7 +151,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                 d="M14 5l7 7m0 0l-7 7m7-7H3"
               />
             </svg>
-          </Link>
+          </a>
 
           {/* Mobile Menu Button */}
           <button
@@ -211,12 +226,12 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
 
             {/* Menu Items */}
             {['Home', 'About', 'Skills', 'Contact'].map((item) => {
-              const path = item === 'Home' ? '/' : `/${item.toLowerCase()}`;
+              const id = item === 'Home' ? 'home' : item.toLowerCase();
               return (
-                <Link
+                <a
                   key={item}
-                  to={path}
-                  onClick={closeMenu}
+                  href={`#${id}`}
+                  onClick={(e) => scrollToSection(e, id)}
                   className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
                     drakeMode
                       ? "border-blue-500/30 hover:text-blue-400"
@@ -224,14 +239,14 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                   }`}
                 >
                   {item}
-                </Link>
+                </a>
               );
             })}
             
             {/* Mobile Explore Button */}
-            <Link
-              to="/contact"
-              onClick={closeMenu}
+            <a
+              href="#contact"
+              onClick={(e) => scrollToSection(e, 'contact')}
               className={`cursor-target mt-8 px-6 py-4 rounded-lg border text-center transition-all duration-300 font-medium transform hover:-translate-y-0.5 ${
                 drakeMode
                   ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
@@ -239,7 +254,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
               }`}
             >
               EXPLORE NOW
-            </Link>
+            </a>
           </div>
         </div>
       </nav>

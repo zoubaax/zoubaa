@@ -3,6 +3,16 @@ import zoubaaImage from '../assets/img/zoubaa2.jpg';
 import handIcon from '../assets/img/hand-icon.png';
 import rightArrow from '../assets/img/right-arrow-white.png';
 import downloadIcon from '../assets/img/download-icon.png';
+const scrollToSection = (e, sectionId) => {
+  e.preventDefault();
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
 
 export default function App({ drakeMode }) {
   return (
@@ -54,14 +64,18 @@ export default function App({ drakeMode }) {
 
           {/* Buttons Section - Updated for same line on mobile */}
           <div className="flex flex-row items-center justify-center md:justify-start gap-3 mt-8">
-<button className="cursor-target px-6 py-3 border rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white flex items-center gap-2 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 font-medium group transform hover:-translate-y-0.5 text-sm">
+<a 
+  href="#contact"
+  onClick={(e) => scrollToSection(e, 'contact')}
+  className="cursor-target px-6 py-3 border rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white flex items-center gap-2 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 font-medium group transform hover:-translate-y-0.5 text-sm"
+>
   Contact me 
   <img 
     src={rightArrow}
     alt="" 
     className="w-4 group-hover:translate-x-1 transition-transform" 
   />
-</button>
+</a>
             
             <button className="cursor-target px-6 py-3 border rounded-full border-gray-500 flex items-center gap-2 bg-white hover:bg-gray-100 transition-all duration-300 font-medium group transform hover:-translate-y-0.5 text-sm">
               Our resume 

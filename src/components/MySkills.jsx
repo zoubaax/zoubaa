@@ -6,6 +6,16 @@ import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongo
 
 // Import your local images
 import healthcareImage from '../assets/img/Healthcare.jpg';
+const scrollToSection = (e, sectionId) => {
+  e.preventDefault();
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
 
 const techLogos = [
   { node: <SiReact />, title: "React", href: "https://react.dev" },

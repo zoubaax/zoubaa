@@ -67,8 +67,8 @@ const WorkHistory = ({ drakeMode }) => {
 
   const experiences = [
         {
-      role: "Founder & Full-Stack Developer",
-      company: "Design and Code",
+      role: " Full-Stack Developer",
+      company: "The Center for E-Learning, Simulation and Telemedicine",
       duration: "Jan 2023 — Present",
       location: "Remote",
       description: "Development of a Python e-learning platform with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of interactive features (quiz, exercises, animations) and collaborative management via GitHub.",

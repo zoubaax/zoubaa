@@ -1,14 +1,16 @@
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { gsap } from "gsap";
 
 const TargetCursor = ({
   targetSelector = ".cursor-target",
   spinDuration = 2,
   hideDefaultCursor = true,
+  mobileBreakpoint = 768, // Default breakpoint for mobile (matches Tailwind's md)
 }) => {
   const cursorRef = useRef(null);
   const cornersRef = useRef(null);
   const spinTl = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const constants = useMemo(
     () => ({
@@ -19,18 +21,43 @@ const TargetCursor = ({
     []
   );
 
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const mobile = window.matchMedia(`(max-width: ${mobileBreakpoint}px)`).matches;
+      setIsMobile(mobile);
+      
+      // Restore default cursor when on mobile
+      if (mobile) {
+        document.body.style.cursor = 'auto';
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+      // Restore cursor when component unmounts
+      document.body.style.cursor = 'auto';
+    };
+  }, [mobileBreakpoint]);
+
   const moveCursor = useCallback((x, y) => {
-    if (!cursorRef.current) return;
+    if (!cursorRef.current || isMobile) return;
     gsap.to(cursorRef.current, {
       x,
       y,
       duration: 0.1,
       ease: "power3.out",
     });
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
-    if (!cursorRef.current) return;
+    // Don't initialize cursor functionality on mobile
+    if (!cursorRef.current || isMobile) {
+      return;
+    }
 
     const originalCursor = document.body.style.cursor;
     if (hideDefaultCursor) {
@@ -269,10 +296,10 @@ const TargetCursor = ({
       spinTl.current?.kill();
       document.body.style.cursor = originalCursor;
     };
-  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor]);
+  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor, isMobile]);
 
   useEffect(() => {
-    if (!cursorRef.current || !spinTl.current) return;
+    if (!cursorRef.current || !spinTl.current || isMobile) return;
     
     if (spinTl.current.isActive()) {
       spinTl.current.kill();
@@ -280,37 +307,41 @@ const TargetCursor = ({
         .timeline({ repeat: -1 })
         .to(cursorRef.current, { rotation: "+=360", duration: spinDuration, ease: "none" });
     }
-  }, [spinDuration]);
+  }, [spinDuration, isMobile]);
 
-// In the return statement of the TargetCursor component:
-return (
-  <div
-    ref={cursorRef}
-    className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[9999] transform -translate-x-1/2 -translate-y-1/2"
-    style={{ willChange: 'transform' }}
-  >
+  // Don't render anything on mobile
+  if (isMobile) {
+    return null;
+  }
+
+  return (
     <div
-      className="absolute left-1/2 top-1/2 w-1 h-1 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2"
+      ref={cursorRef}
+      className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[9999] transform -translate-x-1/2 -translate-y-1/2"
       style={{ willChange: 'transform' }}
-    />
-    <div
-      className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0"
-      style={{ willChange: 'transform' }}
-    />
-    <div
-      className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0"
-      style={{ willChange: 'transform' }}
-    />
-    <div
-      className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform translate-x-1/2 translate-y-1/2 border-l-0 border-t-0"
-      style={{ willChange: 'transform' }}
-    />
-    <div
-      className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0"
-      style={{ willChange: 'transform' }}
-    />
-  </div>
-);
+    >
+      <div
+        className="absolute left-1/2 top-1/2 w-1 h-1 bg-black rounded-full transform -translate-x-1/2 -translate-y-1/2"
+        style={{ willChange: 'transform' }}
+      />
+      <div
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0"
+        style={{ willChange: 'transform' }}
+      />
+      <div
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0"
+        style={{ willChange: 'transform' }}
+      />
+      <div
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform translate-x-1/2 translate-y-1/2 border-l-0 border-t-0"
+        style={{ willChange: 'transform' }}
+      />
+      <div
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black transform -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0"
+        style={{ willChange: 'transform' }}
+      />
+    </div>
+  );
 };
 
 export default TargetCursor;

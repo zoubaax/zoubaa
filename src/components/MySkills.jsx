@@ -4,6 +4,9 @@ import TargetCursor from '../hooks/TargetCursor';
 import LogoLoop from '../hooks/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 
+// Import your local images
+import healthcareImage from '../assets/img/Healthcare.jpg';
+
 const techLogos = [
   { node: <SiReact />, title: "React", href: "https://react.dev" },
   { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
@@ -27,7 +30,7 @@ const ProjectsSection = ({ drakeMode }) => {
       title: "Healthcare Management",
       description: "Secure patient management system with telemedicine capabilities.",
       longDescription: "HIPAA-compliant healthcare platform serving 100+ medical practices with video consultations.",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=250&fit=crop",
+      image: healthcareImage,
       technologies: ["React Native", "TypeScript", "Node.js", "MySQL", "WebRTC"],
       category: "mobile",
       status: "completed",
@@ -463,14 +466,18 @@ const ProjectsSection = ({ drakeMode }) => {
             <p className={`text-lg mb-6 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Let's collaborate to turn your vision into an exceptional digital product
             </p>
-            <button className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 ${
-              drakeMode
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
-                : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
-            }`}>
-              Start a Project
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            <a 
+  href="#contact"
+  onClick={(e) => scrollToSection(e, 'contact')}
+  className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 ${
+    drakeMode
+      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
+      : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
+  }`}
+>
+  Start a Project
+  <ArrowRight className="w-5 h-5" />
+</a>
           </div>
         </div>
 

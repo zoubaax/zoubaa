@@ -1,265 +1,525 @@
 import React, { useState } from 'react';
+import { ExternalLink, Github, ArrowRight, Calendar, ChevronDown, ChevronUp, Star, Users, Zap, TrendingUp, Filter } from 'lucide-react';
 import TargetCursor from '../hooks/TargetCursor';
-import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import LogoLoop from '../hooks/LogoLoop';
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 
-const MySkills = ({ drakeMode }) => {
-  const [activeCategory, setActiveCategory] = useState('languages');
-  const [hoveredSkill, setHoveredSkill] = useState(null);
+const techLogos = [
+  { node: <SiReact />, title: "React", href: "https://react.dev" },
+  { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+  { node: <SiTypescript />, title: "TypeScript", href: "https://www.typescriptlang.org" },
+  { node: <SiTailwindcss />, title: "Tailwind CSS", href: "https://tailwindcss.com" },
+  { node: <SiNodedotjs />, title: "Node.js", href: "https://nodejs.org" },
+  { node: <SiMongodb />, title: "MongoDB", href: "https://mongodb.com" },
+  { node: <SiFigma />, title: "Figma", href: "https://figma.com" },
+  { node: <SiGithub />, title: "GitHub", href: "https://github.com" },
+];
 
-  const skillCategories = {
-    languages: {
-      title: 'Programming Languages',
-      icon: '💻',
-      skills: [
-        { name: 'JavaScript', level: 95, color: '#F7DF1E', prompt: '$' },
-        { name: 'Python', level: 88, color: '#3776AB', prompt: '>>>' },
-        { name: 'TypeScript', level: 90, color: '#3178C6', prompt: '>' },
-        { name: 'Java', level: 75, color: '#ED8B00', prompt: '>' },
-        { name: 'C++', level: 70, color: '#00599C', prompt: '>' },
-        { name: 'SQL', level: 85, color: '#336791', prompt: '>' }
-      ],
-      terminalStyle: true
+const ProjectsSection = ({ drakeMode }) => {
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [showAll, setShowAll] = useState(false);
+  const [hoveredProject, setHoveredProject] = useState(null);
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+
+  const projects = [
+    {
+      id: 1,
+      title: "Healthcare Management",
+      description: "Secure patient management system with telemedicine capabilities.",
+      longDescription: "HIPAA-compliant healthcare platform serving 100+ medical practices with video consultations.",
+      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=250&fit=crop",
+      technologies: ["React Native", "TypeScript", "Node.js", "MySQL", "WebRTC"],
+      category: "mobile",
+      status: "completed",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com",
+      featured: false,
+      metrics: {
+        practices: "150+",
+        patients: "500K+",
+        uptime: "99.9%"
+      },
+      year: "2023",
+      highlights: ["HIPAA", "Telemedicine", "Secure"]
     },
-    frameworks: {
-      title: 'Frameworks & Libraries',
-      icon: '⚛️',
-      skills: [
-        { name: 'React', level: 95, color: '#61DAFB' },
-        { name: 'Node.js', level: 90, color: '#339933' },
-        { name: 'Next.js', level: 88, color: '#000000' },
-        { name: 'Express.js', level: 85, color: '#000000' },
-        { name: 'Three.js', level: 80, color: '#000000' },
-        { name: 'FastAPI', level: 82, color: '#009688' }
-      ]
+    {
+      id: 2,
+      title: "E-Commerce Platform",
+      description: "Full-stack e-commerce with real-time inventory and payment processing.",
+      longDescription: "Built with modern microservices architecture, this platform handles 10,000+ daily transactions with seamless user experience.",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=250&fit=crop",
+      technologies: ["Next.js", "TypeScript", "Node.js", "MongoDB", "Stripe"],
+      category: "fullstack",
+      status: "completed",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com",
+      featured: true,
+      metrics: {
+        users: "50K+",
+        performance: "98%",
+        revenue: "$2M+"
+      },
+      year: "2024",
+      highlights: ["Microservices", "Real-time", "Scalable"]
     },
-    tools: {
-      title: 'Development Tools',
-      icon: '🛠️',
-      skills: [
-        { name: 'Docker', level: 88, color: '#2496ED' },
-        { name: 'Git', level: 92, color: '#F05032' },
-        { name: 'VS Code', level: 95, color: '#007ACC' },
-        { name: 'Webpack', level: 75, color: '#8DD6F9' },
-        { name: 'Jest', level: 80, color: '#C21325' },
-        { name: 'Postman', level: 85, color: '#FF6C37' }
-      ]
+    {
+      id: 3,
+      title: "AI Content Generator",
+      description: "AI-powered content creation with real-time collaboration features.",
+      longDescription: "Leveraging GPT-4 and custom ML models to generate high-quality content with team collaboration.",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=250&fit=crop",
+      technologies: ["React", "Python", "FastAPI", "PostgreSQL", "OpenAI"],
+      category: "ai",
+      status: "completed",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com",
+      featured: true,
+      metrics: {
+        users: "25K+",
+        performance: "95%",
+        content: "1M+"
+      },
+      year: "2024",
+      highlights: ["AI/ML", "Collaboration", "Real-time"]
     },
-    design: {
-      title: 'Design & UI/UX',
-      icon: '🎨',
-      skills: [
-        { name: 'Figma', level: 92, color: '#F24E1E' },
-        { name: 'Adobe XD', level: 85, color: '#FF61F6' },
-        { name: 'Illustrator', level: 78, color: '#FF9A00' },
-        { name: 'Photoshop', level: 75, color: '#31A8FF' },
-        { name: 'Tailwind CSS', level: 93, color: '#06B6D4' },
-        { name: 'Sass/SCSS', level: 88, color: '#CC6699' }
-      ]
+    {
+      id: 4,
+      title: "Analytics Dashboard",
+      description: "Real-time data visualization for business intelligence.",
+      longDescription: "Processes millions of data points with interactive charts and predictive analytics.",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
+      technologies: ["Vue.js", "D3.js", "WebSocket", "Kafka", "Elasticsearch"],
+      category: "data",
+      status: "completed",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com",
+      featured: false,
+      metrics: {
+        dataPoints: "10M/day",
+        clients: "Fortune 500",
+        latency: "<100ms"
+      },
+      year: "2023",
+      highlights: ["Real-time", "Scalable", "Interactive"]
+    },
+    {
+      id: 5,
+      title: "Blockchain Wallet",
+      description: "Multi-chain cryptocurrency wallet with DeFi integration.",
+      longDescription: "Secure multi-chain wallet supporting 50+ cryptocurrencies with staking and swapping.",
+      image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=250&fit=crop",
+      technologies: ["React", "Web3.js", "Solidity", "Ethereum", "IPFS"],
+      category: "web3",
+      status: "in-progress",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com",
+      featured: false,
+      metrics: {
+        chains: "10+",
+        assets: "50+",
+        security: "Audited"
+      },
+      year: "2024",
+      highlights: ["Multi-chain", "Secure", "DeFi"]
+    },
+    {
+      id: 6,
+      title: "Learning Platform",
+      description: "Gamified learning with social features and progress tracking.",
+      longDescription: "Combines social networking with educational content and AI-powered learning paths.",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop",
+      technologies: ["Next.js", "GraphQL", "Prisma", "Redis", "WebRTC"],
+      category: "social",
+      status: "completed",
+      liveUrl: "https://example.com",
+      githubUrl: "https://github.com",
+      featured: false,
+      metrics: {
+        students: "100K+",
+        courses: "500+",
+        engagement: "85%"
+      },
+      year: "2023",
+      highlights: ["Gamified", "Social", "AI-Powered"]
     }
-  };
+  ];
 
-  const categories = Object.keys(skillCategories);
+  const categories = [
+    { id: 'all', label: 'All Projects', count: projects.length, icon: <Zap className="w-4 h-4" /> },
+    { id: 'fullstack', label: 'Full Stack', count: projects.filter(p => p.category === 'fullstack').length, icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'ai', label: 'AI/ML', count: projects.filter(p => p.category === 'ai').length, icon: <Star className="w-4 h-4" /> },
+    { id: 'mobile', label: 'Mobile', count: projects.filter(p => p.category === 'mobile').length, icon: <Users className="w-4 h-4" /> },
+    { id: 'data', label: 'Data Analytics', count: projects.filter(p => p.category === 'data').length, icon: <Filter className="w-4 h-4" /> },
+    { id: 'web3', label: 'Web3', count: projects.filter(p => p.category === 'web3').length, icon: <Zap className="w-4 h-4" /> },
+    { id: 'social', label: 'Social', count: projects.filter(p => p.category === 'social').length, icon: <Users className="w-4 h-4" /> },
+  ];
 
-  return (
-    <div className={`min-h-screen flex items-center justify-center p-8 font-sans antialiased ${drakeMode ? 'bg-[#1A1A1A]' : 'bg-[#EBE6E0]'}`}>
-      <TargetCursor 
-        targetSelector=".cursor-target" 
-        spinDuration={2} 
-        hideDefaultCursor={true}
-      />
-      <div className="max-w-6xl w-full py-12">
-        {/* Header */}
-        <div className="cursor-target group text-center mb-16">
-          <div className="inline-block mb-6">
-            <span className={`px-4 py-2 rounded-full text-sm font-medium tracking-wide backdrop-blur-sm ${drakeMode ? 'bg-[#FFD700]/10 border border-[#FFD700]/20 text-[#FFD700]' : 'bg-[#4C7766]/10 border border-[#4C7766]/20 text-[#4C7766]'}`}>
-              Technical Expertise
+  const filteredProjects = activeFilter === 'all' 
+    ? projects 
+    : projects.filter(project => project.category === activeFilter);
+
+  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
+
+  const getActiveCategory = () => categories.find(cat => cat.id === activeFilter);
+
+  const ProjectCard = ({ project }) => (
+    <div 
+      className={`cursor-target group relative rounded-3xl border overflow-hidden transition-all duration-700 transform hover:-translate-y-2 h-full flex flex-col ${
+        drakeMode 
+          ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/20' 
+          : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10'
+      }`}
+      onMouseEnter={() => setHoveredProject(project.id)}
+      onMouseLeave={() => setHoveredProject(null)}
+    >
+      {/* Animated Background Gradient */}
+      <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+        drakeMode 
+          ? 'bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5' 
+          : 'bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-purple-500/5'
+      }`}></div>
+
+      {/* Status & Featured Badges */}
+      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
+        <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
+          project.status === 'completed' 
+            ? drakeMode ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-green-100 text-green-700 border-green-200'
+            : drakeMode ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 'bg-yellow-100 text-yellow-700 border-yellow-200'
+        }`}>
+          {project.status === 'completed' ? '🚀 Live' : '🛠️ In Progress'}
+        </div>
+
+        {project.featured && (
+          <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
+            drakeMode ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30' : 'bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border-purple-200'
+          }`}>
+            ⭐ Featured
+          </div>
+        )}
+      </div>
+
+      {/* Image with Overlay */}
+      <div className="relative h-44 overflow-hidden">
+        <img 
+          src={project.image} 
+          alt={project.title}
+          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+        />
+        <div className={`absolute inset-0 bg-gradient-to-t ${
+          drakeMode ? 'from-[#050A30] via-[#050A30]/80 to-transparent' : 'from-white via-white/80 to-transparent'
+        } transition-all duration-500`}></div>
+        
+        {/* Highlights */}
+        <div className="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
+          {project.highlights.map((highlight, index) => (
+            <span 
+              key={index}
+              className={`px-2 py-1 text-xs font-medium rounded-full backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
+                drakeMode
+                  ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                  : 'bg-blue-500/10 text-blue-600 border-blue-500/20'
+              }`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              {highlight}
             </span>
-          </div>
-          <h1 className={`text-5xl font-normal tracking-tight leading-tight mb-6 ${drakeMode ? 'text-[#FFD700]' : 'text-[#818181]'}`}>
-            My <span className={`${drakeMode ? 'text-[#FFD700]' : 'text-[#4C7766]'} font-light`}>Skills</span>
-          </h1>
-          <div className={`relative w-24 h-px mx-auto mb-8 overflow-hidden ${drakeMode ? 'bg-[#FFD700]/30' : 'bg-[#818181]/30'}`}>
-            <div className={`absolute inset-y-0 left-0 w-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 origin-left ${drakeMode ? 'bg-[#FFD700]' : 'bg-[#818181]'}`}></div>
-          </div>
-          <p className={`max-w-2xl mx-auto text-xl italic transform hover:scale-[1.01] transition-transform ${drakeMode ? 'text-[#FFD700]/80' : 'text-[#818181]/80'}`}>
-            A comprehensive toolkit spanning modern web technologies, cloud platforms, 
-            and design systems to build exceptional digital experiences.
-          </p>
+          ))}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-5 flex-1 flex flex-col relative z-10">
+        {/* Year */}
+        <div className="flex items-center gap-2 mb-3">
+          <Calendar className={`w-4 h-4 ${drakeMode ? 'text-cyan-400' : 'text-blue-500'}`} />
+          <span className={`text-sm font-semibold ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
+            {project.year}
+          </span>
         </div>
 
-        {/* Category Navigation */}
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`cursor-target group relative px-6 py-3 rounded-sm font-medium transition-all duration-300 ${
-                activeCategory === category
-                  ? 'bg-[#4C7766] text-white'
-                  : 'border border-[#4C7766] text-[#818181] hover:bg-[#818181]/5'
+        {/* Title & Description */}
+        <h3 className={`text-xl font-bold mb-3 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${
+          drakeMode ? 'text-white group-hover:from-cyan-400 group-hover:to-blue-500' : 'text-gray-900 group-hover:from-blue-500 group-hover:to-cyan-500'
+        } transition-all duration-500`}>
+          {project.title}
+        </h3>
+        
+        <p className={`text-sm mb-4 leading-relaxed flex-1 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
+          {project.description}
+        </p>
+
+        {/* Technologies */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {project.technologies.slice(0, 4).map((tech, index) => (
+            <span 
+              key={index}
+              className={`cursor-target px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 hover:scale-110 ${
+                drakeMode
+                  ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-cyan-400 hover:bg-cyan-500/20'
+                  : 'bg-blue-50 text-blue-600 border-blue-200 hover:border-blue-400 hover:bg-blue-100'
               }`}
+              style={{ transitionDelay: `${index * 50}ms` }}
             >
-              <span className="flex items-center gap-2 relative z-10">
-                <span className="text-lg">{skillCategories[category].icon}</span>
-                <span className="hidden sm:inline">{skillCategories[category].title}</span>
-                <span className="sm:hidden">{category.charAt(0).toUpperCase() + category.slice(1)}</span>
-              </span>
-              {activeCategory === category && (
-                <span className="absolute inset-0 bg-[#4C7766] opacity-20"></span>
-              )}
-            </button>
+              {tech}
+            </span>
           ))}
+          {project.technologies.length > 4 && (
+            <span className={`px-3 py-1.5 text-xs rounded-full border ${
+              drakeMode ? 'bg-gray-700 text-gray-400 border-gray-600' : 'bg-gray-100 text-gray-500 border-gray-300'
+            }`}>
+              +{project.technologies.length - 4}
+            </span>
+          )}
         </div>
 
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skillCategories[activeCategory].skills.map((skill, index) => (
-            <div
-              key={skill.name}
-              className={`cursor-target group relative rounded-sm p-6 transition-all duration-300 ${
-                activeCategory === 'languages' 
-                  ? 'bg-[#0D0D0D] border border-[#4C7766]/30 hover:border-[#4C7766]/60 terminal-font'
-                  : 'bg-[#1a1a1a] border border-[#333] hover:border-[#4C7766]'
-              }`}
-              onMouseEnter={() => setHoveredSkill(skill.name)}
-              onMouseLeave={() => setHoveredSkill(null)}
-            >
-              {activeCategory === 'languages' ? (
-                <>
-                  {/* Terminal-style header */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex space-x-2">
-                      <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                      <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                      <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-                    </div>
-                    <h3 className="text-sm font-mono text-[#818181]">
-                      {skill.name.toLowerCase()}.sh
-                    </h3>
-                  </div>
-
-                  {/* Terminal-style content */}
-                  <div className="font-mono text-sm mb-4">
-                    <p className="text-[#4C7766]">{skill.prompt} <span className="text-[#818181]">./skill --level</span></p>
-                    <div className="flex items-center mt-2">
-                      <span className="text-[#4C7766] mr-2">{skill.prompt}</span>
-                      <div className="w-full bg-[#1a1a1a] rounded-sm h-4 overflow-hidden border border-[#333]">
-                        <div
-                          className="h-full bg-[#4C7766] transition-all duration-1000 ease-out"
-                          style={{
-                            width: hoveredSkill === skill.name ? `${skill.level}%` : '0%',
-                            transitionDelay: hoveredSkill === skill.name ? '200ms' : '0ms'
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                    <p className="text-[#4C7766] mt-2">{skill.prompt} <span className="text-[#818181]"># {skill.level}% proficiency</span></p>
-                  </div>
-
-                  {/* Terminal-style status */}
-                  <div className="font-mono text-xs text-[#818181] mt-4 pt-2 border-t border-[#333]">
-                    <p>[{new Date().toLocaleTimeString()}] STATUS: { 
-                      skill.level >= 90 ? 'EXPERT' : 
-                      skill.level >= 80 ? 'ADVANCED' : 
-                      skill.level >= 70 ? 'INTERMEDIATE' : 'LEARNING'
-                    }</p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {/* Original non-terminal style */}
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-medium text-[#818181] group-hover:text-[#4C7766] transition-colors duration-300">
-                      {skill.name}
-                    </h3>
-                    <div 
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: skill.color }}
-                    ></div>
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-[#818181]">Proficiency</span>
-                      <span className="text-sm font-medium text-[#4C7766]">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-[#2a2a2a] rounded-full h-2 overflow-hidden">
-                      <div
-                        className="h-full bg-[#4C7766] rounded-full transition-all duration-1000 ease-out"
-                        style={{
-                          width: hoveredSkill === skill.name ? `${skill.level}%` : '0%',
-                          transitionDelay: hoveredSkill === skill.name ? '200ms' : '0ms'
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className="flex space-x-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <div
-                          key={star}
-                          className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            star <= Math.ceil(skill.level / 20)
-                              ? 'bg-[#4C7766]'
-                              : 'bg-[#404040]'
-                          }`}
-                        ></div>
-                      ))}
-                    </div>
-                    <span className="text-xs text-[#818181] ml-2">
-                      {skill.level >= 90 ? 'Expert' : 
-                       skill.level >= 80 ? 'Advanced' : 
-                       skill.level >= 70 ? 'Intermediate' : 'Learning'}
-                    </span>
-                  </div>
-                </>
-              )}
-
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-[#4C7766]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm pointer-events-none"></div>
-            </div>
-          ))}
-        </div>
-
-        {/* Summary Stats */}
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {[
-            { value: '6+', label: 'Programming Languages' },
-            { value: '15+', label: 'Frameworks & Libraries' },
-            { value: '20+', label: 'Development Tools' },
-            { value: '3+', label: 'Years Experience' }
-          ].map((stat, index) => (
-            <div key={index} className="cursor-target text-center transform hover:scale-105 transition-transform">
-              <div className="text-3xl font-bold text-[#4C7766] mb-2">{stat.value}</div>
-              <div className="text-[#818181]">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Social Links */}
-        <div className="flex justify-center space-x-5 pt-16">
-          <a href="#" className="cursor-target text-[#818181]/60 hover:text-[#4C7766] transition-colors flex items-center gap-2">
-            <FaGithub className="w-5 h-5" />
-            <span className="text-sm">GitHub</span>
+        {/* Actions */}
+        <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <a 
+            href={project.liveUrl}
+            className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+              drakeMode
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
+                : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
+            }`}
+          >
+            <ExternalLink className="w-4 h-4" />
+            Live Demo
           </a>
-          <a href="#" className="cursor-target text-[#818181]/60 hover:text-[#4C7766] transition-colors flex items-center gap-2">
-            <FaLinkedin className="w-5 h-5" />
-            <span className="text-sm">LinkedIn</span>
+          
+          <a 
+            href={project.githubUrl}
+            className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+              drakeMode
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            <Github className="w-4 h-4" />
           </a>
         </div>
       </div>
 
-      {/* Add this style tag for the terminal font */}
-      <style jsx global>{`
-        .terminal-font {
-          font-family: 'SF Mono', 'Roboto Mono', 'Courier New', monospace;
+      {/* Glow Effect */}
+      <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
+        drakeMode 
+          ? 'shadow-2xl shadow-cyan-500/10' 
+          : 'shadow-2xl shadow-blue-500/5'
+      }`}></div>
+    </div>
+  );
+
+  return (
+    <div id="projects" className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${
+      drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
+    }`}>
+      {/* Target Cursor */}
+      <TargetCursor 
+        spinDuration={2}
+        hideDefaultCursor={true}
+      />
+
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <div className="cursor-target inline-flex items-center gap-4 mb-6">
+            <div className={`w-20 h-0.5 bg-gradient-to-r ${
+              drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'
+            }`}></div>
+            <span className={`text-sm font-semibold tracking-widest uppercase ${
+              drakeMode ? 'text-cyan-400' : 'text-blue-600'
+            }`}>
+              Portfolio Showcase
+            </span>
+            <div className={`w-20 h-0.5 bg-gradient-to-r ${
+              drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'
+            }`}></div>
+          </div>
+          
+          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${
+            drakeMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Crafting <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">Digital</span> Excellence
+          </h2>
+          
+          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${
+            drakeMode ? 'text-gray-300' : 'text-gray-700'
+          }`}>
+            Transforming ideas into exceptional digital experiences that drive results and inspire innovation
+          </p>
+        </div>
+
+        {/* All-in-One Filter Button */}
+        <div className="flex justify-center mb-12 relative">
+          <div className="relative">
+            <button
+              onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+              className={`cursor-target flex items-center gap-4 px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 border-2 backdrop-blur-sm ${
+                drakeMode
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-transparent shadow-2xl shadow-cyan-500/25'
+                  : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-transparent shadow-2xl shadow-blue-500/25'
+              }`}
+            >
+              <Filter className="w-5 h-5" />
+              <span className="flex items-center gap-3">
+                {getActiveCategory().icon}
+                {getActiveCategory().label}
+                <span className="px-2 py-1 text-sm rounded-full bg-white/20">
+                  {getActiveCategory().count}
+                </span>
+              </span>
+              <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showFilterDropdown ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {showFilterDropdown && (
+              <div className={`absolute top-full left-0 right-0 mt-2 rounded-2xl border-2 backdrop-blur-sm overflow-hidden z-50 ${
+                drakeMode 
+                  ? 'bg-[#050A30] border-cyan-400/30 shadow-2xl shadow-cyan-500/20' 
+                  : 'bg-white border-blue-200 shadow-2xl shadow-blue-500/10'
+              }`}>
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => {
+                      setActiveFilter(category.id);
+                      setShowFilterDropdown(false);
+                    }}
+                    className={`cursor-target w-full flex items-center justify-between px-6 py-4 text-left transition-all duration-300 hover:scale-[1.02] ${
+                      activeFilter === category.id
+                        ? drakeMode
+                          ? 'bg-cyan-500/20 text-cyan-300'
+                          : 'bg-blue-500/10 text-blue-600'
+                        : drakeMode
+                          ? 'text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400'
+                          : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {category.icon}
+                      <span className="font-semibold">{category.label}</span>
+                    </div>
+                    <span className={`px-2 py-1 text-xs rounded-full ${
+                      activeFilter === category.id
+                        ? drakeMode ? 'bg-cyan-500/30 text-cyan-300' : 'bg-blue-500/20 text-blue-600'
+                        : drakeMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-500'
+                    }`}>
+                      {category.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          {displayedProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+
+        {/* Show More/Less Button */}
+        {filteredProjects.length > 3 && (
+          <div className="text-center mb-16">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 mx-auto ${
+                drakeMode
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
+                  : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
+              }`}
+            >
+              {showAll ? (
+                <>
+                  Show Less
+                  <ChevronUp className="w-5 h-5" />
+                </>
+              ) : (
+                <>
+                  View More Projects
+                  <ChevronDown className="w-5 h-5" />
+                </>
+              )}
+            </button>
+            <p className={`text-sm mt-3 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              {showAll ? `Displaying all ${filteredProjects.length} projects` : `Showing 3 of ${filteredProjects.length} projects`}
+            </p>
+          </div>
+        )}
+
+        {/* CTA Section */}
+        <div className="text-center mb-16">
+          <div className={`cursor-target inline-flex flex-col items-center p-8 rounded-3xl border-2 backdrop-blur-sm max-w-2xl mx-auto ${
+            drakeMode 
+              ? 'bg-[#050A30] border-cyan-400/30' 
+              : 'bg-white border-blue-200'
+          }`}>
+            <h3 className={`text-3xl font-bold mb-4 ${
+              drakeMode ? 'text-white' : 'text-gray-900'
+            }`}>
+              Ready to Build Something Amazing?
+            </h3>
+            <p className={`text-lg mb-6 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
+              Let's collaborate to turn your vision into an exceptional digital product
+            </p>
+            <button className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 ${
+              drakeMode
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
+                : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
+            }`}>
+              Start a Project
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Logo Loop Section */}
+        <div className="mt-20">
+          <div className={`text-center mb-8 ${
+            drakeMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
+            <h3 className="text-xl font-semibold mb-2 cursor-target">Powered by Modern Technologies</h3>
+            <p className="text-sm cursor-target">Cutting-edge tools and frameworks for exceptional results</p>
+          </div>
+          
+          <div className="cursor-target">
+            <LogoLoop
+              logos={techLogos}
+              speed={120}
+              direction="left"
+              logoHeight={48}
+              gap={40}
+              hoverSpeed={0}
+              scaleOnHover
+              fadeOut
+              fadeOutColor={drakeMode ? "#050A30" : "#eff9ff"}
+              ariaLabel="Technology partners"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Close dropdown when clicking outside */}
+      {showFilterDropdown && (
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => setShowFilterDropdown(false)}
+        />
+      )}
+
+      <style jsx>{`
+        @keyframes gradient-x {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 3s ease infinite;
         }
       `}</style>
     </div>
   );
 };
 
-export default MySkills;
-
-
+export default ProjectsSection;

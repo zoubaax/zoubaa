@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GraduationCap, Briefcase, Calendar, MapPin, Award, Code } from 'lucide-react';
 import LogoLoop from '../hooks/LogoLoop';
+import TargetCursor from '../hooks/TargetCursor';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 
 const techLogos = [
@@ -24,6 +25,13 @@ import tailwindIcon from '../assets/img/Tailwind-CSS.png';
 import figmaIcon from '../assets/img/figma.png';
 import gitIcon from '../assets/img/github-sign.png';
 import javaIcon from '../assets/img/java.png';
+import angularjs from '../assets/img/angularjs.png';
+import springboot from '../assets/img/spring-boot.png';
+import SeleniumLogo from '../assets/img/Selenium_Logo.png';
+import MachineLearning from '../assets/img/brain.png';
+import dotNet from '../assets/img/NET.png';
+import Python from '../assets/img/Python.png';
+import PostgresSQL from '../assets/img/PostgresSQL.png';
 
 const WorkHistory = ({ drakeMode }) => {
   const [showAll, setShowAll] = useState(false);
@@ -43,91 +51,100 @@ const WorkHistory = ({ drakeMode }) => {
       'MongoDB': mongodbIcon,
       'Tailwind CSS': tailwindIcon,
       'Figma': figmaIcon,
-      'Git': gitIcon,
+      'GitHub': gitIcon,
       'Java': javaIcon,
+      'angularjs': angularjs,
+      'Spring Boot': springboot,
+      'Selenium': SeleniumLogo,
+      'Machine Learning': MachineLearning,
+      '.NET': dotNet,
+      'Python': Python,
+      'PostgreSQL': PostgresSQL,
+
     };
     return techIcons[tech];
   };
 
   const experiences = [
-    {
-      role: "Software Engineer",
-      company: "OneShield Software",
-      duration: "Aug 2023 — Present",
-      location: "Remote",
-      description: "Developed enterprise-level software solutions for insurance platforms, focusing on scalable architecture and performance optimization.",
-      technologies: ["React", "JavaScript", "Node.js", "MongoDB"],
-      type: "Full-time",
-      achievements: [
-        "Reduced application load time by 40%",
-        "Implemented microservices architecture",
-        "Led migration to modern React stack"
-      ]
-    },
-    {
+        {
       role: "Founder & Full-Stack Developer",
       company: "Design and Code",
       duration: "Jan 2023 — Present",
       location: "Remote",
-      description: "Built custom web applications and digital experiences for clients worldwide, managing full-stack development and client relationships.",
-      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Figma"],
+      description: "Development of a Python e-learning platform with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of interactive features (quiz, exercises, animations) and collaborative management via GitHub.",
+      technologies: ["PostgreSQL", "JavaScript", "Tailwind CSS", "Figma","React","Node.js"],
       type: "Freelance",
       achievements: [
-        "Delivered 15+ projects for international clients",
-        "Achieved 95% client satisfaction rate",
-        "Built scalable solutions for 50k+ users"
+        "Built Python e-learning platform",
+        "Added interactive quizzes & exercises",
+        "Managed collaboration via GitHub"
       ]
     },
     {
-      role: "Design Engineer",
-      company: "Residuous",
-      duration: "Feb 2025 — Mar 2026",
-      location: "San Francisco, CA",
-      description: "Bridged design and development to create pixel-perfect implementations with advanced animations and interactive experiences.",
-      technologies: ["TypeScript", "React", "Framer Motion", "Figma"],
-      type: "Contract",
-      achievements: [
-        "Created award-winning interactive visualizations",
-        "Improved user engagement by 60%",
-        "Built reusable component library"
-      ]
-    },
-    {
-      role: "UI/UX Designer",
-      company: "Societol",
-      duration: "Aug 2022 — Sep 2023",
-      location: "New York, NY",
-      description: "Designed and prototyped user interfaces for social media applications, conducting user research and usability testing.",
-      technologies: ["Figma", "Adobe XD", "HTML", "CSS"],
+      role: "Full-Stack Developer",
+      company: "NewDev Maroc",
+      duration: "Feb 2025 – April 2025",
+      location: "Remote",
+      description: "Creation of a medical management system with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of features (online appointment scheduling, office administration, patient tracking) and DevOps practices for deployment.",
+      technologies: ["React", "JavaScript", "Node.js", "PostgreSQL", "Tailwind CSS", "GitHub","Figma"],
       type: "Full-time",
       achievements: [
-        "Increased user retention by 35%",
-        "Conducted 50+ user testing sessions",
-        "Designed 4.8-star rated mobile app"
+        "Enabled online appointments",
+        "Streamlined clinic administration",
+        "Automated DevOps deployment"
       ]
-    }
+    },
+
+    // {
+    //   role: "Design Engineer",
+    //   company: "Residuous",
+    //   duration: "Feb 2025 — Mar 2026",
+    //   location: "San Francisco, CA",
+    //   description: "Bridged design and development to create pixel-perfect implementations with advanced animations and interactive experiences.",
+    //   technologies: ["TypeScript", "React", "Framer Motion", "Figma"],
+    //   type: "Contract",
+    //   achievements: [
+    //     "Created award-winning interactive visualizations",
+    //     "Improved user engagement by 60%",
+    //     "Built reusable component library"
+    //   ]
+    // },
+    // {
+    //   role: "UI/UX Designer",
+    //   company: "Societol",
+    //   duration: "Aug 2022 — Sep 2023",
+    //   location: "New York, NY",
+    //   description: "Designed and prototyped user interfaces for social media applications, conducting user research and usability testing.",
+    //   technologies: ["Figma", "Adobe XD", "HTML", "CSS"],
+    //   type: "Full-time",
+    //   achievements: [
+    //     "Increased user retention by 35%",
+    //     "Conducted 50+ user testing sessions",
+    //     "Designed 4.8-star rated mobile app"
+    //   ]
+    // }
   ];
 
   const education = [
     {
       degree: "Software Engineering",
-      institution: "OFPPT",
-      duration: "2023 — 2025",
+      institution: "The Private University of Fez (UPF)",
+      duration: "2025 — Present",
       location: "Morocco",
       description: "Advanced studies in software engineering with focus on modern web technologies, system architecture, and software development methodologies.",
       status: "In Progress",
-      technologies: ["React", "Node.js", "JavaScript", "TypeScript"],
-      courses: ["Advanced Algorithms", "Cloud Computing", "Database Design"]
+      technologies: ["angularjs", "Spring Boot", "Selenium", "Machine Learning", ".NET"],
+      courses: ["Full Stack", "Cloud Computing", "Database Design"," DevOps","Testing & QA","Machine Learning","Deep Learning",]
     },
     {
       degree: "Specialized Technician in Digital Development",
       institution: "OFPPT",
-      duration: "2021 — 2023",
+      duration: "2023 — 2025",
       location: "Morocco",
       description: "Comprehensive training in web development, mobile applications, digital design principles, and project management.",
       status: "Completed",
-      technologies: ["HTML", "CSS", "JavaScript", "Python"],
-      courses: ["Frontend Development", "Mobile App Design", "Project Management"]
+      technologies: ["React", "Node.js", "JavaScript", "Python", "PostgreSQL","Figma"],
+      courses: ["Frontend Development", "UI/UX", "Project Management"]
     }
   ];
 
@@ -135,7 +152,7 @@ const WorkHistory = ({ drakeMode }) => {
   const displayedEducation = showAll ? education : education;
 
   const Card = ({ children, className = "" }) => (
-    <div className={`rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] hover:shadow-xl ${className}`}>
+    <div className={`cursor-target rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:scale-[1.02] hover:shadow-xl ${className}`}>
       {children}
     </div>
   );
@@ -147,7 +164,7 @@ const WorkHistory = ({ drakeMode }) => {
         return (
           <div
             key={i}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 hover:scale-105 ${
+            className={`cursor-target flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 hover:scale-105 ${
               drakeMode 
                 ? 'border-gray-600 bg-gray-800 hover:border-blue-400/50' 
                 : 'border-gray-300 bg-white hover:border-blue-300'
@@ -170,18 +187,52 @@ const WorkHistory = ({ drakeMode }) => {
   );
 
   return (
-    <div className={`min-h-screen py-20 px-4 sm:px-6 ${
+    <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${
       drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
     }`}>
-      <div className="max-w-6xl mx-auto">
+      {/* Target Cursor */}
+      <TargetCursor 
+        spinDuration={2}
+        hideDefaultCursor={true}
+      />
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${
+        {/* <div className="text-center mb-16">
+          <div className="cursor-target">
+            <h2 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${
+              drakeMode ? 'text-white' : 'text-gray-900'
+            }`}>
+              My Journey
+            </h2>
+          </div>
+          <div className="cursor-target">
+            <p className={`max-w-2xl mx-auto text-lg md:text-xl leading-relaxed ${
+              drakeMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              From academic foundations to professional milestones, each step has shaped my expertise.
+            </p>
+          </div>
+        </div> */}
+
+                <div className="text-center mb-20">
+          <div className="cursor-target inline-flex items-center gap-4 mb-6">
+            <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
+            <span className={`text-sm font-semibold tracking-widest uppercase ${
+              drakeMode ? 'text-cyan-400' : 'text-blue-600'
+            }`}>
+              My Journey
+            </span>
+            <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'}`}></div>
+          </div>
+          
+          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${
             drakeMode ? 'text-white' : 'text-gray-900'
           }`}>
-            My Journey
+            Education & <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 bg-clip-text text-transparent animate-gradient-x">Expériences Professionnelles </span>
           </h2>
-          <p className={`max-w-2xl mx-auto text-lg md:text-xl leading-relaxed ${
+          
+          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${
             drakeMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
             From academic foundations to professional milestones, each step has shaped my expertise.
@@ -190,7 +241,7 @@ const WorkHistory = ({ drakeMode }) => {
 
         {/* Navigation Tabs */}
         <div className="flex justify-center mb-12">
-          <div className={`flex rounded-2xl p-2 backdrop-blur-sm border ${
+          <div className={`cursor-target flex rounded-2xl p-2 backdrop-blur-sm border ${
             drakeMode 
               ? 'bg-[#0A1A3A]/80 border-blue-500/30' 
               : 'bg-white/80 border-gray-200'
@@ -202,14 +253,14 @@ const WorkHistory = ({ drakeMode }) => {
               <button
                 key={id}
                 onClick={() => setActiveSection(id)}
-                className={`flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                className={`cursor-target flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                   activeSection === id
                     ? drakeMode
-                      ? 'bg-blue-500 text-white shadow-lg'
-                      : 'bg-blue-500 text-white shadow-lg'
+                      ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
+                      : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                     : drakeMode
-                    ? 'text-gray-300 hover:text-white hover:bg-blue-500/20'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10'
+                    ? 'text-gray-300 hover:text-white hover:bg-blue-500/20 hover:shadow-lg hover:shadow-blue-500/10'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/5'
                 }`}
               >
                 <Icon className="w-5 h-5" />
@@ -245,14 +296,14 @@ const WorkHistory = ({ drakeMode }) => {
                         {edu.institution}
                       </p>
                     </div>
-                    <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                    <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${
                       edu.status === 'In Progress' 
                         ? drakeMode 
-                          ? 'bg-blue-500/20 text-blue-300' 
-                          : 'bg-blue-100 text-blue-700'
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' 
+                          : 'bg-blue-100 text-blue-700 border border-blue-200'
                         : drakeMode 
-                          ? 'bg-green-500/20 text-green-300' 
-                          : 'bg-green-100 text-green-700'
+                          ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                          : 'bg-green-100 text-green-700 border border-green-200'
                     }`}>
                       {edu.status}
                     </span>
@@ -288,10 +339,10 @@ const WorkHistory = ({ drakeMode }) => {
                       {edu.courses.map((course, i) => (
                         <span 
                           key={i}
-                          className={`px-3 py-1 text-sm rounded-full border ${
+                          className={`cursor-target px-3 py-1 text-sm rounded-full border transition-all duration-300 hover:scale-105 ${
                             drakeMode
-                              ? 'bg-blue-500/10 text-blue-300 border-blue-500/20'
-                              : 'bg-blue-50 text-blue-700 border-blue-200'
+                              ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-blue-400'
+                              : 'bg-blue-50 text-blue-700 border-blue-200 hover:border-blue-400'
                           }`}
                         >
                           {course}
@@ -342,10 +393,10 @@ const WorkHistory = ({ drakeMode }) => {
                         {exp.company}
                       </p>
                     </div>
-                    <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                    <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${
                       drakeMode
-                        ? 'bg-blue-500/20 text-blue-300'
-                        : 'bg-blue-100 text-blue-700'
+                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                        : 'bg-blue-100 text-blue-700 border border-blue-200'
                     }`}>
                       {exp.type}
                     </span>
@@ -379,11 +430,11 @@ const WorkHistory = ({ drakeMode }) => {
                     </h4>
                     <div className="space-y-2">
                       {exp.achievements.map((achievement, i) => (
-                        <div key={i} className="flex items-start gap-3">
-                          <div className={`w-2 h-2 rounded-full mt-2 ${
+                        <div key={i} className="flex items-start gap-3 cursor-target group">
+                          <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-300 group-hover:scale-150 ${
                             drakeMode ? 'bg-blue-400' : 'bg-blue-500'
                           }`}></div>
-                          <p className={`flex-1 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                          <p className={`flex-1 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'} group-hover:translate-x-1 transition-transform duration-300`}>
                             {achievement}
                           </p>
                         </div>
@@ -412,10 +463,10 @@ const WorkHistory = ({ drakeMode }) => {
           <div className="text-center mt-12">
             <button
               onClick={() => setShowAll(!showAll)}
-              className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${
+              className={`cursor-target px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${
                 drakeMode
-                  ? 'bg-blue-500 text-white hover:bg-blue-600'
-                  : 'bg-blue-500 text-white hover:bg-blue-600'
+                  ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25'
+                  : 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25'
               }`}
             >
               {showAll ? 'Show Less' : 'View All Experiences'}
@@ -428,11 +479,11 @@ const WorkHistory = ({ drakeMode }) => {
           <div className={`text-center mb-8 ${
             drakeMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            <h3 className="text-xl font-semibold mb-2">Technologies I Work With</h3>
-            <p className="text-sm">Trusted by developers and companies worldwide</p>
+            <h3 className="text-xl font-semibold mb-2 cursor-target">Technologies I Work With</h3>
+            <p className="text-sm cursor-target">Trusted by developers and companies worldwide</p>
           </div>
           
-          <div >
+          <div className="cursor-target">
             <LogoLoop
               logos={techLogos}
               speed={120}

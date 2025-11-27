@@ -34,6 +34,11 @@ import dotNet from '../assets/img/NET.png';
 import Python from '../assets/img/Python.png';
 import PostgresSQL from '../assets/img/PostgresSQL.png';
 
+// Import company logos - you'll need to add these images to your assets
+import LOGOFMPDF from '../assets/img/LOGO-FMPDF.png';
+import NewDev from '../assets/img/NewDev.jpeg';
+import fiverr from '../assets/img/fiverr.webp';
+
 const WorkHistory = ({ drakeMode }) => {
   const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
@@ -62,33 +67,43 @@ const WorkHistory = ({ drakeMode }) => {
       '.NET': dotNet,
       'Python': Python,
       'PostgreSQL': PostgresSQL,
-
     };
     return techIcons[tech];
   };
 
+  const getCompanyLogo = (company) => {
+    const companyLogos = {
+      'The Center for E-Learning, Simulation and Telemedicine': LOGOFMPDF,
+      'NewDev Maroc': NewDev,
+      'Fiverr - Freelance': fiverr,
+
+    };
+    return companyLogos[company] || defaultCompanyLogo;
+  };
+
   const experiences = [
-        {
-      role: " Full-Stack Developer",
-      company: "The Center for E-Learning, Simulation and Telemedicine",
-      duration: "Jan 2023 — Present",
+    {
+      role: "Full-Stack Developer",
+      company: "Fiverr - Freelance",
+      duration: "Jan 2024 — Present",
       location: "Remote",
-      description: "Development of a Python e-learning platform with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of interactive features (quiz, exercises, animations) and collaborative management via GitHub.",
-      technologies: ["PostgreSQL", "JavaScript", "Tailwind CSS", "Figma","React","Node.js"],
+      description: "Providing full-stack development services to international clients through Fiverr platform. Specializing in building e-learning platforms, web applications, and custom software solutions using modern technologies.",
+      technologies: ["React", "Node.js", "JavaScript", "Python", "PostgreSQL", "Tailwind CSS", "Figma", "GitHub"],
       type: "Freelance",
       achievements: [
-        "Built Python e-learning platform",
-        "Added interactive quizzes & exercises",
-        "Managed collaboration via GitHub"
+        "Delivered  successful projects",
+        "Built custom e-learning platforms with interactive features",
+        "Developed medical management systems for healthcare clients",
       ]
     },
+   
     {
       role: "Full-Stack Developer",
       company: "NewDev Maroc",
       duration: "Feb 2025 – April 2025",
       location: "Remote",
       description: "Creation of a medical management system with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of features (online appointment scheduling, office administration, patient tracking) and DevOps practices for deployment.",
-      technologies: ["React", "JavaScript", "Node.js", "PostgreSQL", "Tailwind CSS", "GitHub","Figma"],
+      technologies: ["React", "JavaScript", "Node.js", "PostgreSQL", "Tailwind CSS", "GitHub", "Figma"],
       type: "Full-time",
       achievements: [
         "Enabled online appointments",
@@ -96,35 +111,20 @@ const WorkHistory = ({ drakeMode }) => {
         "Automated DevOps deployment"
       ]
     },
-
-    // {
-    //   role: "Design Engineer",
-    //   company: "Residuous",
-    //   duration: "Feb 2025 — Mar 2026",
-    //   location: "San Francisco, CA",
-    //   description: "Bridged design and development to create pixel-perfect implementations with advanced animations and interactive experiences.",
-    //   technologies: ["TypeScript", "React", "Framer Motion", "Figma"],
-    //   type: "Contract",
-    //   achievements: [
-    //     "Created award-winning interactive visualizations",
-    //     "Improved user engagement by 60%",
-    //     "Built reusable component library"
-    //   ]
-    // },
-    // {
-    //   role: "UI/UX Designer",
-    //   company: "Societol",
-    //   duration: "Aug 2022 — Sep 2023",
-    //   location: "New York, NY",
-    //   description: "Designed and prototyped user interfaces for social media applications, conducting user research and usability testing.",
-    //   technologies: ["Figma", "Adobe XD", "HTML", "CSS"],
-    //   type: "Full-time",
-    //   achievements: [
-    //     "Increased user retention by 35%",
-    //     "Conducted 50+ user testing sessions",
-    //     "Designed 4.8-star rated mobile app"
-    //   ]
-    // }
+     {
+      role: "Full-Stack Developer",
+      company: "The Center for E-Learning, Simulation and Telemedicine",
+      duration: "Jan 2023 — Present",
+      location: "Remote",
+      description: "Development of a Python e-learning platform with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of interactive features (quiz, exercises, animations) and collaborative management via GitHub.",
+      technologies: ["PostgreSQL", "JavaScript", "Tailwind CSS", "Figma", "React", "Node.js"],
+      type: "Freelance",
+      achievements: [
+        "Built Python e-learning platform",
+        "Added interactive quizzes & exercises",
+        "Managed collaboration via GitHub"
+      ]
+    },
   ];
 
   const education = [
@@ -136,7 +136,7 @@ const WorkHistory = ({ drakeMode }) => {
       description: "Advanced studies in software engineering with focus on modern web technologies, system architecture, and software development methodologies.",
       status: "In Progress",
       technologies: ["angularjs", "Spring Boot", "Selenium", "Machine Learning", ".NET"],
-      courses: ["Full Stack", "Cloud Computing", "Database Design"," DevOps","Testing & QA","Machine Learning","Deep Learning",]
+      courses: ["Full Stack", "Cloud Computing", "Database Design", " DevOps", "Testing & QA", "Machine Learning", "Deep Learning"]
     },
     {
       degree: "Specialized Technician in Digital Development",
@@ -145,7 +145,7 @@ const WorkHistory = ({ drakeMode }) => {
       location: "Morocco",
       description: "Comprehensive training in web development, mobile applications, digital design principles, and project management.",
       status: "Completed",
-      technologies: ["React", "Node.js", "JavaScript", "Python", "PostgreSQL","Figma"],
+      technologies: ["React", "Node.js", "JavaScript", "Python", "PostgreSQL", "Figma"],
       courses: ["Frontend Development", "UI/UX", "Project Management"]
     }
   ];
@@ -166,15 +166,14 @@ const WorkHistory = ({ drakeMode }) => {
         return (
           <div
             key={i}
-            className={`cursor-target flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 hover:scale-105 ${
-              drakeMode 
-                ? 'border-gray-600 bg-gray-800 hover:border-blue-400/50' 
+            className={`cursor-target flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 hover:scale-105 ${drakeMode
+                ? 'border-gray-600 bg-gray-800 hover:border-blue-400/50'
                 : 'border-gray-300 bg-white hover:border-blue-300'
-            }`}
+              }`}
           >
             {techIcon && (
-              <img 
-                src={techIcon} 
+              <img
+                src={techIcon}
                 alt={tech}
                 className="w-4 h-4"
               />
@@ -189,9 +188,9 @@ const WorkHistory = ({ drakeMode }) => {
   );
 
   return (
-    <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${ drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]' }`}>
+    <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
       {/* Target Cursor */}
-      <TargetCursor 
+      <TargetCursor
         spinDuration={2}
         hideDefaultCursor={true}
       />
@@ -201,24 +200,24 @@ const WorkHistory = ({ drakeMode }) => {
         <div className="text-center mb-20">
           <div className="cursor-target inline-flex items-center gap-4 mb-6">
             <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
-            <span className={`text-sm font-semibold tracking-widest uppercase ${ drakeMode ? 'text-cyan-400' : 'text-blue-600' }`}>
+            <span className={`text-sm font-semibold tracking-widest uppercase ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
               {t('about.my_journey')}
             </span>
             <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'}`}></div>
           </div>
-          
-          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${ drakeMode ? 'text-white' : 'text-gray-900' }`}>
+
+          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
             {t('about.title')}
           </h2>
-          
-          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${ drakeMode ? 'text-gray-300' : 'text-gray-600' }`}>
+
+          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
             {t('about.subtitle')}
           </p>
         </div>
 
         {/* Navigation Tabs */}
         <div className="flex justify-center mb-12">
-          <div className={`cursor-target flex rounded-2xl p-2 backdrop-blur-sm border ${ drakeMode ? 'bg-[#0A1A3A]/80 border-blue-500/30' : 'bg-white/80 border-gray-200' }`}>
+          <div className={`cursor-target flex rounded-2xl p-2 backdrop-blur-sm border ${drakeMode ? 'bg-[#0A1A3A]/80 border-blue-500/30' : 'bg-white/80 border-gray-200'}`}>
             {[
               { id: 'work', labelKey: 'about.work_experience', icon: Briefcase },
               { id: 'education', labelKey: 'about.education', icon: GraduationCap }
@@ -226,7 +225,7 @@ const WorkHistory = ({ drakeMode }) => {
               <button
                 key={id}
                 onClick={() => setActiveSection(id)}
-                className={`cursor-target flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${ activeSection === id ? (drakeMode ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25') : (drakeMode ? 'text-gray-300 hover:text-white hover:bg-blue-500/20 hover:shadow-lg hover:shadow-blue-500/10' : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/5') }`}
+                className={`cursor-target flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${activeSection === id ? (drakeMode ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25') : (drakeMode ? 'text-gray-300 hover:text-white hover:bg-blue-500/20 hover:shadow-lg hover:shadow-blue-500/10' : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/5')}`}
               >
                 <Icon className="w-5 h-5" />
                 {t(labelKey)}
@@ -241,17 +240,15 @@ const WorkHistory = ({ drakeMode }) => {
             {displayedEducation.map((edu, index) => (
               <Card
                 key={index}
-                className={`${
-                  drakeMode 
-                    ? 'bg-[#0A1A3A] border-blue-500/30 text-white' 
+                className={`${drakeMode
+                    ? 'bg-[#0A1A3A] border-blue-500/30 text-white'
                     : 'bg-white border-blue-200 text-gray-900'
-                } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 {/* Header */}
-                <div className={`p-6 border-b ${
-                  drakeMode ? 'border-blue-500/20' : 'border-blue-200'
-                }`}>
+                <div className={`p-6 border-b ${drakeMode ? 'border-blue-500/20' : 'border-blue-200'
+                  }`}>
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h3 className={`text-xl font-bold mb-1 ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
@@ -261,19 +258,18 @@ const WorkHistory = ({ drakeMode }) => {
                         {edu.institution}
                       </p>
                     </div>
-                    <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${
-                      edu.status === 'In Progress' 
-                        ? drakeMode 
-                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' 
+                    <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${edu.status === 'In Progress'
+                        ? drakeMode
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                           : 'bg-blue-100 text-blue-700 border border-blue-200'
-                        : drakeMode 
-                          ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                        : drakeMode
+                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
                           : 'bg-green-100 text-green-700 border border-green-200'
-                    }`}>
+                      }`}>
                       {edu.status}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
@@ -294,21 +290,19 @@ const WorkHistory = ({ drakeMode }) => {
 
                   {/* Courses */}
                   <div className="mb-6">
-                    <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${
-                      drakeMode ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
+                    <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
+                      }`}>
                       <Award className="w-4 h-4" />
                       Key Courses
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {edu.courses.map((course, i) => (
-                        <span 
+                        <span
                           key={i}
-                          className={`cursor-target px-3 py-1 text-sm rounded-full border transition-all duration-300 hover:scale-105 ${
-                            drakeMode
+                          className={`cursor-target px-3 py-1 text-sm rounded-full border transition-all duration-300 hover:scale-105 ${drakeMode
                               ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-blue-400'
                               : 'bg-blue-50 text-blue-700 border-blue-200 hover:border-blue-400'
-                          }`}
+                            }`}
                         >
                           {course}
                         </span>
@@ -318,9 +312,8 @@ const WorkHistory = ({ drakeMode }) => {
 
                   {/* Technologies */}
                   <div>
-                    <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${
-                      drakeMode ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
+                    <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
+                      }`}>
                       <Code className="w-4 h-4" />
                       Technologies
                     </h4>
@@ -335,91 +328,98 @@ const WorkHistory = ({ drakeMode }) => {
         {/* Work Experience Section */}
         {activeSection === 'work' && (
           <div className="grid md:grid-cols-2 gap-8">
-            {displayedExperiences.map((exp, index) => (
-              <Card
-                key={index}
-                className={`${
-                  drakeMode 
-                    ? 'bg-[#0A1A3A] border-blue-500/30 text-white' 
-                    : 'bg-white border-blue-200 text-gray-900'
-                } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                {/* Header */}
-                <div className={`p-6 border-b ${
-                  drakeMode ? 'border-blue-500/20' : 'border-blue-200'
-                }`}>
-                  <div className="flex items-start justify-between mb-3">
+            {displayedExperiences.map((exp, index) => {
+              const companyLogo = getCompanyLogo(exp.company);
+              return (
+                <Card
+                  key={index}
+                  className={`${drakeMode
+                      ? 'bg-[#0A1A3A] border-blue-500/30 text-white'
+                      : 'bg-white border-blue-200 text-gray-900'
+                    } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                >
+                  {/* Header with Company Logo */}
+                  <div className={`p-6 border-b ${drakeMode ? 'border-blue-500/20' : 'border-blue-200'
+                    }`}>
+                    <div className="flex items-start gap-4 mb-3">
+                      {/* Company Logo */}
+                      <div className="flex-shrink-0">
+                        <img
+                          src={companyLogo}
+                          alt={`${exp.company} logo`}
+                          className="w-12 h-12"
+                        />
+                      </div>
+
+                      <div className="flex-1">
+                        <h3 className={`text-xl font-bold mb-1 ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
+                          {exp.role}
+                        </h3>
+                        <p className={`text-lg font-semibold mb-2 ${drakeMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                          {exp.company}
+                        </p>
+                      </div>
+
+                      <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${drakeMode
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                          : 'bg-blue-100 text-blue-700 border border-blue-200'
+                        }`}>
+                        {exp.type}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.duration}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MapPin className="w-4 h-4" />
+                        <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.location}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <p className={`mb-6 leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      {exp.description}
+                    </p>
+
+                    {/* Achievements */}
+                    <div className="mb-6">
+                      <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
+                        }`}>
+                        <Award className="w-4 h-4" />
+                        Key Achievements
+                      </h4>
+                      <div className="space-y-2">
+                        {exp.achievements.map((achievement, i) => (
+                          <div key={i} className="flex items-start gap-3 cursor-target group">
+                            <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-300 group-hover:scale-150 ${drakeMode ? 'bg-blue-400' : 'bg-blue-500'
+                              }`}></div>
+                            <p className={`flex-1 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'} group-hover:translate-x-1 transition-transform duration-300`}>
+                              {achievement}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Technologies */}
                     <div>
-                      <h3 className={`text-xl font-bold mb-1 ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
-                        {exp.role}
-                      </h3>
-                      <p className={`text-lg font-semibold mb-2 ${drakeMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                        {exp.company}
-                      </p>
-                    </div>
-                    <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${
-                      drakeMode
-                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                        : 'bg-blue-100 text-blue-700 border border-blue-200'
-                    }`}>
-                      {exp.type}
-                    </span>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.location}</span>
+                      <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
+                        }`}>
+                        <Code className="w-4 h-4" />
+                        Tech Stack
+                      </h4>
+                      <TechStack technologies={exp.technologies} />
                     </div>
                   </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <p className={`mb-6 leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {exp.description}
-                  </p>
-
-                  {/* Achievements */}
-                  <div className="mb-6">
-                    <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${
-                      drakeMode ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
-                      <Award className="w-4 h-4" />
-                      Key Achievements
-                    </h4>
-                    <div className="space-y-2">
-                      {exp.achievements.map((achievement, i) => (
-                        <div key={i} className="flex items-start gap-3 cursor-target group">
-                          <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-300 group-hover:scale-150 ${
-                            drakeMode ? 'bg-blue-400' : 'bg-blue-500'
-                          }`}></div>
-                          <p className={`flex-1 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'} group-hover:translate-x-1 transition-transform duration-300`}>
-                            {achievement}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Technologies */}
-                  <div>
-                    <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${
-                      drakeMode ? 'text-blue-400' : 'text-blue-600'
-                    }`}>
-                      <Code className="w-4 h-4" />
-                      Tech Stack
-                    </h4>
-                    <TechStack technologies={exp.technologies} />
-                  </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         )}
 
@@ -428,7 +428,7 @@ const WorkHistory = ({ drakeMode }) => {
           <div className="text-center mt-12">
             <button
               onClick={() => setShowAll(!showAll)}
-              className={`cursor-target px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${ drakeMode ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25' }`}
+              className={`cursor-target px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${drakeMode ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25'}`}
             >
               {showAll ? t('about.show_less') : t('about.view_all_experiences')}
             </button>
@@ -437,13 +437,12 @@ const WorkHistory = ({ drakeMode }) => {
 
         {/* Logo Loop Section */}
         <div className="mt-20">
-          <div className={`text-center mb-8 ${
-            drakeMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <div className={`text-center mb-8 ${drakeMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
             <h3 className="text-xl font-semibold mb-2 cursor-target">Technologies I Work With</h3>
             <p className="text-sm cursor-target">Trusted by developers and companies worldwide</p>
           </div>
-          
+
           <div className="cursor-target">
             <LogoLoop
               logos={techLogos}

@@ -135,8 +135,13 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
             )}
           </button>
 
-          {/* Language Switcher (compact) */}
+          {/* Language Switcher (compact) - Desktop */}
           <div className="hidden md:block">
+            <LanguageSwitcher compact />
+          </div>
+
+          {/* Language Switcher (compact) - Mobile outside */}
+          <div className="md:hidden">
             <LanguageSwitcher compact />
           </div>
 
@@ -262,6 +267,11 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                 </a>
               );
             })}
+            
+            {/* Language Switcher inside mobile panel */}
+            <div className="mt-4">
+              <LanguageSwitcher />
+            </div>
             
             {/* Mobile Explore Button */}
             <a

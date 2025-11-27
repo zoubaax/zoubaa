@@ -400,7 +400,7 @@ const Contact = ({ drakeMode }) => {
             Itsmezoubaa@gmail.com
           </a>
           <a
-            href="tel:+15551234567"
+            href="tel:+212701230904"
             className={`cursor-target flex items-center gap-3 transition-all duration-300 hover:translate-x-2 ${
               drakeMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'
             }`}
@@ -412,7 +412,7 @@ const Contact = ({ drakeMode }) => {
             drakeMode ? 'text-gray-300' : 'text-gray-700'
           }`}>
             <MapPin className="w-4 h-4" />
-            Morocco, MA
+            FEZ, Morocco
           </div>
         </div>
       </div>

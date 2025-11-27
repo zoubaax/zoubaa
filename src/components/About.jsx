@@ -33,6 +33,7 @@ import MachineLearning from '../assets/img/brain.png';
 import dotNet from '../assets/img/NET.png';
 import Python from '../assets/img/Python.png';
 import PostgresSQL from '../assets/img/PostgresSQL.png';
+import supabase from '../assets/img/supabase.png';
 
 // Import company logos - you'll need to add these images to your assets
 import LOGOFMPDF from '../assets/img/LOGO-FMPDF.png';
@@ -67,6 +68,7 @@ const WorkHistory = ({ drakeMode }) => {
       '.NET': dotNet,
       'Python': Python,
       'PostgreSQL': PostgresSQL,
+      'Supabase': supabase,
     };
     return techIcons[tech];
   };
@@ -88,7 +90,7 @@ const WorkHistory = ({ drakeMode }) => {
       duration: "Jan 2024 — Present",
       location: "Remote",
       description: "Providing full-stack development services to international clients through Fiverr platform. Specializing in building e-learning platforms, web applications, and custom software solutions using modern technologies.",
-      technologies: ["React", "Node.js", "JavaScript", "Python", "PostgreSQL", "Tailwind CSS", "Figma", "GitHub"],
+      technologies: ["React", "Node.js", "Supabase", "JavaScript", "Python", "PostgreSQL", "Tailwind CSS", "Figma", "GitHub"],
       type: "Freelance",
       achievements: [
         "Delivered  successful projects",

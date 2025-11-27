@@ -14,16 +14,44 @@ const Contact = ({ drakeMode }) => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState(null);
 
-  const handleSubmit = (e) => {
+  // Read the key from Vite env (must start with VITE_)
+  const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
+
+  // Submit to Web3Forms using the VITE_WEB3FORMS_KEY environment variable
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => {
+    setResult(null);
+
+    if (!WEB3FORMS_KEY) {
+      setResult("Missing Web3Forms API key. Add VITE_WEB3FORMS_KEY to .env and restart the dev server.");
       setIsSubmitting(false);
-      alert('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
-    }, 2000);
+      return;
+    }
+
+    try {
+      const form = new FormData(e.target);
+      form.append("access_key", WEB3FORMS_KEY);
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: form
+      });
+      const data = await response.json();
+
+      if (data?.success) {
+        setResult("Message sent successfully!");
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setResult(data?.message || "An error occurred. Please try again.");
+      }
+    } catch (err) {
+      setResult("Network error. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -281,6 +309,13 @@ const Contact = ({ drakeMode }) => {
                     </>
                   )}
                 </button>
+
+                {/* API result message */}
+                {result && (
+                  <p className={`text-center mt-2 text-sm ${result.toLowerCase().includes('success') ? 'text-green-400' : 'text-red-400'}`}>
+                    {result}
+                  </p>
+                )}
 
                 {/* Privacy Note */}
                 <p className={`text-center text-xs ${drakeMode ? 'text-gray-400' : 'text-gray-500'

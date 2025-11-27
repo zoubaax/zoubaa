@@ -3,6 +3,7 @@ import { ExternalLink, Github, ArrowRight, Calendar, ChevronDown, ChevronUp, Sta
 import TargetCursor from '../hooks/TargetCursor';
 import LogoLoop from '../hooks/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
+import { useTranslation } from 'react-i18next';
 
 // Import your local images
 import healthcareImage from '../assets/img/Healthcare.jpg';
@@ -29,6 +30,7 @@ const techLogos = [
 ];
 
 const ProjectsSection = ({ drakeMode }) => {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [showAll, setShowAll] = useState(false);
   const [hoveredProject, setHoveredProject] = useState(null);
@@ -37,8 +39,8 @@ const ProjectsSection = ({ drakeMode }) => {
   const projects = [
     {
       id: 1,
-      title: "Healthcare Management",
-      description: "Secure patient management system with telemedicine capabilities.",
+      titleKey: "projects.1.title",
+      descriptionKey: "projects.1.description",
       longDescription: "HIPAA-compliant healthcare platform serving 100+ medical practices with video consultations.",
       image: healthcareImage,
       technologies: ["React Native", "TypeScript", "Node.js", "MySQL", "WebRTC"],
@@ -53,12 +55,12 @@ const ProjectsSection = ({ drakeMode }) => {
         uptime: "99.9%"
       },
       year: "2023",
-      highlights: ["HIPAA", "Telemedicine", "Secure"]
+      highlightsKey: "projects.1.highlights"
     },
     {
       id: 2,
-      title: "E-Commerce Platform",
-      description: "Full-stack e-commerce with real-time inventory and payment processing.",
+      titleKey: "projects.2.title",
+      descriptionKey: "projects.2.description",
       longDescription: "Built with modern microservices architecture, this platform handles 10,000+ daily transactions with seamless user experience.",
       image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=250&fit=crop",
       technologies: ["Next.js", "TypeScript", "Node.js", "MongoDB", "Stripe"],
@@ -73,12 +75,12 @@ const ProjectsSection = ({ drakeMode }) => {
         revenue: "$2M+"
       },
       year: "2024",
-      highlights: ["Microservices", "Real-time", "Scalable"]
+      highlightsKey: "projects.2.highlights"
     },
     {
       id: 3,
-      title: "AI Content Generator",
-      description: "AI-powered content creation with real-time collaboration features.",
+      titleKey: "projects.3.title",
+      descriptionKey: "projects.3.description",
       longDescription: "Leveraging GPT-4 and custom ML models to generate high-quality content with team collaboration.",
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=250&fit=crop",
       technologies: ["React", "Python", "FastAPI", "PostgreSQL", "OpenAI"],
@@ -93,78 +95,18 @@ const ProjectsSection = ({ drakeMode }) => {
         content: "1M+"
       },
       year: "2024",
-      highlights: ["AI/ML", "Collaboration", "Real-time"]
-    },
-    {
-      id: 4,
-      title: "Analytics Dashboard",
-      description: "Real-time data visualization for business intelligence.",
-      longDescription: "Processes millions of data points with interactive charts and predictive analytics.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop",
-      technologies: ["Vue.js", "D3.js", "WebSocket", "Kafka", "Elasticsearch"],
-      category: "data",
-      status: "completed",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: false,
-      metrics: {
-        dataPoints: "10M/day",
-        clients: "Fortune 500",
-        latency: "<100ms"
-      },
-      year: "2023",
-      highlights: ["Real-time", "Scalable", "Interactive"]
-    },
-    {
-      id: 5,
-      title: "Blockchain Wallet",
-      description: "Multi-chain cryptocurrency wallet with DeFi integration.",
-      longDescription: "Secure multi-chain wallet supporting 50+ cryptocurrencies with staking and swapping.",
-      image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&h=250&fit=crop",
-      technologies: ["React", "Web3.js", "Solidity", "Ethereum", "IPFS"],
-      category: "web3",
-      status: "in-progress",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: false,
-      metrics: {
-        chains: "10+",
-        assets: "50+",
-        security: "Audited"
-      },
-      year: "2024",
-      highlights: ["Multi-chain", "Secure", "DeFi"]
-    },
-    {
-      id: 6,
-      title: "Learning Platform",
-      description: "Gamified learning with social features and progress tracking.",
-      longDescription: "Combines social networking with educational content and AI-powered learning paths.",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop",
-      technologies: ["Next.js", "GraphQL", "Prisma", "Redis", "WebRTC"],
-      category: "social",
-      status: "completed",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: false,
-      metrics: {
-        students: "100K+",
-        courses: "500+",
-        engagement: "85%"
-      },
-      year: "2023",
-      highlights: ["Gamified", "Social", "AI-Powered"]
+      highlightsKey: "projects.3.highlights"
     }
   ];
 
   const categories = [
-    { id: 'all', label: 'All Projects', count: projects.length, icon: <Zap className="w-4 h-4" /> },
-    { id: 'fullstack', label: 'Full Stack', count: projects.filter(p => p.category === 'fullstack').length, icon: <TrendingUp className="w-4 h-4" /> },
-    { id: 'ai', label: 'AI/ML', count: projects.filter(p => p.category === 'ai').length, icon: <Star className="w-4 h-4" /> },
-    { id: 'mobile', label: 'Mobile', count: projects.filter(p => p.category === 'mobile').length, icon: <Users className="w-4 h-4" /> },
-    { id: 'data', label: 'Data Analytics', count: projects.filter(p => p.category === 'data').length, icon: <Filter className="w-4 h-4" /> },
-    { id: 'web3', label: 'Web3', count: projects.filter(p => p.category === 'web3').length, icon: <Zap className="w-4 h-4" /> },
-    { id: 'social', label: 'Social', count: projects.filter(p => p.category === 'social').length, icon: <Users className="w-4 h-4" /> },
+    { id: 'all', label: t('portfolio.all_projects'), count: projects.length, icon: <Zap className="w-4 h-4" /> },
+    { id: 'fullstack', label: t('portfolio.fullstack'), count: projects.filter(p => p.category === 'fullstack').length, icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'ai', label: t('portfolio.ai'), count: projects.filter(p => p.category === 'ai').length, icon: <Star className="w-4 h-4" /> },
+    { id: 'mobile', label: t('portfolio.mobile'), count: projects.filter(p => p.category === 'mobile').length, icon: <Users className="w-4 h-4" /> },
+    { id: 'data', label: t('portfolio.data'), count: projects.filter(p => p.category === 'data').length, icon: <Filter className="w-4 h-4" /> },
+    { id: 'web3', label: t('portfolio.web3'), count: projects.filter(p => p.category === 'web3').length, icon: <Zap className="w-4 h-4" /> },
+    { id: 'social', label: t('portfolio.social'), count: projects.filter(p => p.category === 'social').length, icon: <Users className="w-4 h-4" /> },
   ];
 
   const filteredProjects = activeFilter === 'all' 
@@ -175,156 +117,161 @@ const ProjectsSection = ({ drakeMode }) => {
 
   const getActiveCategory = () => categories.find(cat => cat.id === activeFilter);
 
-  const ProjectCard = ({ project }) => (
-    <div 
-      className={`cursor-target group relative rounded-3xl border overflow-hidden transition-all duration-700 transform hover:-translate-y-2 h-full flex flex-col ${
-        drakeMode 
-          ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/20' 
-          : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10'
-      }`}
-      onMouseEnter={() => setHoveredProject(project.id)}
-      onMouseLeave={() => setHoveredProject(null)}
-    >
-      {/* Animated Background Gradient */}
-      <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
-        drakeMode 
-          ? 'bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5' 
-          : 'bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-purple-500/5'
-      }`}></div>
+  const ProjectCard = ({ project }) => {
+    // use translations for title/description and safely obtain highlights array
+    const title = project.titleKey ? t(project.titleKey) : project.title || '';
+    const description = project.descriptionKey ? t(project.descriptionKey) : project.description || '';
+    const highlights = project.highlightsKey
+      ? t(project.highlightsKey, { returnObjects: true }) || []
+      : project.highlights || [];
 
-      {/* Status & Featured Badges */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-        <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
-          project.status === 'completed' 
-            ? drakeMode ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-green-100 text-green-700 border-green-200'
-            : drakeMode ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 'bg-yellow-100 text-yellow-700 border-yellow-200'
-        }`}>
-          {project.status === 'completed' ? '🚀 Live' : '🛠️ In Progress'}
-        </div>
+    return (
+      <div 
+        className={`cursor-target group relative rounded-3xl border overflow-hidden transition-all duration-700 transform hover:-translate-y-2 h-full flex flex-col ${
+          drakeMode 
+            ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/20' 
+            : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10'
+        }`}
+        onMouseEnter={() => setHoveredProject(project.id)}
+        onMouseLeave={() => setHoveredProject(null)}
+      >
+        {/* Animated Background Gradient */}
+        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
+          drakeMode 
+            ? 'bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5' 
+            : 'bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-purple-500/5'
+        }`}></div>
 
-        {project.featured && (
+        {/* Status & Featured Badges */}
+        <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
           <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
-            drakeMode ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30' : 'bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border-purple-200'
+            project.status === 'completed' 
+              ? drakeMode ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-green-100 text-green-700 border-green-200'
+              : drakeMode ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 'bg-yellow-100 text-yellow-700 border-yellow-200'
           }`}>
-            ⭐ Featured
+            {project.status === 'completed' ? '🚀 Live' : '🛠️ In Progress'}
           </div>
-        )}
-      </div>
 
-      {/* Image with Overlay */}
-      <div className="relative h-44 overflow-hidden">
-        <img 
-          src={project.image} 
-          alt={project.title}
-          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-        />
-        <div className={`absolute inset-0 bg-gradient-to-t ${
-          drakeMode ? 'from-[#050A30] via-[#050A30]/80 to-transparent' : 'from-white via-white/80 to-transparent'
-        } transition-all duration-500`}></div>
-        
-        {/* Highlights */}
-        <div className="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
-          {project.highlights.map((highlight, index) => (
-            <span 
-              key={index}
-              className={`px-2 py-1 text-xs font-medium rounded-full backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
-                drakeMode
-                  ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
-                  : 'bg-blue-500/10 text-blue-600 border-blue-500/20'
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {highlight}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-5 flex-1 flex flex-col relative z-10">
-        {/* Year */}
-        <div className="flex items-center gap-2 mb-3">
-          <Calendar className={`w-4 h-4 ${drakeMode ? 'text-cyan-400' : 'text-blue-500'}`} />
-          <span className={`text-sm font-semibold ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
-            {project.year}
-          </span>
-        </div>
-
-        {/* Title & Description */}
-        <h3 className={`text-xl font-bold mb-3 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${
-          drakeMode ? 'text-white group-hover:from-cyan-400 group-hover:to-blue-500' : 'text-gray-900 group-hover:from-blue-500 group-hover:to-cyan-500'
-        } transition-all duration-500`}>
-          {project.title}
-        </h3>
-        
-        <p className={`text-sm mb-4 leading-relaxed flex-1 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
-          {project.description}
-        </p>
-
-        {/* Technologies */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.slice(0, 4).map((tech, index) => (
-            <span 
-              key={index}
-              className={`cursor-target px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 hover:scale-110 ${
-                drakeMode
-                  ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-cyan-400 hover:bg-cyan-500/20'
-                  : 'bg-blue-50 text-blue-600 border-blue-200 hover:border-blue-400 hover:bg-blue-100'
-              }`}
-              style={{ transitionDelay: `${index * 50}ms` }}
-            >
-              {tech}
-            </span>
-          ))}
-          {project.technologies.length > 4 && (
-            <span className={`px-3 py-1.5 text-xs rounded-full border ${
-              drakeMode ? 'bg-gray-700 text-gray-400 border-gray-600' : 'bg-gray-100 text-gray-500 border-gray-300'
+          {project.featured && (
+            <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
+              drakeMode ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30' : 'bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border-purple-200'
             }`}>
-              +{project.technologies.length - 4}
-            </span>
+              ⭐ Featured
+            </div>
           )}
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <a 
-            href={project.liveUrl}
-            className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-              drakeMode
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
-                : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
-            }`}
-          >
-            <ExternalLink className="w-4 h-4" />
-            Live Demo
-          </a>
+        {/* Image with Overlay */}
+        <div className="relative h-44 overflow-hidden">
+          <img 
+            src={project.image} 
+            alt={title}
+            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+          />
+          <div className={`absolute inset-0 bg-gradient-to-t ${
+            drakeMode ? 'from-[#050A30] via-[#050A30]/80 to-transparent' : 'from-white via-white/80 to-transparent'
+          } transition-all duration-500`}></div>
           
-          <a 
-            href={project.githubUrl}
-            className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-              drakeMode
-                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
-            }`}
-          >
-            <Github className="w-4 h-4" />
-          </a>
+          {/* Highlights */}
+          <div className="absolute bottom-3 left-4 flex flex-wrap gap-1.5">
+            {highlights.map((highlight, index) => (
+              <span 
+                key={index}
+                className={`px-2 py-1 text-xs font-medium rounded-full backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${
+                  drakeMode
+                    ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                    : 'bg-blue-500/10 text-blue-600 border-blue-500/20'
+                }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                {highlight}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Glow Effect */}
-      <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
-        drakeMode 
-          ? 'shadow-2xl shadow-cyan-500/10' 
-          : 'shadow-2xl shadow-blue-500/5'
-      }`}></div>
-    </div>
-  );
+        {/* Content */}
+        <div className="p-5 flex-1 flex flex-col relative z-10">
+          {/* Year */}
+          <div className="flex items-center gap-2 mb-3">
+            <Calendar className={`w-4 h-4 ${drakeMode ? 'text-cyan-400' : 'text-blue-500'}`} />
+            <span className={`text-sm font-semibold ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
+              {project.year}
+            </span>
+          </div>
+
+          {/* Title & Description */}
+          <h3 className={`text-xl font-bold mb-3 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${
+            drakeMode ? 'text-white group-hover:from-cyan-400 group-hover:to-blue-500' : 'text-gray-900 group-hover:from-blue-500 group-hover:to-cyan-500'
+          } transition-all duration-500`}>
+            {title}
+          </h3>
+          
+          <p className={`text-sm mb-4 leading-relaxed flex-1 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            {description}
+          </p>
+
+          {/* Technologies */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.technologies.slice(0, 4).map((tech, index) => (
+              <span 
+                key={index}
+                className={`cursor-target px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 hover:scale-110 ${
+                  drakeMode
+                    ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-cyan-400 hover:bg-cyan-500/20'
+                    : 'bg-blue-50 text-blue-600 border-blue-200 hover:border-blue-400 hover:bg-blue-100'
+                }`}
+                style={{ transitionDelay: `${index * 50}ms` }}
+              >
+                {tech}
+              </span>
+            ))}
+            {project.technologies.length > 4 && (
+              <span className={`px-3 py-1.5 text-xs rounded-full border ${drakeMode ? 'bg-gray-700 text-gray-400 border-gray-600' : 'bg-gray-100 text-gray-500 border-gray-300'}`}>
+                +{project.technologies.length - 4}
+              </span>
+            )}
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <a 
+              href={project.liveUrl}
+              className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+                drakeMode
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
+                  : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
+              }`}
+            >
+              <ExternalLink className="w-4 h-4" />
+              {t('portfolio.live_demo')}
+            </a>
+            
+            <a 
+              href={project.githubUrl}
+              className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+                drakeMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
+              }`}
+            >
+              <Github className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+
+        {/* Glow Effect */}
+        <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${
+          drakeMode 
+            ? 'shadow-2xl shadow-cyan-500/10' 
+            : 'shadow-2xl shadow-blue-500/5'
+        }`}></div>
+      </div>
+    );
+  };
 
   return (
-    <div id="projects" className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${
-      drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
-    }`}>
+    <div id="projects" className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${ drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]' }`}>
       {/* Target Cursor */}
       <TargetCursor 
         spinDuration={2}
@@ -335,29 +282,19 @@ const ProjectsSection = ({ drakeMode }) => {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="cursor-target inline-flex items-center gap-4 mb-6">
-            <div className={`w-20 h-0.5 bg-gradient-to-r ${
-              drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'
-            }`}></div>
-            <span className={`text-sm font-semibold tracking-widest uppercase ${
-              drakeMode ? 'text-cyan-400' : 'text-blue-600'
-            }`}>
-              Portfolio Showcase
+            <div className={`w-20 h-0.5 bg-gradient-to-r ${ drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500' }`}></div>
+            <span className={`text-sm font-semibold tracking-widest uppercase ${ drakeMode ? 'text-cyan-400' : 'text-blue-600' }`}>
+              {t('portfolio.showcase')}
             </span>
-            <div className={`w-20 h-0.5 bg-gradient-to-r ${
-              drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'
-            }`}></div>
+            <div className={`w-20 h-0.5 bg-gradient-to-r ${ drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500' }`}></div>
           </div>
           
-          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${
-            drakeMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Crafting <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x">Digital</span> Excellence
+          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${ drakeMode ? 'text-white' : 'text-gray-900' }`}>
+            {t('portfolio.title')}
           </h2>
           
-          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${
-            drakeMode ? 'text-gray-300' : 'text-gray-700'
-          }`}>
-            Transforming ideas into exceptional digital experiences that drive results and inspire innovation
+          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${ drakeMode ? 'text-gray-300' : 'text-gray-700' }`}>
+            {t('portfolio.subtitle')}
           </p>
         </div>
 
@@ -385,11 +322,7 @@ const ProjectsSection = ({ drakeMode }) => {
 
             {/* Dropdown Menu */}
             {showFilterDropdown && (
-              <div className={`absolute top-full left-0 right-0 mt-2 rounded-2xl border-2 backdrop-blur-sm overflow-hidden z-50 ${
-                drakeMode 
-                  ? 'bg-[#050A30] border-cyan-400/30 shadow-2xl shadow-cyan-500/20' 
-                  : 'bg-white border-blue-200 shadow-2xl shadow-blue-500/10'
-              }`}>
+              <div className={`absolute top-full left-0 right-0 mt-2 rounded-2xl border-2 backdrop-blur-sm overflow-hidden z-50 ${ drakeMode ? 'bg-[#050A30] border-cyan-400/30 shadow-2xl shadow-cyan-500/20' : 'bg-white border-blue-200 shadow-2xl shadow-blue-500/10' }`}>
                 {categories.map((category) => (
                   <button
                     key={category.id}
@@ -397,25 +330,13 @@ const ProjectsSection = ({ drakeMode }) => {
                       setActiveFilter(category.id);
                       setShowFilterDropdown(false);
                     }}
-                    className={`cursor-target w-full flex items-center justify-between px-6 py-4 text-left transition-all duration-300 hover:scale-[1.02] ${
-                      activeFilter === category.id
-                        ? drakeMode
-                          ? 'bg-cyan-500/20 text-cyan-300'
-                          : 'bg-blue-500/10 text-blue-600'
-                        : drakeMode
-                          ? 'text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400'
-                          : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600'
-                    }`}
+                    className={`cursor-target w-full flex items-center justify-between px-6 py-4 text-left transition-all duration-300 hover:scale-[1.02] ${ activeFilter === category.id ? (drakeMode ? 'bg-cyan-500/20 text-cyan-300' : 'bg-blue-500/10 text-blue-600') : (drakeMode ? 'text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' : 'text-gray-600 hover:bg-blue-50 hover:text-blue-600') }`}
                   >
                     <div className="flex items-center gap-3">
                       {category.icon}
                       <span className="font-semibold">{category.label}</span>
                     </div>
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      activeFilter === category.id
-                        ? drakeMode ? 'bg-cyan-500/30 text-cyan-300' : 'bg-blue-500/20 text-blue-600'
-                        : drakeMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-500'
-                    }`}>
+                    <span className={`px-2 py-1 text-xs rounded-full ${ activeFilter === category.id ? (drakeMode ? 'bg-cyan-500/30 text-cyan-300' : 'bg-blue-500/20 text-blue-600') : (drakeMode ? 'bg-gray-700 text-gray-400' : 'bg-gray-100 text-gray-500') }`}>
                       {category.count}
                     </span>
                   </button>
@@ -437,67 +358,51 @@ const ProjectsSection = ({ drakeMode }) => {
           <div className="text-center mb-16">
             <button
               onClick={() => setShowAll(!showAll)}
-              className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 mx-auto ${
-                drakeMode
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
-                  : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
-              }`}
+              className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 mx-auto ${ drakeMode ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25' : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25' }`}
             >
               {showAll ? (
                 <>
-                  Show Less
+                  {t('portfolio.show_less')}
                   <ChevronUp className="w-5 h-5" />
                 </>
               ) : (
                 <>
-                  View More Projects
+                  {t('portfolio.view_more')}
                   <ChevronDown className="w-5 h-5" />
                 </>
               )}
             </button>
             <p className={`text-sm mt-3 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>
-              {showAll ? `Displaying all ${filteredProjects.length} projects` : `Showing 3 of ${filteredProjects.length} projects`}
+              {showAll ? t('portfolio.displaying_all', { count: filteredProjects.length }) : t('portfolio.showing_of', { count: filteredProjects.length })}
             </p>
           </div>
         )}
 
         {/* CTA Section */}
         <div className="text-center mb-16">
-          <div className={`cursor-target inline-flex flex-col items-center p-8 rounded-3xl border-2 backdrop-blur-sm max-w-2xl mx-auto ${
-            drakeMode 
-              ? 'bg-[#050A30] border-cyan-400/30' 
-              : 'bg-white border-blue-200'
-          }`}>
-            <h3 className={`text-3xl font-bold mb-4 ${
-              drakeMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Ready to Build Something Amazing?
+          <div className={`cursor-target inline-flex flex-col items-center p-8 rounded-3xl border-2 backdrop-blur-sm max-w-2xl mx-auto ${ drakeMode ? 'bg-[#050A30] border-cyan-400/30' : 'bg-white border-blue-200' }`}>
+            <h3 className={`text-3xl font-bold mb-4 ${ drakeMode ? 'text-white' : 'text-gray-900' }`}>
+              {t('portfolio.powered')}
             </h3>
-            <p className={`text-lg mb-6 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Let's collaborate to turn your vision into an exceptional digital product
+            <p className={`text-lg mb-6 ${ drakeMode ? 'text-gray-300' : 'text-gray-700' }`}>
+              {t('portfolio.technologies')}
             </p>
             <a 
-  href="#contact"
-  onClick={(e) => scrollToSection(e, 'contact')}
-  className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 ${
-    drakeMode
-      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
-      : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
-  }`}
->
-  Start a Project
-  <ArrowRight className="w-5 h-5" />
-</a>
+              href="#contact"
+              onClick={(e) => scrollToSection(e, 'contact')}
+              className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 ${ drakeMode ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25' : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25' }`}
+            >
+              {t('portfolio.cta_start')}
+              <ArrowRight className="w-5 h-5" />
+            </a>
           </div>
         </div>
 
         {/* Logo Loop Section */}
         <div className="mt-20">
-          <div className={`text-center mb-8 ${
-            drakeMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            <h3 className="text-xl font-semibold mb-2 cursor-target">Powered by Modern Technologies</h3>
-            <p className="text-sm cursor-target">Cutting-edge tools and frameworks for exceptional results</p>
+          <div className={`text-center mb-8 ${ drakeMode ? 'text-gray-300' : 'text-gray-600' }`}>
+            <h3 className="text-xl font-semibold mb-2 cursor-target">{t('portfolio.powered')}</h3>
+            <p className="text-sm cursor-target">{t('portfolio.technologies')}</p>
           </div>
           
           <div className="cursor-target">
@@ -525,7 +430,7 @@ const ProjectsSection = ({ drakeMode }) => {
         />
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes gradient-x {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }

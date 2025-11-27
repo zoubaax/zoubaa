@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import './i18n'; // ...initialize i18n before the app
 
 import Navbar from './components/Navbar.jsx'
 import Home from './components/Home.jsx'

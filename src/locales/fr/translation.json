@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "skills": "Compétences",
+    "contact": "Contact",
+    "explore": "Explorer"
+  },
+  "portfolio": {
+    "showcase": "Vitrine de portfolio",
+    "title": "Création d'excellence numérique",
+    "subtitle": "Transformer les idées en expériences numériques exceptionnelles qui génèrent des résultats et inspirent l'innovation",
+    "cta_start": "Commencer un projet",
+    "live_demo": "Démo en ligne",
+    "featured": "En vedette",
+    "live": "En ligne",
+    "in_progress": "En cours",
+    "view_more": "Voir plus de projets",
+    "show_less": "Voir moins",
+    "displaying_all": "Affichage de tous les {{count}} projets",
+    "showing_of": "Affichage de 3 sur {{count}} projets",
+    "powered": "Propulsé par des technologies modernes",
+    "technologies": "Outils et frameworks de pointe pour des résultats exceptionnels",
+    "all_projects": "Tous les projets",
+    "fullstack": "Full Stack",
+    "ai": "IA/ML",
+    "mobile": "Mobile",
+    "data": "Analyse de données",
+    "web3": "Web3",
+    "social": "Social"
+  },
+  "projects": {
+    "1": {
+      "title": "Gestion des soins de santé",
+      "description": "Système sécurisé de gestion des patients avec fonctionnalités de télémédecine.",
+      "highlights": ["HIPAA", "Télémédecine", "Sécurisé"]
+    },
+    "2": {
+      "title": "Plateforme e-commerce",
+      "description": "E‑commerce full-stack avec inventaire en temps réel et traitement des paiements.",
+      "highlights": ["Microservices", "Temps réel", "Évolutif"]
+    },
+    "3": {
+      "title": "Générateur de contenu IA",
+      "description": "Création de contenu pilotée par l'IA avec fonctionnalités de collaboration en temps réel.",
+      "highlights": ["IA/ML", "Collaboration", "Temps réel"]
+    }
+  },
+  "contact": {
+    "get_in_touch": "Entrer en contact",
+    "work_together": "Travaillons ensemble",
+    "subtitle": "Prêt à donner vie à vos idées ? Discutons de votre projet et créons quelque chose d'incroyable ensemble.",
+    "send_message": "Envoyer le message",
+    "sending": "Envoi...",
+    "available": "Disponible pour de nouveaux projets",
+    "privacy": "Vos informations sont sécurisées. Je ne partagerai jamais vos coordonnées.",
+    "prefer_social": "Préférez-vous vous connecter via les réseaux sociaux ?"
+  },
+  "about": {
+    "my_journey": "Mon parcours",
+    "title": "Éducation & Expériences Professionnelles",
+    "subtitle": "Des bases académiques aux étapes professionnelles, chaque étape a façonné mon expertise.",
+    "work_experience": "Expérience professionnelle",
+    "education": "Éducation",
+    "view_all_experiences": "Voir toutes les expériences",
+    "show_less": "Voir moins"
+  },
+  "footer": {
+    "copyright": "© {{year}} ZOUBAA Mohammed. Tous droits réservés."
+  },
+  "form": {
+    "full_name": "Nom complet",
+    "email_address": "Adresse e-mail",
+    "your_message": "Votre message",
+    "placeholder_name": "Entrez votre nom complet",
+    "placeholder_email": "Entrez votre adresse e-mail",
+    "placeholder_message": "Parlez-moi de votre projet, vos idées, ou dites bonjour..."
+  },
+  "language": {
+    "switcher": "Langue",
+    "english": "English",
+    "french": "Français"
+  },
+  "home": {
+    "greeting": "Salut ! Je suis ZOUBAA Mohammed",
+    "wave_alt": "Salutation",
+    "intro": "Développeur full-stack et étudiant en génie informatique, passionné par la création d'applications web modernes avec React, Node.js et les pratiques DevOps.",
+    "contact_button": "Contactez-moi",
+    "resume_button": "Mon CV",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  }
+}

@@ -3,6 +3,7 @@ import { GraduationCap, Briefcase, Calendar, MapPin, Award, Code } from 'lucide-
 import LogoLoop from '../hooks/LogoLoop';
 import TargetCursor from '../hooks/TargetCursor';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
+import { useTranslation } from 'react-i18next';
 
 const techLogos = [
   { node: <SiReact />, title: "React", href: "https://react.dev" },
@@ -34,6 +35,7 @@ import Python from '../assets/img/Python.png';
 import PostgresSQL from '../assets/img/PostgresSQL.png';
 
 const WorkHistory = ({ drakeMode }) => {
+  const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('work');
@@ -187,9 +189,7 @@ const WorkHistory = ({ drakeMode }) => {
   );
 
   return (
-    <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${
-      drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
-    }`}>
+    <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${ drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]' }`}>
       {/* Target Cursor */}
       <TargetCursor 
         spinDuration={2}
@@ -198,73 +198,38 @@ const WorkHistory = ({ drakeMode }) => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        {/* <div className="text-center mb-16">
-          <div className="cursor-target">
-            <h2 className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-6 ${
-              drakeMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              My Journey
-            </h2>
-          </div>
-          <div className="cursor-target">
-            <p className={`max-w-2xl mx-auto text-lg md:text-xl leading-relaxed ${
-              drakeMode ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              From academic foundations to professional milestones, each step has shaped my expertise.
-            </p>
-          </div>
-        </div> */}
-
-                <div className="text-center mb-20">
+        <div className="text-center mb-20">
           <div className="cursor-target inline-flex items-center gap-4 mb-6">
             <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
-            <span className={`text-sm font-semibold tracking-widest uppercase ${
-              drakeMode ? 'text-cyan-400' : 'text-blue-600'
-            }`}>
-              My Journey
+            <span className={`text-sm font-semibold tracking-widest uppercase ${ drakeMode ? 'text-cyan-400' : 'text-blue-600' }`}>
+              {t('about.my_journey')}
             </span>
             <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'}`}></div>
           </div>
           
-          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${
-            drakeMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Education & <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 bg-clip-text text-transparent animate-gradient-x">Expériences Professionnelles </span>
+          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${ drakeMode ? 'text-white' : 'text-gray-900' }`}>
+            {t('about.title')}
           </h2>
           
-          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${
-            drakeMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            From academic foundations to professional milestones, each step has shaped my expertise.
+          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${ drakeMode ? 'text-gray-300' : 'text-gray-600' }`}>
+            {t('about.subtitle')}
           </p>
         </div>
 
         {/* Navigation Tabs */}
         <div className="flex justify-center mb-12">
-          <div className={`cursor-target flex rounded-2xl p-2 backdrop-blur-sm border ${
-            drakeMode 
-              ? 'bg-[#0A1A3A]/80 border-blue-500/30' 
-              : 'bg-white/80 border-gray-200'
-          }`}>
+          <div className={`cursor-target flex rounded-2xl p-2 backdrop-blur-sm border ${ drakeMode ? 'bg-[#0A1A3A]/80 border-blue-500/30' : 'bg-white/80 border-gray-200' }`}>
             {[
-              { id: 'work', label: 'Work Experience', icon: Briefcase },
-              { id: 'education', label: 'Education', icon: GraduationCap }
-            ].map(({ id, label, icon: Icon }) => (
+              { id: 'work', labelKey: 'about.work_experience', icon: Briefcase },
+              { id: 'education', labelKey: 'about.education', icon: GraduationCap }
+            ].map(({ id, labelKey, icon: Icon }) => (
               <button
                 key={id}
                 onClick={() => setActiveSection(id)}
-                className={`cursor-target flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                  activeSection === id
-                    ? drakeMode
-                      ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                      : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                    : drakeMode
-                    ? 'text-gray-300 hover:text-white hover:bg-blue-500/20 hover:shadow-lg hover:shadow-blue-500/10'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/5'
-                }`}
+                className={`cursor-target flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${ activeSection === id ? (drakeMode ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25') : (drakeMode ? 'text-gray-300 hover:text-white hover:bg-blue-500/20 hover:shadow-lg hover:shadow-blue-500/10' : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/5') }`}
               >
                 <Icon className="w-5 h-5" />
-                {label}
+                {t(labelKey)}
               </button>
             ))}
           </div>
@@ -463,13 +428,9 @@ const WorkHistory = ({ drakeMode }) => {
           <div className="text-center mt-12">
             <button
               onClick={() => setShowAll(!showAll)}
-              className={`cursor-target px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${
-                drakeMode
-                  ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25'
-                  : 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25'
-              }`}
+              className={`cursor-target px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${ drakeMode ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/25' }`}
             >
-              {showAll ? 'Show Less' : 'View All Experiences'}
+              {showAll ? t('about.show_less') : t('about.view_all_experiences')}
             </button>
           </div>
         )}

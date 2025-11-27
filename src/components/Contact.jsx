@@ -3,9 +3,11 @@ import { Mail, Phone, MapPin, Send, MessageCircle, User, ArrowRight, Heart, Code
 import TargetCursor from '../hooks/TargetCursor';
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
+import { useTranslation } from 'react-i18next';
 
 
 const Contact = ({ drakeMode }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -105,7 +107,7 @@ const Contact = ({ drakeMode }) => {
                 }`}></div>
               <span className={`text-sm font-semibold tracking-widest uppercase ${drakeMode ? 'text-cyan-400' : 'text-blue-600'
                 }`}>
-                Get In Touch
+                {t('contact.get_in_touch')}
               </span>
               <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'
                 }`}></div>
@@ -113,12 +115,12 @@ const Contact = ({ drakeMode }) => {
 
             <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${drakeMode ? 'text-white' : 'text-gray-900'
               }`}>
-              Let's <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-purple-500 bg-clip-text text-transparent">Work Together</span>
+              {t('contact.work_together')}
             </h2>
 
             <p className={`max-w-2xl mx-auto text-lg md:text-xl leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
-              Ready to bring your ideas to life? Let's discuss your project and create something amazing together.
+              {t('contact.subtitle')}
             </p>
           </div>
 
@@ -129,12 +131,11 @@ const Contact = ({ drakeMode }) => {
                 <h3 className={`text-2xl font-bold mb-6 flex items-center gap-3 ${drakeMode ? 'text-white' : 'text-gray-900'
                   }`}>
                   <MessageCircle className="w-6 h-6 text-cyan-500" />
-                  Let's Connect
+                  {t('contact.lets_connect')}
                 </h3>
                 <p className={`text-lg leading-relaxed mb-8 ${drakeMode ? 'text-gray-300' : 'text-gray-700'
                   }`}>
-                  I'm always interested in new opportunities, whether it's a freelance project,
-                  collaboration, or just a friendly chat about technology and design.
+                  {t('contact.interest_opportunities')}
                 </p>
               </div>
 
@@ -180,12 +181,12 @@ const Contact = ({ drakeMode }) => {
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className={`font-semibold ${drakeMode ? 'text-green-400' : 'text-green-700'
                     }`}>
-                    Available for new projects
+                    {t('contact.available_projects')}
                   </span>
                 </div>
                 <p className={`text-sm ${drakeMode ? 'text-green-300' : 'text-green-600'
                   }`}>
-                  Currently accepting new freelance projects and collaborations. Response time: within 24 hours.
+                  {t('contact.currently_accepting')}
                 </p>
               </div>
             </div>
@@ -201,7 +202,7 @@ const Contact = ({ drakeMode }) => {
                   <label className={`flex items-center gap-2 text-sm font-semibold ${drakeMode ? 'text-cyan-400' : 'text-blue-600'
                     }`}>
                     <User className="w-4 h-4" />
-                    Full Name
+                    {t('form.full_name')}
                   </label>
                   <input
                     type="text"
@@ -213,7 +214,7 @@ const Contact = ({ drakeMode }) => {
                         ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
                         : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
                       }`}
-                    placeholder="Enter your full name"
+                    placeholder={t('form.placeholder_name')}
                   />
                 </div>
 
@@ -222,7 +223,7 @@ const Contact = ({ drakeMode }) => {
                   <label className={`flex items-center gap-2 text-sm font-semibold ${drakeMode ? 'text-cyan-400' : 'text-blue-600'
                     }`}>
                     <Mail className="w-4 h-4" />
-                    Email Address
+                    {t('form.email_address')}
                   </label>
                   <input
                     type="email"
@@ -234,7 +235,7 @@ const Contact = ({ drakeMode }) => {
                         ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
                         : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
                       }`}
-                    placeholder="Enter your email address"
+                    placeholder={t('form.placeholder_email')}
                   />
                 </div>
 
@@ -243,7 +244,7 @@ const Contact = ({ drakeMode }) => {
                   <label className={`flex items-center gap-2 text-sm font-semibold ${drakeMode ? 'text-cyan-400' : 'text-blue-600'
                     }`}>
                     <MessageCircle className="w-4 h-4" />
-                    Your Message
+                    {t('form.your_message')}
                   </label>
                   <textarea
                     name="message"
@@ -255,7 +256,7 @@ const Contact = ({ drakeMode }) => {
                         ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
                         : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
                       }`}
-                    placeholder="Tell me about your project, ideas, or just say hello..."
+                    placeholder={t('form.placeholder_message')}
                   />
                 </div>
 
@@ -271,12 +272,12 @@ const Contact = ({ drakeMode }) => {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Sending...
+                      {t('contact.sending')}
                     </>
                   ) : (
                     <>
                       <Send className="w-5 h-5" />
-                      Send Message
+                      {t('contact.send_message')}
                     </>
                   )}
                 </button>
@@ -284,7 +285,7 @@ const Contact = ({ drakeMode }) => {
                 {/* Privacy Note */}
                 <p className={`text-center text-xs ${drakeMode ? 'text-gray-400' : 'text-gray-500'
                   }`}>
-                  Your information is secure. I'll never share your details with anyone else.
+                  {t('contact.privacy')}
                 </p>
               </form>
             </div>
@@ -294,7 +295,7 @@ const Contact = ({ drakeMode }) => {
           <div className="text-center mt-16">
             <p className={`text-lg mb-6 ${drakeMode ? 'text-gray-300' : 'text-gray-600'
               }`}>
-              Prefer to connect socially?
+              {t('contact.prefer_social')}
             </p>
             <div className="flex justify-center gap-4">
               {socialLinks.map((social) => (
@@ -424,7 +425,7 @@ const Contact = ({ drakeMode }) => {
         <div className={`flex items-center gap-2 text-sm ${
           drakeMode ? 'text-gray-300' : 'text-gray-500'
         }`}>
-          <span>© {new Date().getFullYear()} ZOUBAA Mohammed. All rights reserved.</span>
+          <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
         </div>
       </div>
     </div>

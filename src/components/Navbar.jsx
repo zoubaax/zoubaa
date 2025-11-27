@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
 import TargetCursor from '../hooks/TargetCursor';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const Navbar = ({ drakeMode, setDrakeMode }) => {
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -73,6 +76,12 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
           {/* only include routes that exist and map Home -> "/" */}
           {['Home', 'About', 'Skills', 'Contact'].map((item) => {
             const id = item === 'Home' ? 'home' : item.toLowerCase();
+            const labelKey = {
+              Home: 'nav.home',
+              About: 'nav.about',
+              Skills: 'nav.skills',
+              Contact: 'nav.contact'
+            }[item];
             return (
               <li key={item} className="cursor-target">
                 <a
@@ -82,7 +91,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                     drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
                   }`}
                 >
-                  {item}
+                  {t(labelKey)}
                 </a>
               </li>
             );
@@ -126,6 +135,11 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
             )}
           </button>
 
+          {/* Language Switcher (compact) */}
+          <div className="hidden md:block">
+            <LanguageSwitcher compact />
+          </div>
+
           {/* Explore Button */}
           <a
             href="#contact"
@@ -136,7 +150,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                 : "border-gray-400 text-gray-700 hover:bg-gray-100 shadow-sm hover:shadow-lg"
             }`}
           >
-            EXPLORE
+            {t('nav.explore')}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300"
@@ -227,6 +241,12 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
             {/* Menu Items */}
             {['Home', 'About', 'Skills', 'Contact'].map((item) => {
               const id = item === 'Home' ? 'home' : item.toLowerCase();
+              const labelKey = {
+                Home: 'nav.home',
+                About: 'nav.about',
+                Skills: 'nav.skills',
+                Contact: 'nav.contact'
+              }[item];
               return (
                 <a
                   key={item}
@@ -238,7 +258,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                       : "border-gray-200 hover:text-gray-600"
                   }`}
                 >
-                  {item}
+                  {t(labelKey)}
                 </a>
               );
             })}
@@ -253,7 +273,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                   : "border-gray-400 text-gray-700 hover:bg-gray-100 hover:shadow-lg"
               }`}
             >
-              EXPLORE NOW
+              {t('nav.explore')} NOW
             </a>
           </div>
         </div>

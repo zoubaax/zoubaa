@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "contact": "Contact",
+    "explore": "Explore"
+  },
+  "portfolio": {
+    "showcase": "Portfolio Showcase",
+    "title": "Crafting Digital Excellence",
+    "subtitle": "Transforming ideas into exceptional digital experiences that drive results and inspire innovation",
+    "cta_start": "Start a Project",
+    "live_demo": "Live Demo",
+    "featured": "Featured",
+    "live": "Live",
+    "in_progress": "In Progress",
+    "view_more": "View More Projects",
+    "show_less": "Show Less",
+    "displaying_all": "Displaying all {{count}} projects",
+    "showing_of": "Showing 3 of {{count}} projects",
+    "powered": "Powered by Modern Technologies",
+    "technologies": "Cutting-edge tools and frameworks for exceptional results",
+    "all_projects": "All Projects",
+    "fullstack": "Full Stack",
+    "ai": "AI/ML",
+    "mobile": "Mobile",
+    "data": "Data Analytics",
+    "web3": "Web3",
+    "social": "Social"
+  },
+  "projects": {
+    "1": {
+      "title": "Healthcare Management",
+      "description": "Secure patient management system with telemedicine capabilities.",
+      "highlights": ["HIPAA", "Telemedicine", "Secure"]
+    },
+    "2": {
+      "title": "E-Commerce Platform",
+      "description": "Full-stack e-commerce with real-time inventory and payment processing.",
+      "highlights": ["Microservices", "Real-time", "Scalable"]
+    },
+    "3": {
+      "title": "AI Content Generator",
+      "description": "AI-powered content creation with real-time collaboration features.",
+      "highlights": ["AI/ML", "Collaboration", "Real-time"]
+    }
+  },
+  "contact": {
+    "get_in_touch": "Get In Touch",
+    "work_together": "Let's Work Together",
+    "subtitle": "Ready to bring your ideas to life? Let's discuss your project and create something amazing together.",
+    "send_message": "Send Message",
+    "sending": "Sending...",
+    "available": "Available for new projects",
+    "privacy": "Your information is secure. I'll never share your details with anyone else.",
+    "prefer_social": "Prefer to connect socially?"
+  },
+  "about": {
+    "my_journey": "My Journey",
+    "title": "Education & Professional Experiences",
+    "subtitle": "From academic foundations to professional milestones, each step has shaped my expertise.",
+    "work_experience": "Work Experience",
+    "education": "Education",
+    "view_all_experiences": "View All Experiences",
+    "show_less": "Show Less"
+  },
+  "footer": {
+    "copyright": "© {{year}} ZOUBAA Mohammed. All rights reserved."
+  },
+  "form": {
+    "full_name": "Full Name",
+    "email_address": "Email Address",
+    "your_message": "Your Message",
+    "placeholder_name": "Enter your full name",
+    "placeholder_email": "Enter your email address",
+    "placeholder_message": "Tell me about your project, ideas, or just say hello..."
+  },
+  "language": {
+    "switcher": "Language",
+    "english": "English",
+    "french": "Français"
+  },
+  "home": {
+    "greeting": "Hi! I'm ZOUBAA Mohammed",
+    "wave_alt": "Wave",
+    "intro": "Full-stack developer and Computer Engineering student, passionate about building modern web applications with React, Node.js, and DevOps practices.",
+    "contact_button": "Contact me",
+    "resume_button": "My resume",
+    "github": "GitHub",
+    "linkedin": "LinkedIn"
+  }
+}

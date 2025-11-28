@@ -274,41 +274,42 @@ const ProjectsSection = ({ drakeMode }) => {
             )
           })()}
 
-          {/* Actions */}
-          {(project.liveUrl && project.liveUrl !== '#') || (project.githubUrl && project.githubUrl !== '#') ? (
-            <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-              {project.liveUrl && project.liveUrl !== '#' && (
-                <a 
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-                    drakeMode
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
-                      : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
-                  }`}
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  {t('portfolio.live_demo')}
-                </a>
-              )}
-              
-              {project.githubUrl && project.githubUrl !== '#' && (
-                <a 
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-                    drakeMode
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
-                  }`}
-                >
-                  <Github className="w-4 h-4" />
-                </a>
-              )}
-            </div>
-          ) : null}
+          {/* Actions - Updated GitHub Button */}
+          <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            {/* Live Demo Button (if available) */}
+            {project.liveUrl && project.liveUrl !== '#' && (
+              <a 
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`cursor-target flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+                  drakeMode
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
+                    : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
+                }`}
+              >
+                <ExternalLink className="w-4 h-4" />
+                {t('portfolio.live_demo')}
+              </a>
+            )}
+            
+            {/* Full GitHub Button (if available) */}
+            {project.githubUrl && project.githubUrl !== '#' && (
+              <a 
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`cursor-target flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 border ${
+                  drakeMode
+                    ? 'bg-transparent text-gray-300 border-gray-600 hover:bg-gray-700 hover:text-white hover:border-gray-500'
+                    : 'bg-transparent text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-gray-900 hover:border-gray-400'
+                }`}
+              >
+                <Github className="w-4 h-4" />
+                View Code
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Glow Effect */}

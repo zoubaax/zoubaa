@@ -8,7 +8,7 @@ import {
   Home
 } from 'lucide-react'
 
-function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, onClose }) {
+function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, onClose, isDarkMode = true }) {
   const navItems = [
     {
       id: 'dashboard',
@@ -44,15 +44,27 @@ function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, o
   }
 
   return (
-    <div className="flex flex-col h-full w-64 bg-white/5 backdrop-blur-lg border-r border-white/10">
+    <div className={`flex flex-col h-full w-64 backdrop-blur-lg border-r transition-colors duration-300 ${
+      isDarkMode 
+        ? 'bg-white/5 border-white/10' 
+        : 'bg-white/90 border-gray-200 shadow-sm'
+    }`}>
       {/* Sidebar Header */}
-      <div className="p-6 border-b border-white/10">
+      <div className={`p-6 border-b transition-colors duration-300 ${
+        isDarkMode ? 'border-white/10' : 'border-gray-200'
+      }`}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Dashboard</h2>
+          <h2 className={`text-xl font-bold transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Dashboard</h2>
           {isMobile && (
             <button
               onClick={onClose}
-              className="cursor-target p-2 rounded-lg text-white hover:bg-white/10 transition-all"
+              className={`cursor-target p-2 rounded-lg hover:bg-opacity-10 transition-all ${
+                isDarkMode 
+                  ? 'text-white hover:bg-white' 
+                  : 'text-gray-700 hover:bg-gray-200'
+              }`}
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />
@@ -66,10 +78,14 @@ function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, o
             </span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">
+            <p className={`text-sm font-medium truncate transition-colors duration-300 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               {user?.email || 'User'}
             </p>
-            <p className="text-xs text-gray-400">Admin</p>
+            <p className={`text-xs transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>Admin</p>
           </div>
         </div>
       </div>
@@ -87,7 +103,9 @@ function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, o
               className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
                 active
                   ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
-                  : 'text-gray-300 hover:bg-white/10 hover:text-white'
+                  : isDarkMode
+                    ? 'text-gray-300 hover:bg-white/10 hover:text-white'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
               }`}
             >
               <Icon 
@@ -105,7 +123,11 @@ function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, o
       <div className="p-4 border-t border-white/10 space-y-2">
         <button
           onClick={() => onNavigate('/')}
-          className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 group"
+          className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
+            isDarkMode
+              ? 'text-gray-300 hover:bg-white/10 hover:text-white'
+              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+          }`}
         >
           <Home className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
           <span className="font-medium">View Portfolio</span>
@@ -113,7 +135,11 @@ function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, o
         
         <button
           onClick={onSignOut}
-          className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-300 hover:bg-red-600/20 hover:text-red-200 border border-red-500/30 transition-all duration-300 group"
+          className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group ${
+            isDarkMode
+              ? 'text-red-300 hover:bg-red-600/20 hover:text-red-200 border-red-500/30'
+              : 'text-red-600 hover:bg-red-50 hover:text-red-700 border-red-300'
+          }`}
         >
           <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
           <span className="font-medium">Sign Out</span>

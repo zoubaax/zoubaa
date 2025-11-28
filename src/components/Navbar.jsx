@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-// removed Link import
+import { useLocation, useNavigate } from "react-router-dom";
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
 import TargetCursor from '../hooks/TargetCursor';
@@ -8,8 +8,13 @@ import LanguageSwitcher from './LanguageSwitcher';
 
 const Navbar = ({ drakeMode, setDrakeMode }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  
+  // Check if we're on the portfolio page (home page)
+  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +40,19 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
     closeMenu();
   };
 
+  // Handle logo click - navigate to home or scroll to top
+  const handleLogoClick = (e) => {
+    if (isPortfolioPage) {
+      // On portfolio page, scroll to top
+      e.preventDefault();
+      scrollToSection(e, 'home');
+    } else {
+      // On other pages, navigate to home
+      e.preventDefault();
+      navigate('/');
+    }
+  };
+
   return (
     <>
       <TargetCursor 
@@ -55,8 +73,11 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
       >
         {/* Logo */}
         <div className="flex-shrink-0 cursor-target">
-          {/* changed to in-page anchor */}
-          <a href="#home" aria-label="Go to home" onClick={(e) => scrollToSection(e, 'home')}>
+          <a 
+            href={isPortfolioPage ? "#home" : "/"} 
+            aria-label="Go to home" 
+            onClick={handleLogoClick}
+          >
             <img
               src={drakeMode ? logoDark : logoLight}
               alt="Zoubaa Logo"
@@ -74,19 +95,73 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
           }`}
         >
           {/* only include routes that exist and map Home -> "/" */}
-          {['Home', 'About', 'Skills', 'Contact'].map((item) => {
+          {['Home', 'About', 'Skills', 'Certificates', 'Contact'].map((item) => {
             const id = item === 'Home' ? 'home' : item.toLowerCase();
             const labelKey = {
               Home: 'nav.home',
               About: 'nav.about',
               Skills: 'nav.skills',
+              Certificates: 'nav.certificates',
               Contact: 'nav.contact'
             }[item];
+            
+            // Handle Certificates as external link
+            if (item === 'Certificates') {
+              return (
+                <li key={item} className="cursor-target">
+                  <a
+                    href="/zoubaa/certificates"
+                    onClick={(e) => {
+                      if (location.pathname === '/certificates' || location.pathname === '/zoubaa/certificates') {
+                        e.preventDefault();
+                      }
+                    }}
+                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
+                      drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                    }`}
+                  >
+                    {t(labelKey)}
+                  </a>
+                </li>
+              );
+            }
+            
+            // Handle Home link - navigate to portfolio if not on portfolio page
+            if (item === 'Home') {
+              return (
+                <li key={item} className="cursor-target">
+                  <a
+                    href={isPortfolioPage ? "#home" : "/"}
+                    onClick={(e) => {
+                      if (!isPortfolioPage) {
+                        e.preventDefault();
+                        navigate('/');
+                      } else {
+                        scrollToSection(e, 'home');
+                      }
+                    }}
+                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
+                      drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                    }`}
+                  >
+                    {t(labelKey)}
+                  </a>
+                </li>
+              );
+            }
+            
             return (
               <li key={item} className="cursor-target">
                 <a
-                  href={`#${id}`}
-                  onClick={(e) => scrollToSection(e, id)}
+                  href={isPortfolioPage ? `#${id}` : `/#${id}`}
+                  onClick={(e) => {
+                    if (!isPortfolioPage) {
+                      e.preventDefault();
+                      navigate(`/#${id}`);
+                    } else {
+                      scrollToSection(e, id);
+                    }
+                  }}
                   className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
                     drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
                   }`}
@@ -244,19 +319,77 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
             </button>
 
             {/* Menu Items */}
-            {['Home', 'About', 'Skills', 'Contact'].map((item) => {
+            {['Home', 'About', 'Skills', 'Certificates', 'Contact'].map((item) => {
               const id = item === 'Home' ? 'home' : item.toLowerCase();
               const labelKey = {
                 Home: 'nav.home',
                 About: 'nav.about',
                 Skills: 'nav.skills',
+                Certificates: 'nav.certificates',
                 Contact: 'nav.contact'
               }[item];
+              
+              // Handle Certificates as external link
+              if (item === 'Certificates') {
+                return (
+                  <a
+                    key={item}
+                    href="/zoubaa/certificates"
+                    onClick={(e) => {
+                      if (location.pathname === '/certificates' || location.pathname === '/zoubaa/certificates') {
+                        e.preventDefault();
+                      }
+                    }}
+                    className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
+                      drakeMode
+                        ? "border-blue-500/30 hover:text-blue-400"
+                        : "border-gray-200 hover:text-gray-600"
+                    }`}
+                  >
+                    {t(labelKey)}
+                  </a>
+                );
+              }
+              
+              // Handle Home link
+              if (item === 'Home') {
+                return (
+                  <a
+                    key={item}
+                    href={isPortfolioPage ? "#home" : "/"}
+                    onClick={(e) => {
+                      if (!isPortfolioPage) {
+                        e.preventDefault();
+                        navigate('/');
+                        closeMenu();
+                      } else {
+                        scrollToSection(e, 'home');
+                      }
+                    }}
+                    className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
+                      drakeMode
+                        ? "border-blue-500/30 hover:text-blue-400"
+                        : "border-gray-200 hover:text-gray-600"
+                    }`}
+                  >
+                    {t(labelKey)}
+                  </a>
+                );
+              }
+              
               return (
                 <a
                   key={item}
-                  href={`#${id}`}
-                  onClick={(e) => scrollToSection(e, id)}
+                  href={isPortfolioPage ? `#${id}` : `/#${id}`}
+                  onClick={(e) => {
+                    if (!isPortfolioPage) {
+                      e.preventDefault();
+                      navigate(`/#${id}`);
+                      closeMenu();
+                    } else {
+                      scrollToSection(e, id);
+                    }
+                  }}
                   className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
                     drakeMode
                       ? "border-blue-500/30 hover:text-blue-400"

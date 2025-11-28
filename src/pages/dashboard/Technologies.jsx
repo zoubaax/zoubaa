@@ -12,6 +12,8 @@ function Technologies() {
   const [editingTechnology, setEditingTechnology] = useState(null)
   const [formLoading, setFormLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [techToDelete, setTechToDelete] = useState(null)
   const { isDarkMode } = useTheme()
 
   useEffect(() => {
@@ -43,19 +45,29 @@ function Technologies() {
     setError(null)
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this technology? This will remove it from all linked projects.')) {
-      return
-    }
+  const handleDeleteClick = (technology) => {
+    setTechToDelete(technology)
+    setShowDeleteConfirm(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!techToDelete) return
 
     setError(null)
-    const { success, error: deleteError } = await deleteTechnology(id)
+    const { success, error: deleteError } = await deleteTechnology(techToDelete.id)
     if (deleteError) {
       setError('Failed to delete technology')
       console.error(deleteError)
     } else {
       await loadTechnologies()
     }
+    setShowDeleteConfirm(false)
+    setTechToDelete(null)
+  }
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(false)
+    setTechToDelete(null)
   }
 
   const handleSave = async (formData, imageFile) => {
@@ -120,6 +132,61 @@ function Technologies() {
         spinDuration={2}
         hideDefaultCursor={true}
       />
+      
+      {/* Delete Confirmation Pop-up */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={handleCancelDelete}
+          />
+          <div className={`relative z-10 w-full max-w-md rounded-2xl p-6 shadow-2xl border transition-colors duration-300 ${
+            isDarkMode 
+              ? 'bg-[#0A1A4D] border-red-500/30' 
+              : 'bg-white border-red-200'
+          }`}>
+            <div className="text-center">
+              <div className={`mx-auto flex items-center justify-center h-12 w-12 rounded-full ${
+                isDarkMode ? 'bg-red-500/20' : 'bg-red-100'
+              }`}>
+                <Trash2 className={`h-6 w-6 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} />
+              </div>
+              <h3 className={`mt-4 text-lg font-semibold transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
+                Delete Technology
+              </h3>
+              <p className={`mt-2 text-sm transition-colors duration-300 ${
+                isDarkMode ? 'text-cyan-200' : 'text-gray-600'
+              }`}>
+                Are you sure you want to delete <strong>"{techToDelete?.name}"</strong>? This will remove it from all linked projects and cannot be undone.
+              </p>
+            </div>
+            <div className="mt-6 flex gap-3">
+              <button
+                onClick={handleCancelDelete}
+                className={`cursor-target flex-1 py-2 px-4 rounded-lg border transition-all duration-300 hover:scale-105 ${
+                  isDarkMode
+                    ? 'bg-gray-600/20 hover:bg-gray-600/30 text-gray-300 border-gray-500/30'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300'
+                }`}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className={`cursor-target flex-1 py-2 px-4 rounded-lg border transition-all duration-300 hover:scale-105 ${
+                  isDarkMode
+                    ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border-red-400/30'
+                    : 'bg-red-500/20 hover:bg-red-500/30 text-red-700 border-red-400/30'
+                }`}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="p-6 sm:p-8 lg:p-12">
         <div className="max-w-7xl mx-auto">
@@ -278,7 +345,7 @@ function Technologies() {
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(tech.id)}
+                          onClick={() => handleDeleteClick(tech)}
                           className={`cursor-target p-2 rounded-lg border transition-all ${
                             isDarkMode
                               ? 'bg-red-600/20 hover:bg-red-600/30 text-red-300 border-red-500/30'

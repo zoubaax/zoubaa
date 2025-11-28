@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, ArrowRight, Calendar, ChevronDown, ChevronUp, Star, Users, Zap, TrendingUp, Filter } from 'lucide-react';
 import TargetCursor from '../hooks/TargetCursor';
 import LogoLoop from '../hooks/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
+import { getProjects } from '../services/projectsService';
 
 // Import your local images
 import healthcareImage from '../assets/img/Healthcare.jpg';
@@ -35,79 +36,56 @@ const ProjectsSection = ({ drakeMode }) => {
   const [showAll, setShowAll] = useState(false);
   const [hoveredProject, setHoveredProject] = useState(null);
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const projects = [
-    {
-      id: 1,
-      titleKey: "projects.1.title",
-      descriptionKey: "projects.1.description",
-      longDescription: "HIPAA-compliant healthcare platform serving 100+ medical practices with video consultations.",
-      image: healthcareImage,
-      technologies: ["React Native", "TypeScript", "Node.js", "MySQL", "WebRTC"],
-      category: "mobile",
-      status: "completed",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: false,
-      metrics: {
-        practices: "150+",
-        patients: "500K+",
-        uptime: "99.9%"
-      },
-      year: "2023",
-      highlightsKey: "projects.1.highlights"
-    },
-    {
-      id: 2,
-      titleKey: "projects.2.title",
-      descriptionKey: "projects.2.description",
-      longDescription: "Built with modern microservices architecture, this platform handles 10,000+ daily transactions with seamless user experience.",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=250&fit=crop",
-      technologies: ["Next.js", "TypeScript", "Node.js", "MongoDB", "Stripe"],
-      category: "fullstack",
-      status: "completed",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: true,
-      metrics: {
-        users: "50K+",
-        performance: "98%",
-        revenue: "$2M+"
-      },
-      year: "2024",
-      highlightsKey: "projects.2.highlights"
-    },
-    {
-      id: 3,
-      titleKey: "projects.3.title",
-      descriptionKey: "projects.3.description",
-      longDescription: "Leveraging GPT-4 and custom ML models to generate high-quality content with team collaboration.",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=250&fit=crop",
-      technologies: ["React", "Python", "FastAPI", "PostgreSQL", "OpenAI"],
-      category: "ai",
-      status: "completed",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com",
-      featured: true,
-      metrics: {
-        users: "25K+",
-        performance: "95%",
-        content: "1M+"
-      },
-      year: "2024",
-      highlightsKey: "projects.3.highlights"
-    }
-  ];
+  // Map Supabase category to component category
+  const mapCategory = (category) => {
+    const categoryMap = {
+      'fullstack': 'fullstack',
+      'AI/ML': 'ai',
+      'data': 'data'
+    };
+    return categoryMap[category] || 'fullstack';
+  };
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      const { data, error } = await getProjects();
+      if (error) {
+        console.error('Error fetching projects:', error);
+        setProjects([]);
+      } else {
+        // Transform Supabase data to match component format
+        const transformedProjects = (data || []).map((project) => ({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          image: project.image_url || healthcareImage, // Use Supabase image or fallback
+          technologies: project.technologies || [],
+          category: mapCategory(project.category),
+          status: 'completed', // Default status
+          liveUrl: '#', // You can add this field to Supabase if needed
+          githubUrl: '#', // You can add this field to Supabase if needed
+          featured: false,
+          year: new Date(project.created_at).getFullYear().toString(),
+          highlights: [] // Empty highlights for now
+        }));
+        setProjects(transformedProjects);
+      }
+      setLoading(false);
+    };
+
+    fetchProjects();
+  }, []);
 
   const categories = [
     { id: 'all', label: t('portfolio.all_projects'), count: projects.length, icon: <Zap className="w-4 h-4" /> },
     { id: 'fullstack', label: t('portfolio.fullstack'), count: projects.filter(p => p.category === 'fullstack').length, icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'ai', label: t('portfolio.ai'), count: projects.filter(p => p.category === 'ai').length, icon: <Star className="w-4 h-4" /> },
-    { id: 'mobile', label: t('portfolio.mobile'), count: projects.filter(p => p.category === 'mobile').length, icon: <Users className="w-4 h-4" /> },
     { id: 'data', label: t('portfolio.data'), count: projects.filter(p => p.category === 'data').length, icon: <Filter className="w-4 h-4" /> },
-    { id: 'web3', label: t('portfolio.web3'), count: projects.filter(p => p.category === 'web3').length, icon: <Zap className="w-4 h-4" /> },
-    { id: 'social', label: t('portfolio.social'), count: projects.filter(p => p.category === 'social').length, icon: <Users className="w-4 h-4" /> },
-  ];
+  ].filter(cat => cat.id === 'all' || cat.count > 0); // Only show categories that have projects
 
   const filteredProjects = activeFilter === 'all' 
     ? projects 
@@ -118,12 +96,10 @@ const ProjectsSection = ({ drakeMode }) => {
   const getActiveCategory = () => categories.find(cat => cat.id === activeFilter);
 
   const ProjectCard = ({ project }) => {
-    // use translations for title/description and safely obtain highlights array
-    const title = project.titleKey ? t(project.titleKey) : project.title || '';
-    const description = project.descriptionKey ? t(project.descriptionKey) : project.description || '';
-    const highlights = project.highlightsKey
-      ? t(project.highlightsKey, { returnObjects: true }) || []
-      : project.highlights || [];
+    // Use direct title/description from Supabase data
+    const title = project.title || '';
+    const description = project.description || '';
+    const highlights = project.highlights || [];
 
     return (
       <div 
@@ -234,30 +210,40 @@ const ProjectsSection = ({ drakeMode }) => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <a 
-              href={project.liveUrl}
-              className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-                drakeMode
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
-                  : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
-              }`}
-            >
-              <ExternalLink className="w-4 h-4" />
-              {t('portfolio.live_demo')}
-            </a>
-            
-            <a 
-              href={project.githubUrl}
-              className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
-                drakeMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              <Github className="w-4 h-4" />
-            </a>
-          </div>
+          {(project.liveUrl && project.liveUrl !== '#') || (project.githubUrl && project.githubUrl !== '#') ? (
+            <div className="flex items-center gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+              {project.liveUrl && project.liveUrl !== '#' && (
+                <a 
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+                    drakeMode
+                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
+                      : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
+                  }`}
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {t('portfolio.live_demo')}
+                </a>
+              )}
+              
+              {project.githubUrl && project.githubUrl !== '#' && (
+                <a 
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
+                    drakeMode
+                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
+                  }`}
+                >
+                  <Github className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+          ) : null}
         </div>
 
         {/* Glow Effect */}
@@ -346,12 +332,33 @@ const ProjectsSection = ({ drakeMode }) => {
           </div>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-20">
+            <div className={`text-lg ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Loading projects...
+            </div>
+          </div>
+        )}
+
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-          {displayedProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
+        {!loading && (
+          <>
+            {displayedProjects.length === 0 ? (
+              <div className="text-center py-20">
+                <div className={`text-lg ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  No projects found. Add projects from your dashboard to see them here.
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                {displayedProjects.map((project) => (
+                  <ProjectCard key={project.id} project={project} />
+                ))}
+              </div>
+            )}
+          </>
+        )}
 
         {/* Show More/Less Button */}
         {filteredProjects.length > 3 && (

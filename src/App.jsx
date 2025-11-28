@@ -5,6 +5,7 @@ import './i18n'; // ...initialize i18n before the app
 import { AuthProvider } from './contexts/AuthContext'
 import Portfolio from './components/Portfolio.jsx'
 import Login from './pages/auth/Login.jsx'
+import CertificatesPage from './pages/CertificatesPage.jsx'
 import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import Certificates from './pages/dashboard/Certificates.jsx'
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Portfolio />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/certificates" element={<CertificatesPage />} />
         <Route
           path="/dashboard"
           element={

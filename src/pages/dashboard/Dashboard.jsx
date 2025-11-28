@@ -1,23 +1,49 @@
+import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Award, FolderKanban, User, Calendar, Mail } from 'lucide-react'
 import TargetCursor from '../../hooks/TargetCursor'
+import { getProjects } from '../../services/projectsService'
+import { getCertificates } from '../../services/certificatesService'
 
 function Dashboard() {
   const { user } = useAuth()
   const navigate = useNavigate()
+  const [projectsCount, setProjectsCount] = useState(0)
+  const [certificatesCount, setCertificatesCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadCounts()
+  }, [])
+
+  const loadCounts = async () => {
+    setLoading(true)
+    const [projectsResult, certificatesResult] = await Promise.all([
+      getProjects(),
+      getCertificates(),
+    ])
+    
+    if (projectsResult.data) {
+      setProjectsCount(projectsResult.data.length)
+    }
+    if (certificatesResult.data) {
+      setCertificatesCount(certificatesResult.data.length)
+    }
+    setLoading(false)
+  }
 
   const stats = [
     {
       label: 'Certificates',
-      value: '12',
+      value: loading ? '...' : certificatesCount.toString(),
       icon: Award,
       color: 'from-blue-500 to-cyan-500',
       onClick: () => navigate('/dashboard/certificates'),
     },
     {
       label: 'Projects',
-      value: '8',
+      value: loading ? '...' : projectsCount.toString(),
       icon: FolderKanban,
       color: 'from-purple-500 to-pink-500',
       onClick: () => navigate('/dashboard/projects'),

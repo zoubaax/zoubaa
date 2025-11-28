@@ -10,6 +10,7 @@ import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import Certificates from './pages/dashboard/Certificates.jsx'
 import Projects from './pages/dashboard/Projects.jsx'
+import Technologies from './pages/dashboard/Technologies.jsx'
 import ProtectedRoute from './components/dashboard/ProtectedRoute.jsx'
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="certificates" element={<Certificates />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="technologies" element={<Technologies />} />
         </Route>
       </Routes>
     </AuthProvider>

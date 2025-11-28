@@ -20,6 +20,12 @@ This guide will help you set up Supabase Storage buckets for projects and certif
 2. **Public bucket**: ✅ Check this (so images can be accessed publicly)
 3. Click **"Create bucket"**
 
+### Create Technologies Bucket
+
+1. **Bucket name**: `technologies`
+2. **Public bucket**: ✅ Check this (so images can be accessed publicly)
+3. Click **"Create bucket"**
+
 ## Step 2: Set Up Storage Policies
 
 After creating the buckets, you need to set up policies to allow:
@@ -89,10 +95,40 @@ TO public
 USING (bucket_id = 'certificates');
 ```
 
+### For Technologies Bucket
+
+Run the same SQL but replace `'certificates'` with `'technologies'`:
+
+```sql
+-- Allow authenticated users to upload files
+CREATE POLICY "Authenticated users can upload technology images"
+ON storage.objects FOR INSERT
+TO authenticated
+WITH CHECK (bucket_id = 'technologies');
+
+-- Allow authenticated users to update their files
+CREATE POLICY "Authenticated users can update technology images"
+ON storage.objects FOR UPDATE
+TO authenticated
+USING (bucket_id = 'technologies');
+
+-- Allow authenticated users to delete their files
+CREATE POLICY "Authenticated users can delete technology images"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (bucket_id = 'technologies');
+
+-- Allow anyone to read/view files (public bucket)
+CREATE POLICY "Anyone can view technology images"
+ON storage.objects FOR SELECT
+TO public
+USING (bucket_id = 'technologies');
+```
+
 ## Step 3: Verify Setup
 
-1. Go to **Storage** → You should see both `projects` and `certificates` buckets
-2. Both should show as **Public**
+1. Go to **Storage** → You should see `projects`, `certificates`, and `technologies` buckets
+2. All should show as **Public**
 3. Try uploading a test image to verify it works
 
 ## Step 4: File Size Limits (Optional)

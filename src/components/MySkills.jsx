@@ -58,20 +58,33 @@ const ProjectsSection = ({ drakeMode }) => {
         setProjects([]);
       } else {
         // Transform Supabase data to match component format
-        const transformedProjects = (data || []).map((project) => ({
-          id: project.id,
-          title: project.title,
-          description: project.description,
-          image: project.image_url || healthcareImage, // Use Supabase image or fallback
-          technologies: project.technologies || [],
-          category: mapCategory(project.category),
-          status: 'completed', // Default status
-          liveUrl: '#', // You can add this field to Supabase if needed
-          githubUrl: '#', // You can add this field to Supabase if needed
-          featured: false,
-          year: new Date(project.created_at).getFullYear().toString(),
-          highlights: [] // Empty highlights for now
-        }));
+        const transformedProjects = (data || []).map((project) => {
+          // Technologies should already have image_url from projectsService
+          const technologies = project.technologies || []
+          
+          // Debug: Log technologies for each project
+          if (technologies.length > 0) {
+            console.log(`Project "${project.title}" has ${technologies.length} technologies:`, technologies);
+          }
+          
+          return {
+            id: project.id,
+            title: project.title,
+            description: project.description,
+            image: project.image_url || healthcareImage, // Use Supabase image or fallback
+            technologies: technologies.map(t => t.name || t),
+            technologies_data: technologies, // Keep full technology objects with image URLs
+            category: mapCategory(project.category),
+            status: 'completed', // Default status
+            liveUrl: '#', // You can add this field to Supabase if needed
+            githubUrl: project.github_url || '#',
+            featured: false,
+            year: new Date(project.created_at).getFullYear().toString(),
+            highlights: [] // Empty highlights for now
+          }
+        });
+        
+        console.log('Transformed projects:', transformedProjects);
         setProjects(transformedProjects);
       }
       setLoading(false);
@@ -187,27 +200,79 @@ const ProjectsSection = ({ drakeMode }) => {
             {description}
           </p>
 
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.technologies.slice(0, 4).map((tech, index) => (
-              <span 
-                key={index}
-                className={`cursor-target px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 hover:scale-110 ${
-                  drakeMode
-                    ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-cyan-400 hover:bg-cyan-500/20'
-                    : 'bg-blue-50 text-blue-600 border-blue-200 hover:border-blue-400 hover:bg-blue-100'
-                }`}
-                style={{ transitionDelay: `${index * 50}ms` }}
-              >
-                {tech}
-              </span>
-            ))}
-            {project.technologies.length > 4 && (
-              <span className={`px-3 py-1.5 text-xs rounded-full border ${drakeMode ? 'bg-gray-700 text-gray-400 border-gray-600' : 'bg-gray-100 text-gray-500 border-gray-300'}`}>
-                +{project.technologies.length - 4}
-              </span>
-            )}
-          </div>
+          {/* Technologies Section - Always show if technologies exist */}
+          {(() => {
+            const techs = project.technologies_data || project.technologies || []
+            
+            // Debug: Log technologies for this project
+            if (techs.length > 0) {
+              console.log(`Rendering technologies for project "${project.title}":`, techs);
+            }
+            
+            if (techs.length === 0) {
+              // Show a placeholder if no technologies are linked
+              return (
+                <div className="mb-4 pt-2 border-t border-gray-200/20 dark:border-gray-700/20">
+                  <div className={`text-xs font-semibold mb-2 ${drakeMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                    No technologies linked
+                  </div>
+                </div>
+              )
+            }
+            
+            return (
+              <div className="mb-4 pt-2 border-t border-gray-200/20 dark:border-gray-700/20">
+                <div className={`text-xs font-semibold mb-3 flex items-center gap-2 ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>
+                  Technologies Used ({techs.length})
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {techs.slice(0, 8).map((tech, index) => {
+                    const techName = typeof tech === 'string' ? tech : (tech.name || tech)
+                    const techImage = typeof tech === 'object' && tech.image_url ? tech.image_url : null
+                    const techId = typeof tech === 'object' && tech.id ? tech.id : `tech-${index}`
+                    
+                    return (
+                      <span 
+                        key={techId}
+                        className={`cursor-target inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg border transition-all duration-300 hover:scale-105 hover:shadow-md ${
+                          drakeMode
+                            ? 'bg-blue-500/10 text-blue-300 border-blue-500/30 hover:border-cyan-400 hover:bg-cyan-500/20'
+                            : 'bg-blue-50 text-blue-700 border-blue-200 hover:border-blue-400 hover:bg-blue-100'
+                        }`}
+                        style={{ transitionDelay: `${index * 30}ms` }}
+                        title={techName}
+                      >
+                        {techImage ? (
+                          <img 
+                            src={techImage} 
+                            alt={techName} 
+                            className="w-4 h-4 object-contain flex-shrink-0" 
+                            onError={(e) => {
+                              e.target.style.display = 'none'
+                            }}
+                          />
+                        ) : (
+                          <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold rounded bg-current/20">
+                            {techName.charAt(0).toUpperCase()}
+                          </span>
+                        )}
+                        <span className="truncate max-w-[80px]">{techName}</span>
+                      </span>
+                    )
+                  })}
+                  {techs.length > 8 && (
+                    <span 
+                      className={`px-2.5 py-1.5 text-xs font-medium rounded-lg border ${drakeMode ? 'bg-gray-700/50 text-gray-400 border-gray-600' : 'bg-gray-100 text-gray-600 border-gray-300'}`}
+                      title={`${techs.length - 8} more technologies`}
+                    >
+                      +{techs.length - 8}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Actions */}
           {(project.liveUrl && project.liveUrl !== '#') || (project.githubUrl && project.githubUrl !== '#') ? (

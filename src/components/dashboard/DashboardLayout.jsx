@@ -78,6 +78,7 @@ function DashboardLayout() {
                   {location.pathname === '/dashboard' && 'Dashboard'}
                   {location.pathname === '/dashboard/certificates' && 'Certificates'}
                   {location.pathname === '/dashboard/projects' && 'Projects'}
+                  {location.pathname === '/dashboard/technologies' && 'Technologies'}
                 </h1>
                 <p className="text-sm text-gray-400">
                   {user?.email}

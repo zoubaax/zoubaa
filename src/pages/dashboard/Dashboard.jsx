@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Award, FolderKanban, User, Calendar, Mail } from 'lucide-react'
+import { LayoutDashboard, Award, FolderKanban, Code, User, Calendar, Mail } from 'lucide-react'
 import TargetCursor from '../../hooks/TargetCursor'
 import { getProjects } from '../../services/projectsService'
 import { getCertificates } from '../../services/certificatesService'
+import { getTechnologies } from '../../services/technologiesService'
 
 function Dashboard() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [projectsCount, setProjectsCount] = useState(0)
   const [certificatesCount, setCertificatesCount] = useState(0)
+  const [technologiesCount, setTechnologiesCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -19,9 +21,10 @@ function Dashboard() {
 
   const loadCounts = async () => {
     setLoading(true)
-    const [projectsResult, certificatesResult] = await Promise.all([
+    const [projectsResult, certificatesResult, technologiesResult] = await Promise.all([
       getProjects(),
       getCertificates(),
+      getTechnologies(),
     ])
     
     if (projectsResult.data) {
@@ -30,23 +33,33 @@ function Dashboard() {
     if (certificatesResult.data) {
       setCertificatesCount(certificatesResult.data.length)
     }
+    if (technologiesResult.data) {
+      setTechnologiesCount(technologiesResult.data.length)
+    }
     setLoading(false)
   }
 
   const stats = [
-    {
-      label: 'Certificates',
-      value: loading ? '...' : certificatesCount.toString(),
-      icon: Award,
-      color: 'from-blue-500 to-cyan-500',
-      onClick: () => navigate('/dashboard/certificates'),
-    },
     {
       label: 'Projects',
       value: loading ? '...' : projectsCount.toString(),
       icon: FolderKanban,
       color: 'from-purple-500 to-pink-500',
       onClick: () => navigate('/dashboard/projects'),
+    },
+    {
+      label: 'Technologies',
+      value: loading ? '...' : technologiesCount.toString(),
+      icon: Code,
+      color: 'from-green-500 to-emerald-500',
+      onClick: () => navigate('/dashboard/technologies'),
+    },
+    {
+      label: 'Certificates',
+      value: loading ? '...' : certificatesCount.toString(),
+      icon: Award,
+      color: 'from-blue-500 to-cyan-500',
+      onClick: () => navigate('/dashboard/certificates'),
     },
   ]
 
@@ -75,7 +88,7 @@ function Dashboard() {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {stats.map((stat) => {
               const Icon = stat.icon
               return (
@@ -148,18 +161,25 @@ function Dashboard() {
               </div>
               <div className="space-y-3">
                 <button
-                  onClick={() => navigate('/dashboard/certificates')}
-                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
-                >
-                  <Award className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span className="font-medium">View Certificates</span>
-                </button>
-                <button
                   onClick={() => navigate('/dashboard/projects')}
                   className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
                 >
                   <FolderKanban className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span className="font-medium">View Projects</span>
+                </button>
+                <button
+                  onClick={() => navigate('/dashboard/technologies')}
+                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
+                >
+                  <Code className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="font-medium">View Technologies</span>
+                </button>
+                <button
+                  onClick={() => navigate('/dashboard/certificates')}
+                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
+                >
+                  <Award className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="font-medium">View Certificates</span>
                 </button>
                 <button
                   onClick={() => navigate('/')}

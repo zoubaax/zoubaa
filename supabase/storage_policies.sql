@@ -1,46 +1,19 @@
-# Quick Fix: Storage Buckets Not Found
+-- ============================================
+-- SUPABASE STORAGE POLICIES
+-- ============================================
+-- Run this SQL in your Supabase SQL Editor
+-- This sets up storage policies for all buckets
+-- ============================================
 
-## The Problem
-You're getting `Bucket not found` error because the storage buckets haven't been created in Supabase yet.
-
-## Quick Solution (5 minutes)
-
-### Step 1: Create the Buckets
-
-1. **Go to your Supabase Dashboard**
-   - Visit: https://app.supabase.com
-   - Select your project
-
-2. **Navigate to Storage**
-   - Click **"Storage"** in the left sidebar
-   - Click **"New bucket"** button (top right)
-
-3. **Create `projects` bucket:**
-   - **Name**: `projects` (exactly lowercase, no spaces)
-   - **Public bucket**: ✅ **CHECK THIS BOX** (very important!)
-   - Click **"Create bucket"**
-
-4. **Create `certificates` bucket:**
-   - Click **"New bucket"** again
-   - **Name**: `certificates` (exactly lowercase, no spaces)
-   - **Public bucket**: ✅ **CHECK THIS BOX** (very important!)
-   - Click **"Create bucket"**
-
-5. **Create `technologies` bucket:**
-   - Click **"New bucket"** again
-   - **Name**: `technologies` (exactly lowercase, no spaces)
-   - **Public bucket**: ✅ **CHECK THIS BOX** (very important!)
-   - Click **"Create bucket"**
-
-### Step 2: Set Up Storage Policies
-
-1. **Go to SQL Editor** in Supabase dashboard
-2. **Copy and paste this SQL** and click "Run":
-
-```sql
 -- ============================================
 -- STORAGE POLICIES FOR PROJECTS BUCKET
 -- ============================================
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Authenticated users can upload project images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can update project images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can delete project images" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can view project images" ON storage.objects;
 
 -- Allow authenticated users to upload files
 CREATE POLICY "Authenticated users can upload project images"
@@ -70,6 +43,12 @@ USING (bucket_id = 'projects');
 -- STORAGE POLICIES FOR CERTIFICATES BUCKET
 -- ============================================
 
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Authenticated users can upload certificate images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can update certificate images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can delete certificate images" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can view certificate images" ON storage.objects;
+
 -- Allow authenticated users to upload files
 CREATE POLICY "Authenticated users can upload certificate images"
 ON storage.objects FOR INSERT
@@ -98,6 +77,12 @@ USING (bucket_id = 'certificates');
 -- STORAGE POLICIES FOR TECHNOLOGIES BUCKET
 -- ============================================
 
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Authenticated users can upload technology images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can update technology images" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can delete technology images" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can view technology images" ON storage.objects;
+
 -- Allow authenticated users to upload files
 CREATE POLICY "Authenticated users can upload technology images"
 ON storage.objects FOR INSERT
@@ -121,43 +106,4 @@ CREATE POLICY "Anyone can view technology images"
 ON storage.objects FOR SELECT
 TO public
 USING (bucket_id = 'technologies');
-```
-
-### Step 3: Verify
-
-1. Go back to **Storage** → You should see `projects`, `certificates`, and `technologies` buckets listed
-2. All should show **"Public"** badge
-3. Refresh your app and try uploading again
-
-## Common Mistakes to Avoid
-
-❌ **Wrong bucket names**: Must be exactly `projects`, `certificates`, and `technologies` (lowercase)
-❌ **Not making buckets public**: Must check "Public bucket" checkbox
-❌ **Forgetting policies**: Must run the SQL policies above
-❌ **Not logged in**: Make sure you're logged in to the dashboard when uploading
-
-## Still Having Issues?
-
-1. **Check bucket names** - Go to Storage and verify they're exactly:
-   - `projects` (not `Projects` or `project`)
-   - `certificates` (not `Certificates` or `certificate`)
-   - `technologies` (not `Technologies` or `technology`)
-
-2. **Check if buckets are public**:
-   - Go to Storage
-   - Click on each bucket
-   - Look for "Public" badge or toggle
-
-3. **Verify you're logged in**:
-   - Make sure you're authenticated in your app
-   - Check the browser console for auth errors
-
-4. **Check browser console** for more detailed error messages
-
-## After Setup
-
-Once buckets are created:
-- ✅ You can upload images from the dashboard
-- ✅ Images will display in your portfolio
-- ✅ No more "Bucket not found" errors!
 

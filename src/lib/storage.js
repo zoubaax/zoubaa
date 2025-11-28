@@ -4,6 +4,7 @@ import { supabase } from './supabase'
 export const STORAGE_BUCKETS = {
   PROJECTS: 'projects',
   CERTIFICATES: 'certificates',
+  TECHNOLOGIES: 'technologies',
 }
 
 /**

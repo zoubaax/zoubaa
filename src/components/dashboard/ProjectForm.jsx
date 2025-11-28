@@ -1,26 +1,42 @@
 import { useState, useEffect } from 'react'
-import { X, Upload, Image as ImageIcon } from 'lucide-react'
+import { X, Image as ImageIcon, Check } from 'lucide-react'
+import { getTechnologies } from '../../services/technologiesService'
 
 function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    technologies: [],
+    technologyIds: [],
     category: 'fullstack',
+    github_url: '',
     image_path: null,
   })
-  const [techInput, setTechInput] = useState('')
+  const [availableTechnologies, setAvailableTechnologies] = useState([])
+  const [loadingTechnologies, setLoadingTechnologies] = useState(true)
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
   const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    const fetchTechnologies = async () => {
+      setLoadingTechnologies(true)
+      const { data } = await getTechnologies()
+      if (data) {
+        setAvailableTechnologies(data)
+      }
+      setLoadingTechnologies(false)
+    }
+    fetchTechnologies()
+  }, [])
 
   useEffect(() => {
     if (project) {
       setFormData({
         title: project.title || '',
         description: project.description || '',
-        technologies: project.technologies || [],
+        technologyIds: project.technologies ? project.technologies.map(t => t.id) : [],
         category: project.category || 'fullstack',
+        github_url: project.github_url || '',
         image_path: project.image_path || null,
       })
       setImagePreview(project.image_url || null)
@@ -59,21 +75,16 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
     setImagePreview(project?.image_url || null)
   }
 
-  const handleAddTech = () => {
-    if (techInput.trim()) {
-      setFormData((prev) => ({
+  const handleToggleTechnology = (techId) => {
+    setFormData((prev) => {
+      const isSelected = prev.technologyIds.includes(techId)
+      return {
         ...prev,
-        technologies: [...prev.technologies, techInput.trim()],
-      }))
-      setTechInput('')
-    }
-  }
-
-  const handleRemoveTech = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      technologies: prev.technologies.filter((_, i) => i !== index),
-    }))
+        technologyIds: isSelected
+          ? prev.technologyIds.filter((id) => id !== techId)
+          : [...prev.technologyIds, techId],
+      }
+    })
   }
 
   const handleSubmit = (e) => {
@@ -169,50 +180,72 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
         )}
       </div>
 
-      {/* Technologies */}
+      {/* GitHub URL */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">
+          GitHub URL
+        </label>
+        <input
+          type="url"
+          name="github_url"
+          value={formData.github_url}
+          onChange={handleInputChange}
+          className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+          placeholder="https://github.com/username/repo"
+        />
+      </div>
+
+      {/* Technologies Selection */}
       <div>
         <label className="block text-sm font-semibold text-white mb-2">
           Technologies
         </label>
-        <div className="flex gap-2 mb-3">
-          <input
-            type="text"
-            value={techInput}
-            onChange={(e) => setTechInput(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                handleAddTech()
-              }
-            }}
-            className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 transition-all"
-            placeholder="Add technology (press Enter)"
-          />
-          <button
-            type="button"
-            onClick={handleAddTech}
-            className="px-4 py-2 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-all"
-          >
-            Add
-          </button>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {formData.technologies.map((tech, index) => (
-            <span
-              key={index}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-white/10 border border-white/20 text-white text-sm"
-            >
-              {tech}
-              <button
-                type="button"
-                onClick={() => handleRemoveTech(index)}
-                className="hover:text-red-400 transition-colors"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          ))}
-        </div>
+        {loadingTechnologies ? (
+          <div className="text-gray-400 text-sm">Loading technologies...</div>
+        ) : availableTechnologies.length === 0 ? (
+          <div className="text-gray-400 text-sm mb-2">
+            No technologies available. Add technologies first to link them to projects.
+          </div>
+        ) : (
+          <div className="max-h-48 overflow-y-auto border-2 border-white/10 rounded-xl bg-white/5 p-3 space-y-2">
+            {availableTechnologies.map((tech) => {
+              const isSelected = formData.technologyIds.includes(tech.id)
+              return (
+                <button
+                  key={tech.id}
+                  type="button"
+                  onClick={() => handleToggleTechnology(tech.id)}
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all ${
+                    isSelected
+                      ? 'bg-blue-600/30 border-2 border-blue-500/50'
+                      : 'bg-white/5 border-2 border-white/10 hover:border-cyan-400/50'
+                  }`}
+                >
+                  {tech.image_url ? (
+                    <img
+                      src={tech.image_url}
+                      alt={tech.name}
+                      className="w-8 h-8 object-contain"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
+                      <span className="text-xs text-white">{tech.name.charAt(0)}</span>
+                    </div>
+                  )}
+                  <span className="flex-1 text-left text-white font-medium">{tech.name}</span>
+                  {isSelected && (
+                    <Check className="w-5 h-5 text-blue-400" />
+                  )}
+                </button>
+              )
+            })}
+          </div>
+        )}
+        {formData.technologyIds.length > 0 && (
+          <p className="mt-2 text-sm text-gray-400">
+            {formData.technologyIds.length} technology{formData.technologyIds.length !== 1 ? 'ies' : ''} selected
+          </p>
+        )}
       </div>
 
       {/* Image Upload */}
@@ -280,4 +313,3 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
 }
 
 export default ProjectForm
-

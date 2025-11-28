@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FolderKanban, Calendar, Tag, Plus, Edit, Trash2, X } from 'lucide-react'
+import { FolderKanban, Calendar, Tag, Plus, Edit, Trash2, X, Github } from 'lucide-react'
 import TargetCursor from '../../hooks/TargetCursor'
 import { getProjects, createProject, updateProject, deleteProject } from '../../services/projectsService'
 import ProjectForm from '../../components/dashboard/ProjectForm'
@@ -241,14 +241,21 @@ function Projects() {
                       {/* Technologies */}
                       {project.technologies && project.technologies.length > 0 && (
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {project.technologies.map((tech, index) => (
-                            <span
-                              key={index}
-                              className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-xs font-medium"
-                            >
-                              {tech}
-                            </span>
-                          ))}
+                          {project.technologies.map((tech, index) => {
+                            const techName = typeof tech === 'string' ? tech : tech.name
+                            const techImage = typeof tech === 'object' && tech.image_url ? tech.image_url : null
+                            return (
+                              <span
+                                key={index}
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-xs font-medium"
+                              >
+                                {techImage && (
+                                  <img src={techImage} alt={techName} className="w-4 h-4 object-contain" />
+                                )}
+                                {techName}
+                              </span>
+                            )
+                          })}
                         </div>
                       )}
 
@@ -265,6 +272,17 @@ function Projects() {
                         </div>
                         
                         <div className="flex items-center gap-2">
+                          {project.github_url && (
+                            <a
+                              href={project.github_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="cursor-target p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all hover:border-cyan-400/50"
+                              aria-label="View on GitHub"
+                            >
+                              <Github className="w-4 h-4" />
+                            </a>
+                          )}
                           <button
                             onClick={() => handleEdit(project)}
                             className="cursor-target p-2 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-all"

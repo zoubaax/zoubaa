@@ -2,25 +2,48 @@ import { supabase } from '../lib/supabase'
 import { uploadImage, deleteImage, getImageUrl, STORAGE_BUCKETS } from '../lib/storage'
 
 /**
- * Get all projects
+ * Get all projects with their technologies
  * @returns {Promise<{data: Array, error: Error|null}>}
  */
 export async function getProjects() {
   try {
     const { data, error } = await supabase
       .from('projects')
-      .select('*')
+      .select(`
+        *,
+        projects_technologies (
+          technology:technologies (*)
+        )
+      `)
       .order('created_at', { ascending: false })
 
     if (error) throw error
 
-    // Add image URLs to each project
-    const projectsWithUrls = data.map((project) => ({
-      ...project,
-      image_url: project.image_path
-        ? getImageUrl(STORAGE_BUCKETS.PROJECTS, project.image_path)
-        : null,
-    }))
+    // Transform data to include technologies array and image URLs
+    const projectsWithUrls = data.map((project) => {
+      const technologies = (project.projects_technologies || []).map(
+        (pt) => {
+          const tech = pt.technology
+          return {
+            ...tech,
+            image_url: tech?.image_path
+              ? getImageUrl(STORAGE_BUCKETS.TECHNOLOGIES, tech.image_path)
+              : null,
+          }
+        }
+      )
+
+      return {
+        ...project,
+        technologies: technologies,
+        technologies_names: technologies.map((t) => t.name),
+        image_url: project.image_path
+          ? getImageUrl(STORAGE_BUCKETS.PROJECTS, project.image_path)
+          : null,
+        // Remove the junction table data from response
+        projects_technologies: undefined,
+      }
+    })
 
     return { data: projectsWithUrls, error: null }
   } catch (error) {
@@ -30,7 +53,7 @@ export async function getProjects() {
 }
 
 /**
- * Get a single project by ID
+ * Get a single project by ID with technologies
  * @param {string} id - Project ID
  * @returns {Promise<{data: Object|null, error: Error|null}>}
  */
@@ -38,17 +61,37 @@ export async function getProjectById(id) {
   try {
     const { data, error } = await supabase
       .from('projects')
-      .select('*')
+      .select(`
+        *,
+        projects_technologies (
+          technology:technologies (*)
+        )
+      `)
       .eq('id', id)
       .single()
 
     if (error) throw error
 
+    const technologies = (data.projects_technologies || []).map(
+      (pt) => {
+        const tech = pt.technology
+        return {
+          ...tech,
+          image_url: tech?.image_path
+            ? getImageUrl(STORAGE_BUCKETS.TECHNOLOGIES, tech.image_path)
+            : null,
+        }
+      }
+    )
+
     const projectWithUrl = {
       ...data,
+      technologies: technologies,
+      technologies_names: technologies.map((t) => t.name),
       image_url: data.image_path
         ? getImageUrl(STORAGE_BUCKETS.PROJECTS, data.image_path)
         : null,
+      projects_technologies: undefined,
     }
 
     return { data: projectWithUrl, error: null }
@@ -60,7 +103,7 @@ export async function getProjectById(id) {
 
 /**
  * Create a new project
- * @param {Object} projectData - Project data
+ * @param {Object} projectData - Project data (includes technologyIds array)
  * @param {File|null} imageFile - Optional image file to upload
  * @returns {Promise<{data: Object|null, error: Error|null}>}
  */
@@ -82,36 +125,53 @@ export async function createProject(projectData, imageFile = null) {
     }
 
     // Insert project into database
-    const { data, error } = await supabase
+    const { data: project, error: projectError } = await supabase
       .from('projects')
       .insert([
         {
           title: projectData.title,
           description: projectData.description,
           image_path: imagePath,
-          technologies: projectData.technologies || [],
           category: projectData.category,
+          github_url: projectData.github_url || null,
         },
       ])
       .select()
       .single()
 
-    if (error) {
+    if (projectError) {
       // If database insert fails, delete uploaded image
       if (imagePath) {
         await deleteImage(STORAGE_BUCKETS.PROJECTS, imagePath)
       }
-      throw error
+      throw projectError
     }
 
-    const projectWithUrl = {
-      ...data,
-      image_url: data.image_path
-        ? getImageUrl(STORAGE_BUCKETS.PROJECTS, data.image_path)
-        : null,
+    // Link technologies if provided
+    if (projectData.technologyIds && projectData.technologyIds.length > 0) {
+      const projectTechnologies = projectData.technologyIds.map((techId) => ({
+        project_id: project.id,
+        technology_id: techId,
+      }))
+
+      const { error: linkError } = await supabase
+        .from('projects_technologies')
+        .insert(projectTechnologies)
+
+      if (linkError) {
+        // If linking fails, delete the project
+        await supabase.from('projects').delete().eq('id', project.id)
+        if (imagePath) {
+          await deleteImage(STORAGE_BUCKETS.PROJECTS, imagePath)
+        }
+        throw linkError
+      }
     }
 
-    return { data: projectWithUrl, error: null }
+    // Fetch the complete project with technologies
+    const { data: completeProject } = await getProjectById(project.id)
+
+    return { data: completeProject, error: null }
   } catch (error) {
     console.error('Error creating project:', error)
     return { data: null, error }
@@ -158,35 +218,56 @@ export async function updateProject(
     }
 
     // Update project in database
-    const { data, error } = await supabase
+    const { data: project, error: projectError } = await supabase
       .from('projects')
       .update({
         title: projectData.title,
         description: projectData.description,
         image_path: imagePath,
-        technologies: projectData.technologies || [],
         category: projectData.category,
+        github_url: projectData.github_url || null,
       })
       .eq('id', id)
       .select()
       .single()
 
-    if (error) {
+    if (projectError) {
       // If database update fails and we uploaded a new image, delete it
       if (imageFile && imagePath !== oldImagePath) {
         await deleteImage(STORAGE_BUCKETS.PROJECTS, imagePath)
       }
-      throw error
+      throw projectError
     }
 
-    const projectWithUrl = {
-      ...data,
-      image_url: data.image_path
-        ? getImageUrl(STORAGE_BUCKETS.PROJECTS, data.image_path)
-        : null,
+    // Update technology links if provided
+    if (projectData.technologyIds !== undefined) {
+      // Delete existing links
+      await supabase
+        .from('projects_technologies')
+        .delete()
+        .eq('project_id', id)
+
+      // Insert new links if any
+      if (projectData.technologyIds && projectData.technologyIds.length > 0) {
+        const projectTechnologies = projectData.technologyIds.map((techId) => ({
+          project_id: id,
+          technology_id: techId,
+        }))
+
+        const { error: linkError } = await supabase
+          .from('projects_technologies')
+          .insert(projectTechnologies)
+
+        if (linkError) {
+          throw linkError
+        }
+      }
     }
 
-    return { data: projectWithUrl, error: null }
+    // Fetch the complete project with technologies
+    const { data: completeProject } = await getProjectById(id)
+
+    return { data: completeProject, error: null }
   } catch (error) {
     console.error('Error updating project:', error)
     return { data: null, error }

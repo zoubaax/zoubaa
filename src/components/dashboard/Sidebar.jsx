@@ -2,6 +2,7 @@ import {
   LayoutDashboard, 
   Award, 
   FolderKanban, 
+  Code,
   X,
   LogOut,
   Home
@@ -16,16 +17,22 @@ function Sidebar({ currentPath, onNavigate, onSignOut, user, isMobile = false, o
       icon: LayoutDashboard,
     },
     {
-      id: 'certificates',
-      label: 'Certificates',
-      path: '/dashboard/certificates',
-      icon: Award,
-    },
-    {
       id: 'projects',
       label: 'Projects',
       path: '/dashboard/projects',
       icon: FolderKanban,
+    },
+    {
+      id: 'technologies',
+      label: 'Technologies',
+      path: '/dashboard/technologies',
+      icon: Code,
+    },
+    {
+      id: 'certificates',
+      label: 'Certificates',
+      path: '/dashboard/certificates',
+      icon: Award,
     },
   ]
 

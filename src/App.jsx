@@ -4,9 +4,12 @@ import './i18n'; // ...initialize i18n before the app
 
 import { AuthProvider } from './contexts/AuthContext'
 import Portfolio from './components/Portfolio.jsx'
-import Login from './components/Login.jsx'
-import Dashboard from './components/Dashboard.jsx'
-import ProtectedRoute from './components/ProtectedRoute.jsx'
+import Login from './pages/auth/Login.jsx'
+import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
+import Dashboard from './pages/dashboard/Dashboard.jsx'
+import Certificates from './pages/dashboard/Certificates.jsx'
+import Projects from './pages/dashboard/Projects.jsx'
+import ProtectedRoute from './components/dashboard/ProtectedRoute.jsx'
 
 function App() {
   return (
@@ -18,10 +21,14 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="certificates" element={<Certificates />} />
+          <Route path="projects" element={<Projects />} />
+        </Route>
       </Routes>
     </AuthProvider>
   )

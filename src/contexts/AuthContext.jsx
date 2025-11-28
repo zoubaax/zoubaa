@@ -45,8 +45,40 @@ export const AuthProvider = ({ children }) => {
   }
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut()
-    return { error }
+    try {
+      // Try to sign out from Supabase
+      // Use scope: 'local' to sign out from this device only
+      // Use scope: 'global' to sign out from all devices
+      const { error } = await supabase.auth.signOut({ scope: 'local' })
+      
+      // Always clear local state regardless of error
+      // This ensures the UI updates even if there's a network issue
+      setUser(null)
+      setSession(null)
+      
+      if (error) {
+        console.error('Sign out error:', error)
+        // If it's a network error or session already invalid, we still consider it successful
+        // since we've cleared the local state
+        if (error.message?.includes('session') || error.message?.includes('network')) {
+          console.warn('Sign out had minor error but state cleared:', error.message)
+          return { error: null }
+        }
+        return { error }
+      }
+      
+      return { error: null }
+    } catch (err) {
+      console.error('Sign out exception:', err)
+      // Even on exception, clear local state
+      setUser(null)
+      setSession(null)
+      // If it's just a network issue, we can still proceed
+      if (err.message?.includes('network') || err.message?.includes('fetch')) {
+        return { error: null }
+      }
+      return { error: err }
+    }
   }
 
   const value = {

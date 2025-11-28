@@ -3,6 +3,7 @@ import { Award, Calendar, ExternalLink, Plus, Edit, Trash2, X } from 'lucide-rea
 import TargetCursor from '../../hooks/TargetCursor'
 import { getCertificates, createCertificate, updateCertificate, deleteCertificate } from '../../services/certificatesService'
 import CertificateForm from '../../components/dashboard/CertificateForm'
+import { useTheme } from '../../contexts/ThemeContext'
 
 function Certificates() {
   const [certificates, setCertificates] = useState([])
@@ -11,6 +12,7 @@ function Certificates() {
   const [editingCertificate, setEditingCertificate] = useState(null)
   const [formLoading, setFormLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { isDarkMode } = useTheme()
 
   useEffect(() => {
     loadCertificates()
@@ -104,8 +106,10 @@ function Certificates() {
 
   if (loading) {
     return (
-      <div className="relative min-h-full flex items-center justify-center">
-        <div className="text-white text-lg">Loading certificates...</div>
+      <div className={`relative min-h-full flex items-center justify-center ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
+        <div className="text-lg">Loading certificates...</div>
       </div>
     )
   }
@@ -123,14 +127,26 @@ function Certificates() {
           <div className="mb-8 flex items-center justify-between">
             <div>
               <div className="cursor-target inline-flex items-center gap-4 mb-6">
-                <div className="w-12 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500"></div>
-                <span className="text-sm font-semibold tracking-widest uppercase text-cyan-400">
+                <div className={`w-12 h-0.5 bg-gradient-to-r ${
+                  isDarkMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'
+                }`}></div>
+                <span className={`text-sm font-semibold tracking-widest uppercase ${
+                  isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                }`}>
                   Achievements
                 </span>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+                <div className={`w-12 h-0.5 bg-gradient-to-r ${
+                  isDarkMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'
+                }`}></div>
               </div>
-              <h1 className="text-4xl font-bold text-white mb-4">My Certificates</h1>
-              <p className="text-gray-300 text-lg">
+              <h1 className={`text-4xl font-bold mb-4 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
+                My Certificates
+              </h1>
+              <p className={`text-lg ${
+                isDarkMode ? 'text-cyan-300' : 'text-gray-700'
+              }`}>
                 Manage your professional certifications
               </p>
             </div>
@@ -147,7 +163,11 @@ function Certificates() {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/50 text-red-200">
+            <div className={`mb-6 p-4 rounded-xl border ${
+              isDarkMode 
+                ? 'bg-red-500/20 border-red-500/50 text-red-200' 
+                : 'bg-red-50 border-red-200 text-red-700'
+            }`}>
               {error}
             </div>
           )}
@@ -155,14 +175,20 @@ function Certificates() {
           {/* Form Modal */}
           {showForm && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-              <div className="bg-gray-900 rounded-2xl border border-white/10 p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className={`rounded-2xl border p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto ${
+                isDarkMode ? 'bg-gray-900 border-white/10' : 'bg-white border-blue-200'
+              }`}>
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className={`text-2xl font-bold ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>
                     {editingCertificate ? 'Edit Certificate' : 'Create New Certificate'}
                   </h2>
                   <button
                     onClick={handleCancel}
-                    className="p-2 rounded-lg text-white hover:bg-white/10 transition-all"
+                    className={`p-2 rounded-lg transition-all ${
+                      isDarkMode ? 'text-white hover:bg-white/10' : 'text-gray-700 hover:bg-gray-200'
+                    }`}
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -182,9 +208,19 @@ function Certificates() {
             <>
               {certificates.length === 0 ? (
                 <div className="text-center py-20">
-                  <Award className="w-20 h-20 text-gray-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-400 mb-2">No Certificates Yet</h3>
-                  <p className="text-gray-500 mb-6">Get started by adding your first certificate.</p>
+                  <Award className={`w-20 h-20 mx-auto mb-4 ${
+                    isDarkMode ? 'text-gray-500' : 'text-gray-400'
+                  }`} />
+                  <h3 className={`text-xl font-semibold mb-2 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
+                    No Certificates Yet
+                  </h3>
+                  <p className={`mb-6 ${
+                    isDarkMode ? 'text-gray-500' : 'text-gray-500'
+                  }`}>
+                    Get started by adding your first certificate.
+                  </p>
                   <button
                     onClick={handleCreate}
                     className="cursor-target inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all"
@@ -198,7 +234,11 @@ function Certificates() {
                   {certificates.map((cert) => (
                     <div
                       key={cert.id}
-                      className="cursor-target group relative bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 p-6 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 transform hover:-translate-y-2"
+                      className={`cursor-target group relative backdrop-blur-lg rounded-2xl border p-6 transition-all duration-500 transform hover:-translate-y-2 ${
+                        isDarkMode
+                          ? 'bg-white/5 border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
+                          : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/10'
+                      }`}
                     >
                       {/* Certificate Image */}
                       {cert.image_url ? (
@@ -219,12 +259,16 @@ function Certificates() {
 
                       {/* Certificate Info */}
                       <div className="space-y-3">
-                        <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                        <h3 className={`text-xl font-bold group-hover:text-cyan-400 transition-colors ${
+                          isDarkMode ? 'text-white' : 'text-gray-900'
+                        }`}>
                           {cert.title}
                         </h3>
                         
                         <div className="space-y-2">
-                          <div className="flex items-center gap-2 text-gray-300">
+                          <div className={`flex items-center gap-2 ${
+                            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                          }`}>
                             <Calendar className="w-4 h-4" />
                             <span className="text-sm">
                               {new Date(cert.created_at).toLocaleDateString('en-US', {
@@ -244,7 +288,11 @@ function Certificates() {
                             href={cert.show_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-all group-hover:border-cyan-400/50"
+                            className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg border transition-all group-hover:border-cyan-400/50 ${
+                              isDarkMode
+                                ? 'bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border-blue-500/30'
+                                : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200'
+                            }`}
                           >
                             <ExternalLink className="w-4 h-4" />
                             <span className="text-sm font-medium">Verify</span>
@@ -253,14 +301,22 @@ function Certificates() {
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleEdit(cert)}
-                            className="cursor-target p-2 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-all"
+                            className={`cursor-target p-2 rounded-lg border transition-all ${
+                              isDarkMode
+                                ? 'bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border-blue-500/30'
+                                : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border-blue-200'
+                            }`}
                             aria-label="Edit certificate"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(cert.id)}
-                            className="cursor-target p-2 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 transition-all"
+                            className={`cursor-target p-2 rounded-lg border transition-all ${
+                              isDarkMode
+                                ? 'bg-red-600/20 hover:bg-red-600/30 text-red-300 border-red-500/30'
+                                : 'bg-red-50 hover:bg-red-100 text-red-700 border-red-200'
+                            }`}
                             aria-label="Delete certificate"
                           >
                             <Trash2 className="w-4 h-4" />

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
+import { useTheme } from '../../contexts/ThemeContext'
 import { useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Award, FolderKanban, Code, User, Calendar, Mail } from 'lucide-react'
 import TargetCursor from '../../hooks/TargetCursor'
@@ -9,6 +10,7 @@ import { getTechnologies } from '../../services/technologiesService'
 
 function Dashboard() {
   const { user } = useAuth()
+  const { isDarkMode } = useTheme()
   const navigate = useNavigate()
   const [projectsCount, setProjectsCount] = useState(0)
   const [certificatesCount, setCertificatesCount] = useState(0)
@@ -44,21 +46,21 @@ function Dashboard() {
       label: 'Projects',
       value: loading ? '...' : projectsCount.toString(),
       icon: FolderKanban,
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-cyan-500 to-blue-500',
       onClick: () => navigate('/dashboard/projects'),
     },
     {
       label: 'Technologies',
       value: loading ? '...' : technologiesCount.toString(),
       icon: Code,
-      color: 'from-green-500 to-emerald-500',
+      color: 'from-cyan-500 to-blue-500',
       onClick: () => navigate('/dashboard/technologies'),
     },
     {
       label: 'Certificates',
       value: loading ? '...' : certificatesCount.toString(),
       icon: Award,
-      color: 'from-blue-500 to-cyan-500',
+      color: 'from-cyan-500 to-blue-500',
       onClick: () => navigate('/dashboard/certificates'),
     },
   ]
@@ -75,14 +77,16 @@ function Dashboard() {
           {/* Welcome Section */}
           <div className="mb-8">
             <div className="cursor-target inline-flex items-center gap-4 mb-6">
-              <div className="w-12 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500"></div>
-              <span className="text-sm font-semibold tracking-widest uppercase text-cyan-400">
+              <div className={`w-12 h-0.5 bg-gradient-to-r ${isDarkMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
+              <span className={`text-sm font-semibold tracking-widest uppercase ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
                 Overview
               </span>
-              <div className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+              <div className={`w-12 h-0.5 bg-gradient-to-r ${isDarkMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'}`}></div>
             </div>
-            <h1 className="text-4xl font-bold text-white mb-2">Welcome Back!</h1>
-            <p className="text-gray-300 text-lg">
+            <h1 className={`text-4xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Welcome Back!
+            </h1>
+            <p className={`text-lg ${isDarkMode ? 'text-cyan-300' : 'text-gray-700'}`}>
               Here's an overview of your dashboard
             </p>
           </div>
@@ -95,12 +99,20 @@ function Dashboard() {
                 <button
                   key={stat.label}
                   onClick={stat.onClick}
-                  className="cursor-target group relative bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 p-6 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-500 transform hover:-translate-y-2 text-left"
+                  className={`cursor-target group relative backdrop-blur-lg rounded-2xl border p-6 transition-all duration-500 transform hover:-translate-y-2 text-left ${
+                    isDarkMode 
+                      ? 'bg-white/5 border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10' 
+                      : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/10'
+                  }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm font-medium mb-2">{stat.label}</p>
-                      <p className="text-3xl font-bold text-white">{stat.value}</p>
+                      <p className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
+                        {stat.label}
+                      </p>
+                      <p className={`text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        {stat.value}
+                      </p>
                     </div>
                     <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                       <Icon className="w-8 h-8 text-white" />
@@ -113,26 +125,32 @@ function Dashboard() {
 
           {/* User Information Card */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 p-6">
+            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${
+              isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
+            }`}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
                   <User className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white">User Information</h3>
+                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  User Information
+                </h3>
               </div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-gray-400" />
+                  <Mail className={`w-5 h-5 ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`} />
                   <div>
-                    <p className="text-sm text-gray-400">Email</p>
-                    <p className="text-white font-medium">{user?.email || 'N/A'}</p>
+                    <p className={`text-sm ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>Email</p>
+                    <p className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      {user?.email || 'N/A'}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Calendar className="w-5 h-5 text-gray-400" />
+                  <Calendar className={`w-5 h-5 ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`} />
                   <div>
-                    <p className="text-sm text-gray-400">Last Sign In</p>
-                    <p className="text-white font-medium">
+                    <p className={`text-sm ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>Last Sign In</p>
+                    <p className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                       {user?.last_sign_in_at 
                         ? new Date(user.last_sign_in_at).toLocaleDateString('en-US', {
                             year: 'numeric',
@@ -145,45 +163,67 @@ function Dashboard() {
                     </p>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-white/10">
-                  <p className="text-sm text-gray-400 mb-1">User ID</p>
-                  <p className="text-white font-mono text-xs break-all">{user?.id || 'N/A'}</p>
-                </div>
               </div>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-white/10 p-6">
+            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${
+              isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
+            }`}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
                   <LayoutDashboard className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Quick Navigation</h3>
+                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Quick Navigation
+                </h3>
               </div>
               <div className="space-y-3">
                 <button
                   onClick={() => navigate('/dashboard/projects')}
-                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
+                    isDarkMode 
+                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white' 
+                      : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
+                  }`}
                 >
-                  <FolderKanban className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <FolderKanban className={`w-5 h-5 group-hover:scale-110 transition-transform ${
+                    isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                  }`} />
                   <span className="font-medium">View Projects</span>
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/technologies')}
-                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
+                    isDarkMode 
+                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white' 
+                      : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
+                  }`}
                 >
-                  <Code className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <Code className={`w-5 h-5 group-hover:scale-110 transition-transform ${
+                    isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                  }`} />
                   <span className="font-medium">View Technologies</span>
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/certificates')}
-                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400/50 text-white transition-all duration-300 group"
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
+                    isDarkMode 
+                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white' 
+                      : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
+                  }`}
                 >
-                  <Award className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <Award className={`w-5 h-5 group-hover:scale-110 transition-transform ${
+                    isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                  }`} />
                   <span className="font-medium">View Certificates</span>
                 </button>
                 <button
                   onClick={() => navigate('/')}
-                  className="cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 hover:border-cyan-400/50 text-blue-300 transition-all duration-300 group"
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
+                    isDarkMode 
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border-cyan-400/30 hover:border-cyan-400/50 text-cyan-400' 
+                      : 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border-blue-400/30 hover:border-blue-400 text-blue-700'
+                  }`}
                 >
                   <span className="font-medium">Go to Portfolio</span>
                 </button>
@@ -197,4 +237,3 @@ function Dashboard() {
 }
 
 export default Dashboard
-

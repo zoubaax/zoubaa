@@ -50,3 +50,4 @@ If you see errors about missing environment variables:
 3. Restart your dev server after creating/updating `.env`
 4. Verify your Supabase credentials are correct
 
+

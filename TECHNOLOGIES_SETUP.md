@@ -112,3 +112,4 @@ If you had projects with technologies stored as TEXT[] array:
 3. Add some technologies (you can create a Technologies management page in dashboard)
 4. Link technologies to your projects
 
+

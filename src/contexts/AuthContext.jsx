@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { supabase, isSupabaseConfigured } from '../lib/supabase'
 
 const AuthContext = createContext({})
 
@@ -55,11 +55,39 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { data, error }
+    // Check if Supabase is configured
+    if (!isSupabaseConfigured) {
+      return {
+        data: null,
+        error: {
+          message: 'Supabase is not configured. Please set up VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file. See ENV_SETUP.md for instructions.',
+          name: 'ConfigurationError'
+        }
+      }
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      return { data, error }
+    } catch (err) {
+      // Handle network errors specifically
+      if (err.message?.includes('Failed to fetch') || err.message?.includes('ERR_NAME_NOT_RESOLVED')) {
+        return {
+          data: null,
+          error: {
+            message: 'Cannot connect to Supabase. Please check your VITE_SUPABASE_URL in the .env file.',
+            name: 'NetworkError'
+          }
+        }
+      }
+      return {
+        data: null,
+        error: err
+      }
+    }
   }
 
   const signOut = async () => {

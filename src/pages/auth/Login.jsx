@@ -30,12 +30,22 @@ function Login() {
       const { data, error: signInError } = await signIn(email, password)
       
       if (signInError) {
-        setError(signInError.message || 'Invalid email or password')
+        // Show configuration errors more prominently
+        if (signInError.name === 'ConfigurationError' || signInError.name === 'NetworkError') {
+          setError(signInError.message)
+        } else {
+          setError(signInError.message || 'Invalid email or password')
+        }
       } else if (data?.user) {
         navigate('/dashboard')
       }
     } catch (err) {
-      setError('An unexpected error occurred. Please try again.')
+      // Handle network errors
+      if (err.message?.includes('Failed to fetch') || err.message?.includes('ERR_NAME_NOT_RESOLVED')) {
+        setError('Cannot connect to Supabase. Please check your .env file configuration. See ENV_SETUP.md for setup instructions.')
+      } else {
+        setError('An unexpected error occurred. Please try again.')
+      }
     } finally {
       setLoading(false)
     }

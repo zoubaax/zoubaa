@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { Mail, Lock, LogIn } from 'lucide-react'
-import TargetCursor from '../../hooks/TargetCursor'
+
 import logoLight from "../../assets/img/1.png"
 import logoDark from "../../assets/img/2.png"
 
@@ -28,7 +28,7 @@ function Login() {
 
     try {
       const { data, error: signInError } = await signIn(email, password)
-      
+
       if (signInError) {
         // Show configuration errors more prominently
         if (signInError.name === 'ConfigurationError' || signInError.name === 'NetworkError') {
@@ -54,22 +54,18 @@ function Login() {
   return (
     <div className="relative">
       <div className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${darkMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
-        <TargetCursor
-          spinDuration={2}
-          hideDefaultCursor={true}
-        />
 
         <div className="max-w-md mx-auto">
           {/* Logo */}
           <div className="text-center mb-12">
             <div className="cursor-target flex justify-center mb-8">
-              <img 
-                src={darkMode ? logoDark : logoLight} 
+              <img
+                src={darkMode ? logoDark : logoLight}
                 alt="Logo"
                 className="h-16 object-contain"
               />
             </div>
-            
+
             <div className="cursor-target inline-flex items-center gap-4 mb-6">
               <div className={`w-12 h-0.5 bg-gradient-to-r ${darkMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
               <span className={`text-sm font-semibold tracking-widest uppercase ${darkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
@@ -84,16 +80,14 @@ function Login() {
           </div>
 
           {/* Login Form */}
-          <div className={`cursor-target p-8 rounded-3xl border-2 backdrop-blur-sm transition-all duration-500 ${
-            darkMode 
-              ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10' 
+          <div className={`cursor-target p-8 rounded-3xl border-2 backdrop-blur-sm transition-all duration-500 ${darkMode
+              ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
               : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/5'
-          }`}>
+            }`}>
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className={`bg-red-500/20 border border-red-500/50 px-4 py-3 rounded-xl text-sm ${
-                  darkMode ? 'text-red-200' : 'text-red-700 bg-red-50 border-red-200'
-                }`}>
+                <div className={`bg-red-500/20 border border-red-500/50 px-4 py-3 rounded-xl text-sm ${darkMode ? 'text-red-200' : 'text-red-700 bg-red-50 border-red-200'
+                  }`}>
                   {error}
                 </div>
               )}
@@ -112,11 +106,10 @@ function Login() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none ${
-                    darkMode
+                  className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none ${darkMode
                       ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
                       : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
-                  }`}
+                    }`}
                   placeholder="Enter your email"
                 />
               </div>
@@ -135,11 +128,10 @@ function Login() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none ${
-                    darkMode
+                  className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none ${darkMode
                       ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
                       : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
-                  }`}
+                    }`}
                   placeholder="Enter your password"
                 />
               </div>
@@ -148,11 +140,10 @@ function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`cursor-target w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-semibold transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
-                  darkMode
+                className={`cursor-target w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-semibold transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${darkMode
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
                     : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
-                }`}
+                  }`}
               >
                 {loading ? (
                   <>

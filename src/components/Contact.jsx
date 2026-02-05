@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, MessageCircle, User, ArrowRight, Heart, Code, Coffee, Github, Linkedin, Twitter, Instagram } from 'lucide-react';
-import TargetCursor from '../hooks/TargetCursor';
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
 import { useTranslation } from 'react-i18next';
@@ -121,12 +120,6 @@ const Contact = ({ drakeMode }) => {
     <div className="relative">
       <div id="contact" className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
         }`}>
-        {/* Target Cursor */}
-        <TargetCursor
-          spinDuration={2}
-          hideDefaultCursor={true}
-        />
-
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
@@ -174,13 +167,13 @@ const Contact = ({ drakeMode }) => {
                     key={index}
                     href={item.link}
                     className={`cursor-target group flex items-center gap-4 p-4 rounded-2xl border transition-all duration-300 transform hover:-translate-y-1 ${drakeMode
-                        ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-500/10'
-                        : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/5'
+                      ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-500/10'
+                      : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/5'
                       }`}
                   >
                     <div className={`p-3 rounded-xl transition-all duration-300 group-hover:scale-110 ${drakeMode
-                        ? 'bg-cyan-500/20 text-cyan-400'
-                        : 'bg-blue-500/10 text-blue-600'
+                      ? 'bg-cyan-500/20 text-cyan-400'
+                      : 'bg-blue-500/10 text-blue-600'
                       }`}>
                       {item.icon}
                     </div>
@@ -202,8 +195,8 @@ const Contact = ({ drakeMode }) => {
 
               {/* Availability Status */}
               <div className={`p-6 rounded-2xl border backdrop-blur-sm ${drakeMode
-                  ? 'bg-[#050A30] border-green-500/30'
-                  : 'bg-green-50 border-green-200'
+                ? 'bg-[#050A30] border-green-500/30'
+                : 'bg-green-50 border-green-200'
                 }`}>
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
@@ -221,8 +214,8 @@ const Contact = ({ drakeMode }) => {
 
             {/* Contact Form */}
             <div className={`cursor-target p-8 rounded-3xl border-2 backdrop-blur-sm transition-all duration-500 ${drakeMode
-                ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
-                : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/5'
+              ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
+              : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/5'
               }`}>
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Field */}
@@ -239,8 +232,8 @@ const Contact = ({ drakeMode }) => {
                     onChange={handleChange}
                     required
                     className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none ${drakeMode
-                        ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
-                        : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
+                      ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
+                      : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
                       }`}
                     placeholder={t('form.placeholder_name')}
                   />
@@ -260,8 +253,8 @@ const Contact = ({ drakeMode }) => {
                     onChange={handleChange}
                     required
                     className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none ${drakeMode
-                        ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
-                        : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
+                      ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
+                      : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
                       }`}
                     placeholder={t('form.placeholder_email')}
                   />
@@ -281,8 +274,8 @@ const Contact = ({ drakeMode }) => {
                     required
                     rows={6}
                     className={`cursor-target w-full px-4 py-3 rounded-xl border-2 transition-all duration-300 focus:scale-[1.02] focus:outline-none resize-none ${drakeMode
-                        ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
-                        : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
+                      ? 'bg-[#050A30] border-blue-500/30 text-white placeholder-gray-400 focus:border-cyan-400 focus:shadow-lg focus:shadow-cyan-500/20'
+                      : 'bg-white border-blue-200 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/10'
                       }`}
                     placeholder={t('form.placeholder_message')}
                   />
@@ -293,8 +286,8 @@ const Contact = ({ drakeMode }) => {
                   type="submit"
                   disabled={isSubmitting}
                   className={`cursor-target w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-semibold transition-all duration-500 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${drakeMode
-                      ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
-                      : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25'
+                    : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'
                     }`}
                 >
                   {isSubmitting ? (
@@ -338,8 +331,8 @@ const Contact = ({ drakeMode }) => {
                   key={social.name}
                   href={social.url}
                   className={`cursor-target flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${drakeMode
-                      ? 'bg-[#050A30] text-gray-300 hover:bg-gray-700 border border-gray-700'
-                      : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-200'
+                    ? 'bg-[#050A30] text-gray-300 hover:bg-gray-700 border border-gray-700'
+                    : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-200'
                     } ${social.color}`}
                 >
                   {social.icon}
@@ -353,119 +346,108 @@ const Contact = ({ drakeMode }) => {
 
       {/* Footer Section - Matching Hero Section Colors */}
 
-<footer className={`relative overflow-hidden font-sans antialiased ${
-  drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
-}`}>
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-    {/* Main Footer Content */}
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-      {/* Brand Section */}
-      <div className="md:col-span-2">
-        <div className="cursor-target flex items-center gap-3 mb-4">
-   
-          <img 
-            src={drakeMode ? logoDark : logoLight} 
-            alt="ZOUBAA Logo"
-            className="h-12 object-contain"
-          />
-        </div>
-        <p className={`mb-4 max-w-md leading-relaxed ${
-          drakeMode ? 'text-gray-300' : 'text-gray-700'
+      <footer className={`relative overflow-hidden font-sans antialiased ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
         }`}>
-          Full-stack developer and Computer Engineering student passionate about building
-          modern web applications with cutting-edge technologies.
-        </p>
-        <div className="flex gap-4">
-          {socialLinks.map((social) => (
-            <a
-              key={social.name}
-              href={social.url}
-              className={`cursor-target p-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 ${
-                drakeMode
-                  ? 'bg-[#050A30] border border-blue-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:text-white hover:border-cyan-400/50'
-                  : 'bg-white border border-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white hover:border-blue-400 shadow-sm hover:shadow-md'
-              }`}
-            >
-              {social.icon}
-            </a>
-          ))}
-        </div>
-      </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+          {/* Main Footer Content */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            {/* Brand Section */}
+            <div className="md:col-span-2">
+              <div className="cursor-target flex items-center gap-3 mb-4">
 
-      {/* Quick Links */}
-      <div>
-        <h3 className={`text-lg font-semibold mb-4 ${
-          drakeMode ? 'text-white' : 'text-gray-900'
-        }`}>
-          Quick Links
-        </h3>
-        <ul className="space-y-3">
-          {quickLinks.map((link) => (
-            <li key={link.name}>
-              <a
-                href={link.href}
-                className={`cursor-target transition-all duration-300 hover:translate-x-2 inline-block ${
-                  drakeMode 
-                    ? 'text-gray-300 hover:text-cyan-400' 
-                    : 'text-gray-700 hover:text-blue-600'
-                }`}
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+                <img
+                  src={drakeMode ? logoDark : logoLight}
+                  alt="ZOUBAA Logo"
+                  className="h-12 object-contain"
+                />
+              </div>
+              <p className={`mb-4 max-w-md leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                Full-stack developer and Computer Engineering student passionate about building
+                modern web applications with cutting-edge technologies.
+              </p>
+              <div className="flex gap-4">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    className={`cursor-target p-3 rounded-xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 ${drakeMode
+                      ? 'bg-[#050A30] border border-blue-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:text-white hover:border-cyan-400/50'
+                      : 'bg-white border border-blue-200 text-blue-600 hover:bg-blue-500 hover:text-white hover:border-blue-400 shadow-sm hover:shadow-md'
+                      }`}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
 
-      {/* Contact Info */}
-      <div>
-        <h3 className={`text-lg font-semibold mb-4 ${
-          drakeMode ? 'text-white' : 'text-gray-900'
-        }`}>
-          Let's Talk
-        </h3>
-        <div className="space-y-3">
-          <a
-            href="mailto:Itsmezoubaa@gmail.com"
-            className={`cursor-target flex items-center gap-3 transition-all duration-300 hover:translate-x-2 ${
-              drakeMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'
-            }`}
-          >
-            <Mail className="w-4 h-4" />
-            Itsmezoubaa@gmail.com
-          </a>
-          <a
-            href="tel:+212701230904"
-            className={`cursor-target flex items-center gap-3 transition-all duration-300 hover:translate-x-2 ${
-              drakeMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'
-            }`}
-          >
-            <Phone className="w-4 h-4" />
-            +212 701-230904
-          </a>
-          <div className={`flex items-center gap-3 ${
-            drakeMode ? 'text-gray-300' : 'text-gray-700'
-          }`}>
-            <MapPin className="w-4 h-4" />
-            FEZ, Morocco
+            {/* Quick Links */}
+            <div>
+              <h3 className={`text-lg font-semibold mb-4 ${drakeMode ? 'text-white' : 'text-gray-900'
+                }`}>
+                Quick Links
+              </h3>
+              <ul className="space-y-3">
+                {quickLinks.map((link) => (
+                  <li key={link.name}>
+                    <a
+                      href={link.href}
+                      className={`cursor-target transition-all duration-300 hover:translate-x-2 inline-block ${drakeMode
+                        ? 'text-gray-300 hover:text-cyan-400'
+                        : 'text-gray-700 hover:text-blue-600'
+                        }`}
+                    >
+                      {link.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div>
+              <h3 className={`text-lg font-semibold mb-4 ${drakeMode ? 'text-white' : 'text-gray-900'
+                }`}>
+                Let's Talk
+              </h3>
+              <div className="space-y-3">
+                <a
+                  href="mailto:Itsmezoubaa@gmail.com"
+                  className={`cursor-target flex items-center gap-3 transition-all duration-300 hover:translate-x-2 ${drakeMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'
+                    }`}
+                >
+                  <Mail className="w-4 h-4" />
+                  Itsmezoubaa@gmail.com
+                </a>
+                <a
+                  href="tel:+212701230904"
+                  className={`cursor-target flex items-center gap-3 transition-all duration-300 hover:translate-x-2 ${drakeMode ? 'text-gray-300 hover:text-cyan-400' : 'text-gray-700 hover:text-blue-600'
+                    }`}
+                >
+                  <Phone className="w-4 h-4" />
+                  +212 701-230904
+                </a>
+                <div className={`flex items-center gap-3 ${drakeMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                  <MapPin className="w-4 h-4" />
+                  FEZ, Morocco
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Bottom Bar */}
+          <div className={`pt-8 border-t ${drakeMode ? 'border-blue-500/30' : 'border-blue-200'
+            }`}>
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+              <div className={`flex items-center gap-2 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-500'
+                }`}>
+                <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    {/* Bottom Bar */}
-    <div className={`pt-8 border-t ${
-      drakeMode ? 'border-blue-500/30' : 'border-blue-200'
-    }`}>
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-        <div className={`flex items-center gap-2 text-sm ${
-          drakeMode ? 'text-gray-300' : 'text-gray-500'
-        }`}>
-          <span>{t('footer.copyright', { year: new Date().getFullYear() })}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
+      </footer>
     </div>
   );
 };

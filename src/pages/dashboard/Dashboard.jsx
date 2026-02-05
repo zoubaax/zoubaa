@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
 import { useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Award, FolderKanban, Code, User, Calendar, Mail } from 'lucide-react'
-import TargetCursor from '../../hooks/TargetCursor'
+
 import { getProjects } from '../../services/projectsService'
 import { getCertificates } from '../../services/certificatesService'
 import { getTechnologies } from '../../services/technologiesService'
@@ -28,7 +28,7 @@ function Dashboard() {
       getCertificates(),
       getTechnologies(),
     ])
-    
+
     if (projectsResult.data) {
       setProjectsCount(projectsResult.data.length)
     }
@@ -67,11 +67,7 @@ function Dashboard() {
 
   return (
     <div className="relative min-h-full">
-      <TargetCursor
-        spinDuration={2}
-        hideDefaultCursor={true}
-      />
-      
+
       <div className="p-6 sm:p-8 lg:p-12">
         <div className="max-w-7xl mx-auto">
           {/* Welcome Section */}
@@ -99,11 +95,10 @@ function Dashboard() {
                 <button
                   key={stat.label}
                   onClick={stat.onClick}
-                  className={`cursor-target group relative backdrop-blur-lg rounded-2xl border p-6 transition-all duration-500 transform hover:-translate-y-2 text-left ${
-                    isDarkMode 
-                      ? 'bg-white/5 border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10' 
+                  className={`cursor-target group relative backdrop-blur-lg rounded-2xl border p-6 transition-all duration-500 transform hover:-translate-y-2 text-left ${isDarkMode
+                      ? 'bg-white/5 border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
                       : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/10'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -125,9 +120,8 @@ function Dashboard() {
 
           {/* User Information Card */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${
-              isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
-            }`}>
+            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
+              }`}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
                   <User className="w-6 h-6 text-white" />
@@ -151,14 +145,14 @@ function Dashboard() {
                   <div>
                     <p className={`text-sm ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'}`}>Last Sign In</p>
                     <p className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                      {user?.last_sign_in_at 
+                      {user?.last_sign_in_at
                         ? new Date(user.last_sign_in_at).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })
                         : 'N/A'}
                     </p>
                   </div>
@@ -166,9 +160,8 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${
-              isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
-            }`}>
+            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
+              }`}>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
                   <LayoutDashboard className="w-6 h-6 text-white" />
@@ -180,50 +173,43 @@ function Dashboard() {
               <div className="space-y-3">
                 <button
                   onClick={() => navigate('/dashboard/projects')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
-                    isDarkMode 
-                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white' 
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
+                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white'
                       : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
-                  }`}
+                    }`}
                 >
-                  <FolderKanban className={`w-5 h-5 group-hover:scale-110 transition-transform ${
-                    isDarkMode ? 'text-cyan-400' : 'text-blue-600'
-                  }`} />
+                  <FolderKanban className={`w-5 h-5 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                    }`} />
                   <span className="font-medium">View Projects</span>
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/technologies')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
-                    isDarkMode 
-                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white' 
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
+                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white'
                       : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
-                  }`}
+                    }`}
                 >
-                  <Code className={`w-5 h-5 group-hover:scale-110 transition-transform ${
-                    isDarkMode ? 'text-cyan-400' : 'text-blue-600'
-                  }`} />
+                  <Code className={`w-5 h-5 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                    }`} />
                   <span className="font-medium">View Technologies</span>
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/certificates')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
-                    isDarkMode 
-                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white' 
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
+                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white'
                       : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
-                  }`}
+                    }`}
                 >
-                  <Award className={`w-5 h-5 group-hover:scale-110 transition-transform ${
-                    isDarkMode ? 'text-cyan-400' : 'text-blue-600'
-                  }`} />
+                  <Award className={`w-5 h-5 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'
+                    }`} />
                   <span className="font-medium">View Certificates</span>
                 </button>
                 <button
                   onClick={() => navigate('/')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${
-                    isDarkMode 
-                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border-cyan-400/30 hover:border-cyan-400/50 text-cyan-400' 
+                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border-cyan-400/30 hover:border-cyan-400/50 text-cyan-400'
                       : 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border-blue-400/30 hover:border-blue-400 text-blue-700'
-                  }`}
+                    }`}
                 >
                   <span className="font-medium">Go to Portfolio</span>
                 </button>

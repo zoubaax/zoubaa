@@ -5,7 +5,7 @@ const corsHeaders = {
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-serve(async (req) => {
+serve(async (req: Request) => {
     // Handle CORS
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders })
@@ -16,6 +16,7 @@ serve(async (req) => {
 
         // Using AIML API - OpenAI Compatible
         // Get your key at: https://aimlapi.com/
+        // @ts-ignore: Deno is available in Supabase environment
         const apiKey = Deno.env.get('AIML_API_KEY')
 
         if (!apiKey) {
@@ -72,7 +73,7 @@ serve(async (req) => {
             JSON.stringify({ reply }),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         )
-    } catch (error) {
+    } catch (error: any) {
         return new Response(
             JSON.stringify({ error: error.message }),
             { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

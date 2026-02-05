@@ -6,6 +6,7 @@ import MySkills from './MySkills.jsx'
 import Contact from './Contact.jsx'
 import Preloader from './Preloader.jsx'
 import ChatBot from './ChatBot.jsx'
+import TargetCursor from '../hooks/TargetCursor'
 
 function Portfolio() {
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,12 @@ function Portfolio() {
       width: '100vw',
       position: 'relative',
     }}>
+      {/* Global Custom Cursor */}
+      <TargetCursor
+        spinDuration={2}
+        hideDefaultCursor={true}
+      />
+
       <Navbar drakeMode={drakeMode} setDrakeMode={setDrakeMode} />
       <main className="relative z-10">
         <section id="home" className="min-h-screen">

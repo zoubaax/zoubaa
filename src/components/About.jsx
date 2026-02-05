@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GraduationCap, Briefcase, Calendar, MapPin, Award, Code } from 'lucide-react';
 import LogoLoop from '../hooks/LogoLoop';
-import TargetCursor from '../hooks/TargetCursor';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
 
@@ -33,13 +32,12 @@ import MachineLearning from '../assets/img/brain.png';
 import dotNet from '../assets/img/NET.png';
 import Python from '../assets/img/Python.png';
 import PostgresSQL from '../assets/img/PostgresSQL.png';
-import supabase from '../assets/img/supabase.png';
+import supabase_img from '../assets/img/supabase.png';
 
 // Import company logos - you'll need to add these images to your assets
 import LOGOFMPDF from '../assets/img/LOGO-FMPDF.png';
 import NewDev from '../assets/img/NewDev.jpeg';
 import fiverr from '../assets/img/fiverr.webp';
-
 const WorkHistory = ({ drakeMode }) => {
   const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
@@ -68,7 +66,7 @@ const WorkHistory = ({ drakeMode }) => {
       '.NET': dotNet,
       'Python': Python,
       'PostgreSQL': PostgresSQL,
-      'Supabase': supabase,
+      'Supabase': supabase_img,
     };
     return techIcons[tech];
   };
@@ -80,7 +78,7 @@ const WorkHistory = ({ drakeMode }) => {
       'Fiverr - Freelance': fiverr,
 
     };
-    return companyLogos[company] || defaultCompanyLogo;
+    return companyLogos[company] || null;
   };
 
   const experiences = [
@@ -98,7 +96,7 @@ const WorkHistory = ({ drakeMode }) => {
         "Developed medical management systems for healthcare clients",
       ]
     },
-   
+
     {
       role: "Full-Stack Developer",
       company: "NewDev Maroc",
@@ -113,7 +111,7 @@ const WorkHistory = ({ drakeMode }) => {
         "Automated DevOps deployment"
       ]
     },
-     {
+    {
       role: "Full-Stack Developer",
       company: "The Center for E-Learning, Simulation and Telemedicine",
       duration: "Jan 2023 — Present",
@@ -169,8 +167,8 @@ const WorkHistory = ({ drakeMode }) => {
           <div
             key={i}
             className={`cursor-target flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 hover:scale-105 ${drakeMode
-                ? 'border-gray-600 bg-gray-800 hover:border-blue-400/50'
-                : 'border-gray-300 bg-white hover:border-blue-300'
+              ? 'border-gray-600 bg-gray-800 hover:border-blue-400/50'
+              : 'border-gray-300 bg-white hover:border-blue-300'
               }`}
           >
             {techIcon && (
@@ -191,12 +189,6 @@ const WorkHistory = ({ drakeMode }) => {
 
   return (
     <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
-      {/* Target Cursor */}
-      <TargetCursor
-        spinDuration={2}
-        hideDefaultCursor={true}
-      />
-
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-20">
@@ -243,8 +235,8 @@ const WorkHistory = ({ drakeMode }) => {
               <Card
                 key={index}
                 className={`${drakeMode
-                    ? 'bg-[#0A1A3A] border-blue-500/30 text-white'
-                    : 'bg-white border-blue-200 text-gray-900'
+                  ? 'bg-[#0A1A3A] border-blue-500/30 text-white'
+                  : 'bg-white border-blue-200 text-gray-900'
                   } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
@@ -261,12 +253,12 @@ const WorkHistory = ({ drakeMode }) => {
                       </p>
                     </div>
                     <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${edu.status === 'In Progress'
-                        ? drakeMode
-                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                          : 'bg-blue-100 text-blue-700 border border-blue-200'
-                        : drakeMode
-                          ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                          : 'bg-green-100 text-green-700 border border-green-200'
+                      ? drakeMode
+                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                        : 'bg-blue-100 text-blue-700 border border-blue-200'
+                      : drakeMode
+                        ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                        : 'bg-green-100 text-green-700 border border-green-200'
                       }`}>
                       {edu.status}
                     </span>
@@ -302,8 +294,8 @@ const WorkHistory = ({ drakeMode }) => {
                         <span
                           key={i}
                           className={`cursor-target px-3 py-1 text-sm rounded-full border transition-all duration-300 hover:scale-105 ${drakeMode
-                              ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-blue-400'
-                              : 'bg-blue-50 text-blue-700 border-blue-200 hover:border-blue-400'
+                            ? 'bg-blue-500/10 text-blue-300 border-blue-500/20 hover:border-blue-400'
+                            : 'bg-blue-50 text-blue-700 border-blue-200 hover:border-blue-400'
                             }`}
                         >
                           {course}
@@ -336,8 +328,8 @@ const WorkHistory = ({ drakeMode }) => {
                 <Card
                   key={index}
                   className={`${drakeMode
-                      ? 'bg-[#0A1A3A] border-blue-500/30 text-white'
-                      : 'bg-white border-blue-200 text-gray-900'
+                    ? 'bg-[#0A1A3A] border-blue-500/30 text-white'
+                    : 'bg-white border-blue-200 text-gray-900'
                     } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
@@ -364,8 +356,8 @@ const WorkHistory = ({ drakeMode }) => {
                       </div>
 
                       <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${drakeMode
-                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                          : 'bg-blue-100 text-blue-700 border border-blue-200'
+                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                        : 'bg-blue-100 text-blue-700 border border-blue-200'
                         }`}>
                         {exp.type}
                       </span>

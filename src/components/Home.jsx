@@ -1,10 +1,9 @@
-import TargetCursor from '../hooks/TargetCursor';
+import { useTranslation } from 'react-i18next';
 import zoubaaImage from '../assets/img/zoubaa2.jpg';
 import handIcon from '../assets/img/hand-icon.png';
-import rightArrow from '../assets/img/right-arrow-white.png';
+import rightArrow from '../assets/img/right-arrow-bold.png';
 import downloadIcon from '../assets/img/download-icon.png';
 import resumePDF from '../assets/img/ZOUBAA-Mohammed.pdf';
-import { useTranslation } from 'react-i18next';
 
 const scrollToSection = (e, sectionId) => {
   e.preventDefault();
@@ -17,15 +16,11 @@ const scrollToSection = (e, sectionId) => {
   }
 };
 
-export default function App({ drakeMode }) {
+export default function Home({ drakeMode }) {
   const { t } = useTranslation();
 
   return (
     <div className={`min-h-screen flex items-center justify-center p-10 font-sans antialiased ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
-      <TargetCursor
-        spinDuration={2}
-        hideDefaultCursor={true}
-      />
 
       <div className="max-w-6xl w-full flex flex-col py-12 md:flex-row items-center gap-8">
         {/* Image Column - First on Mobile, Right on Desktop */}

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
-import TargetCursor from '../hooks/TargetCursor';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -12,7 +11,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  
+
   // Check if we're on the portfolio page (home page)
   const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa';
 
@@ -55,27 +54,22 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
 
   return (
     <>
-      <TargetCursor 
-        spinDuration={2}
-        hideDefaultCursor={true}
-      />
-      
+
       <nav
-        className={`w-full fixed px-6 lg:px-12 xl:px-16 py-5 flex items-center justify-between z-50 transition-all duration-500 ${
-          scrolled
-            ? drakeMode
-              ? "bg-[#050A30]/80 backdrop-blur-xl shadow-2xl"
-              : "bg-white/80 backdrop-blur-xl shadow-lg"
-            : drakeMode
+        className={`w-full fixed px-6 lg:px-12 xl:px-16 py-5 flex items-center justify-between z-50 transition-all duration-500 ${scrolled
+          ? drakeMode
+            ? "bg-[#050A30]/80 backdrop-blur-xl shadow-2xl"
+            : "bg-white/80 backdrop-blur-xl shadow-lg"
+          : drakeMode
             ? "bg-[#050A30]"
             : "bg-transparent"
-        }`}
+          }`}
       >
         {/* Logo */}
         <div className="flex-shrink-0 cursor-target">
-          <a 
-            href={isPortfolioPage ? "#home" : "/"} 
-            aria-label="Go to home" 
+          <a
+            href={isPortfolioPage ? "#home" : "/"}
+            aria-label="Go to home"
             onClick={handleLogoClick}
           >
             <img
@@ -88,11 +82,10 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
 
         {/* Desktop Navigation */}
         <ul
-          className={`hidden md:flex items-center gap-8 rounded-full px-10 py-3 mx-8 backdrop-blur-sm border font-medium transition-all duration-300 ${
-            drakeMode
-              ? "bg-[#0A1A3A]/80 border-blue-500/30 text-white"
-              : "bg-white/80 border-gray-200 text-gray-700 shadow-sm"
-          }`}
+          className={`hidden md:flex items-center gap-8 rounded-full px-10 py-3 mx-8 backdrop-blur-sm border font-medium transition-all duration-300 ${drakeMode
+            ? "bg-[#0A1A3A]/80 border-blue-500/30 text-white"
+            : "bg-white/80 border-gray-200 text-gray-700 shadow-sm"
+            }`}
         >
           {/* only include routes that exist and map Home -> "/" */}
           {['Home', 'About', 'Skills', 'Certificates', 'Contact'].map((item) => {
@@ -104,7 +97,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
               Certificates: 'nav.certificates',
               Contact: 'nav.contact'
             }[item];
-            
+
             // Handle Certificates as external link
             if (item === 'Certificates') {
               return (
@@ -116,16 +109,15 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                         e.preventDefault();
                       }
                     }}
-                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
-                      drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
-                    }`}
+                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                      }`}
                   >
                     {t(labelKey)}
                   </a>
                 </li>
               );
             }
-            
+
             // Handle Home link - navigate to portfolio if not on portfolio page
             if (item === 'Home') {
               return (
@@ -140,16 +132,15 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                         scrollToSection(e, 'home');
                       }
                     }}
-                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
-                      drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
-                    }`}
+                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                      }`}
                   >
                     {t(labelKey)}
                   </a>
                 </li>
               );
             }
-            
+
             return (
               <li key={item} className="cursor-target">
                 <a
@@ -162,9 +153,8 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                       scrollToSection(e, id);
                     }
                   }}
-                  className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${
-                    drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
-                  }`}
+                  className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                    }`}
                 >
                   {t(labelKey)}
                 </a>
@@ -178,11 +168,10 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
           {/* Theme Toggle */}
           <button
             onClick={() => setDrakeMode((d) => !d)}
-            className={`cursor-target p-3 rounded-full transition-all duration-300 hover:scale-110 border transform hover:-translate-y-0.5 ${
-              drakeMode
-                ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-transparent hover:shadow-lg hover:shadow-blue-500/30"
-                : "bg-white text-gray-900 border-gray-300 shadow-md hover:shadow-lg"
-            }`}
+            className={`cursor-target p-3 rounded-full transition-all duration-300 hover:scale-110 border transform hover:-translate-y-0.5 ${drakeMode
+              ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white border-transparent hover:shadow-lg hover:shadow-blue-500/30"
+              : "bg-white text-gray-900 border-gray-300 shadow-md hover:shadow-lg"
+              }`}
             aria-label="Toggle Drake Mode"
           >
             {drakeMode ? (
@@ -224,11 +213,10 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, 'contact')}
-            className={`cursor-target hidden lg:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-medium text-sm transform hover:-translate-y-0.5 ${
-              drakeMode
-                ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
-                : "border-gray-400 text-gray-700 hover:bg-gray-100 shadow-sm hover:shadow-lg"
-            }`}
+            className={`cursor-target hidden lg:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-medium text-sm transform hover:-translate-y-0.5 ${drakeMode
+              ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
+              : "border-gray-400 text-gray-700 hover:bg-gray-100 shadow-sm hover:shadow-lg"
+              }`}
           >
             {t('nav.explore')}
             <svg
@@ -272,29 +260,26 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
 
         {/* Mobile Menu Overlay */}
         <div
-          className={`fixed inset-0 z-40 transition-all duration-500 ${
-            menuOpen
-              ? "opacity-100 visible"
-              : "opacity-0 invisible"
-          }`}
+          className={`fixed inset-0 z-40 transition-all duration-500 ${menuOpen
+            ? "opacity-100 visible"
+            : "opacity-0 invisible"
+            }`}
         >
           {/* Backdrop */}
           <div
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              menuOpen 
-                ? "bg-black/40 backdrop-blur-sm" 
-                : "bg-black/0"
-            }`}
+            className={`absolute inset-0 transition-opacity duration-500 ${menuOpen
+              ? "bg-black/40 backdrop-blur-sm"
+              : "bg-black/0"
+              }`}
             onClick={closeMenu}
           />
-          
+
           {/* Menu Panel */}
           <div
-            className={`flex flex-col gap-6 py-24 px-8 fixed top-0 right-0 bottom-0 w-80 h-screen transition-transform duration-500 shadow-2xl ${
-              drakeMode 
-                ? "bg-[#050A30] text-white" 
-                : "bg-white text-gray-900"
-            } ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+            className={`flex flex-col gap-6 py-24 px-8 fixed top-0 right-0 bottom-0 w-80 h-screen transition-transform duration-500 shadow-2xl ${drakeMode
+              ? "bg-[#050A30] text-white"
+              : "bg-white text-gray-900"
+              } ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
           >
             {/* Close Button */}
             <button
@@ -328,7 +313,7 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                 Certificates: 'nav.certificates',
                 Contact: 'nav.contact'
               }[item];
-              
+
               // Handle Certificates as external link
               if (item === 'Certificates') {
                 return (
@@ -340,17 +325,16 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                         e.preventDefault();
                       }
                     }}
-                    className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
-                      drakeMode
-                        ? "border-blue-500/30 hover:text-blue-400"
-                        : "border-gray-200 hover:text-gray-600"
-                    }`}
+                    className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${drakeMode
+                      ? "border-blue-500/30 hover:text-blue-400"
+                      : "border-gray-200 hover:text-gray-600"
+                      }`}
                   >
                     {t(labelKey)}
                   </a>
                 );
               }
-              
+
               // Handle Home link
               if (item === 'Home') {
                 return (
@@ -366,17 +350,16 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                         scrollToSection(e, 'home');
                       }
                     }}
-                    className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
-                      drakeMode
-                        ? "border-blue-500/30 hover:text-blue-400"
-                        : "border-gray-200 hover:text-gray-600"
-                    }`}
+                    className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${drakeMode
+                      ? "border-blue-500/30 hover:text-blue-400"
+                      : "border-gray-200 hover:text-gray-600"
+                      }`}
                   >
                     {t(labelKey)}
                   </a>
                 );
               }
-              
+
               return (
                 <a
                   key={item}
@@ -390,31 +373,29 @@ const Navbar = ({ drakeMode, setDrakeMode }) => {
                       scrollToSection(e, id);
                     }
                   }}
-                  className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${
-                    drakeMode
-                      ? "border-blue-500/30 hover:text-blue-400"
-                      : "border-gray-200 hover:text-gray-600"
-                  }`}
+                  className={`cursor-target text-xl py-4 border-b transition-all duration-300 hover:pl-4 transform hover:-translate-y-0.5 ${drakeMode
+                    ? "border-blue-500/30 hover:text-blue-400"
+                    : "border-gray-200 hover:text-gray-600"
+                    }`}
                 >
                   {t(labelKey)}
                 </a>
               );
             })}
-            
+
             {/* Language Switcher inside mobile panel */}
             <div className="mt-4">
               <LanguageSwitcher />
             </div>
-            
+
             {/* Mobile Explore Button */}
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, 'contact')}
-              className={`cursor-target mt-8 px-6 py-4 rounded-lg border text-center transition-all duration-300 font-medium transform hover:-translate-y-0.5 ${
-                drakeMode
-                  ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
-                  : "border-gray-400 text-gray-700 hover:bg-gray-100 hover:shadow-lg"
-              }`}
+              className={`cursor-target mt-8 px-6 py-4 rounded-lg border text-center transition-all duration-300 font-medium transform hover:-translate-y-0.5 ${drakeMode
+                ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
+                : "border-gray-400 text-gray-700 hover:bg-gray-100 hover:shadow-lg"
+                }`}
             >
               {t('nav.explore')} NOW
             </a>

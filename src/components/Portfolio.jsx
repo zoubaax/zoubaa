@@ -33,6 +33,7 @@ function Portfolio() {
       <TargetCursor
         spinDuration={2}
         hideDefaultCursor={true}
+        drakeMode={drakeMode}
       />
 
       <Navbar drakeMode={drakeMode} setDrakeMode={setDrakeMode} />

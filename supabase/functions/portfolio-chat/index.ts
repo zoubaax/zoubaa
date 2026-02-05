@@ -12,19 +12,22 @@ serve(async (req: Request) => {
     }
 
     try {
-        const { message, history } = await req.json()
+        const body = await req.json()
+        const { message, history } = body
 
-        // Using AIML API - OpenAI Compatible
-        // Get your key at: https://aimlapi.com/
-        // @ts-ignore: Deno is available in Supabase environment
-        const apiKey = Deno.env.get('AIML_API_KEY')
+        // Using Google Gemini API (AI Studio)
+        const apiKey = Deno.env.get('GOOGLE_API_KEY')
 
         if (!apiKey) {
+            console.error('Missing GOOGLE_API_KEY secret')
             return new Response(
-                JSON.stringify({ error: 'Missing AIML_API_KEY. Set it in Supabase Secrets.' }),
+                JSON.stringify({ error: 'Missing GOOGLE_API_KEY. Please set it in Supabase Secrets.' }),
                 { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
             )
         }
+
+        // Validate history
+        const safeHistory = Array.isArray(history) ? history : []
 
         const systemPrompt = `
       You are the official AI Portfolio Assistant for Mohammed Zoubaa.
@@ -40,42 +43,94 @@ serve(async (req: Request) => {
       - Be professional, helpful, and concise.
       - Answer questions accurately based on Mohammed's profile.
       - Support both English and French.
-      - If you don't know a detail, suggest the user reaches out via the contact form.
+      - If you don't know a detail, suggest the user reaches out via the contact form at the bottom of the page.
     `
 
-        const response = await fetch('https://api.aimlapi.com/chat/completions', {
+        // Format history for Gemini API
+        // Gemini expects alternating roles starting with 'user'
+        // We filter out any consecutive identical roles and ensure it starts with 'user'
+        const preparedContents = []
+
+        // Add history
+        safeHistory.forEach(m => {
+            const role = m.role === 'assistant' ? 'model' : 'user'
+            // Avoid consecutive identical roles
+            if (preparedContents.length === 0 || preparedContents[preparedContents.length - 1].role !== role) {
+                preparedContents.push({
+                    role: role,
+                    parts: [{ text: m.content }]
+                })
+            }
+        })
+
+        // Ensure the last message is NOT 'user' if we're about to add a 'user' message
+        if (preparedContents.length > 0 && preparedContents[preparedContents.length - 1].role === 'user') {
+            // This shouldn't happen usually in a well-formed chat, but let's be safe
+            // Maybe add a placeholder model response or just skip history
+        }
+
+        // Final message from user
+        const finalContents = preparedContents.length === 0 || preparedContents[preparedContents.length - 1].role !== 'user'
+            ? [...preparedContents, { role: 'user', parts: [{ text: message }] }]
+            : preparedContents
+
+        // If even after filtering it doesn't start with 'user', Gemini might complain
+        if (finalContents.length > 0 && finalContents[0].role !== 'user') {
+            finalContents.shift() // Remove the first 'model' message
+        }
+
+        // If it's empty now, at least add current message
+        if (finalContents.length === 0) {
+            finalContents.push({ role: 'user', parts: [{ text: message }] })
+        }
+
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`
+
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'gpt-4o-mini', // Or any other beast model available on AIML API
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    ...history.slice(-5),
-                    { role: 'user', content: message }
-                ],
-                temperature: 0.7,
-                max_tokens: 500,
+                system_instruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                contents: finalContents,
+                generationConfig: {
+                    temperature: 0.7,
+                    maxOutputTokens: 800,
+                }
             }),
         })
 
-        const data = await response.json()
+        const responseData = await response.json()
 
-        if (data.error) {
-            throw new Error(data.error.message || 'AIML API Error')
+        if (!response.ok) {
+            console.error('Gemini API Error details:', JSON.stringify(responseData))
+            return new Response(
+                JSON.stringify({
+                    error: `Gemini API returned ${response.status}`,
+                    details: responseData.error?.message || 'Unknown error'
+                }),
+                { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            )
         }
 
-        const reply = data.choices[0].message.content
+        if (!responseData.candidates || !responseData.candidates[0] || !responseData.candidates[0].content) {
+            console.error('Empty Gemini response:', JSON.stringify(responseData))
+            throw new Error('No content returned from Gemini')
+        }
+
+        const reply = responseData.candidates[0].content.parts[0].text
 
         return new Response(
             JSON.stringify({ reply }),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         )
     } catch (error: any) {
+        console.error('Edge Function Error:', error.message)
         return new Response(
-            JSON.stringify({ error: error.message }),
+            JSON.stringify({ error: error.message || 'Internal Server Error' }),
             { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         )
     }

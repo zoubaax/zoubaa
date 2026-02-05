@@ -6,6 +6,7 @@ const TargetCursor = ({
   spinDuration = 2,
   hideDefaultCursor = true,
   mobileBreakpoint = 768,
+  drakeMode = false,
 }) => {
   const cursorRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -204,11 +205,11 @@ const TargetCursor = ({
       className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[9999]"
       style={{ willChange: 'transform' }}
     >
-      <div className="absolute left-1/2 top-1/2 w-1 h-1 bg-black rounded-full -translate-x-1/2 -translate-y-1/2" />
-      <div className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0" />
-      <div className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0" />
-      <div className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black translate-x-1/2 translate-y-1/2 border-l-0 border-t-0" />
-      <div className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-black -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0" />
+      <div className={`absolute left-1/2 top-1/2 w-1 h-1 rounded-full -translate-x-1/2 -translate-y-1/2 ${drakeMode ? 'bg-white' : 'bg-black'}`} />
+      <div className={`target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0 ${drakeMode ? 'border-white' : 'border-black'}`} />
+      <div className={`target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0 ${drakeMode ? 'border-white' : 'border-black'}`} />
+      <div className={`target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] translate-x-1/2 translate-y-1/2 border-l-0 border-t-0 ${drakeMode ? 'border-white' : 'border-black'}`} />
+      <div className={`target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0 ${drakeMode ? 'border-white' : 'border-black'}`} />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import About from './About.jsx'
 import MySkills from './MySkills.jsx'
 import Contact from './Contact.jsx'
 import Preloader from './Preloader.jsx'
+import ChatBot from './ChatBot.jsx'
 
 function Portfolio() {
   const [loading, setLoading] = useState(true);
@@ -45,9 +46,13 @@ function Portfolio() {
           <Contact drakeMode={drakeMode} />
         </section>
       </main>
+
+      {/* Persistent ChatBot */}
+      <ChatBot drakeMode={drakeMode} />
     </div>
   )
 }
 
 export default Portfolio
+
 

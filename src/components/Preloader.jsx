@@ -54,22 +54,20 @@ const Preloader = ({ drakeMode = false }) => {
   if (isLoaded) return null;
 
   return (
-    <div 
-      className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-500 ${
-        isExiting ? 'opacity-0' : 'opacity-100'
-      }`}
-      style={{ 
+    <div
+      className={`fixed inset-0 flex items-center justify-center z-50 transition-all duration-500 ${isExiting ? 'opacity-0' : 'opacity-100'
+        }`}
+      style={{
         backgroundColor: currentTheme.bg,
         fontFamily: 'system-ui, -apple-system, sans-serif'
       }}
     >
       {/* Main Content */}
       <div className="flex flex-col items-center space-y-8 max-w-sm w-full px-8">
-        
+
         {/* Logo with Elegant Animation */}
-        <div className={`transition-all duration-700 ${
-          isExiting ? 'scale-90 opacity-0 -translate-y-4' : 'scale-100 opacity-100 translate-y-0'
-        }`}>
+        <div className={`transition-all duration-700 ${isExiting ? 'scale-90 opacity-0 -translate-y-4' : 'scale-100 opacity-100 translate-y-0'
+          }`}>
           <div className="relative">
             <img
               src={drakeMode ? logoDark : logoLight}
@@ -84,27 +82,27 @@ const Preloader = ({ drakeMode = false }) => {
 
         {/* Progress Indicator */}
         <div className="w-full space-y-6">
-          
+
           {/* Progress Bar */}
           <div className="relative">
             {/* Track */}
-            <div 
+            <div
               className="w-full h-1 rounded-full overflow-hidden"
-              style={{ 
+              style={{
                 backgroundColor: drakeMode ? '#334155' : '#e2e8f0'
               }}
             >
               {/* Progress Fill */}
-              <div 
+              <div
                 className="h-full rounded-full transition-all duration-150 ease-out relative"
-                style={{ 
+                style={{
                   width: `${progress}%`,
                   background: `linear-gradient(90deg, ${currentTheme.primary}, ${currentTheme.primaryLight})`,
                   boxShadow: `0 0 20px ${currentTheme.primary}40`
                 }}
               >
                 {/* Shimmer Effect */}
-                <div 
+                <div
                   className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent"
                   style={{
                     animation: 'shimmer 1.5s ease-in-out infinite'
@@ -112,15 +110,14 @@ const Preloader = ({ drakeMode = false }) => {
                 />
               </div>
             </div>
-            
+
             {/* Progress Dots */}
             <div className="flex justify-between w-full mt-2">
               {[0, 25, 50, 75, 100].map((point) => (
                 <div
                   key={point}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    progress >= point ? 'scale-125' : 'scale-100'
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${progress >= point ? 'scale-125' : 'scale-100'
+                    }`}
                   style={{
                     backgroundColor: progress >= point ? currentTheme.primary : currentTheme.textSecondary,
                     opacity: progress >= point ? 1 : 0.3
@@ -132,21 +129,21 @@ const Preloader = ({ drakeMode = false }) => {
 
           {/* Status Text */}
           <div className="text-center space-y-2">
-            <div 
+            <div
               className="text-lg font-semibold transition-colors duration-300"
               style={{ color: currentTheme.text }}
             >
               {Math.round(progress)}%
             </div>
-            <div 
+            <div
               className="text-sm transition-colors duration-300"
               style={{ color: currentTheme.textSecondary }}
             >
-              {progress < 20 ? 'Loading resources' : 
-               progress < 40 ? 'Processing data' : 
-               progress < 60 ? 'Optimizing performance' : 
-               progress < 80 ? 'Finalizing setup' : 
-               'Ready to launch'}
+              {progress < 20 ? 'Loading resources' :
+                progress < 40 ? 'Processing data' :
+                  progress < 60 ? 'Optimizing performance' :
+                    progress < 80 ? 'Finalizing setup' :
+                      'Ready to launch'}
             </div>
           </div>
         </div>
@@ -154,16 +151,16 @@ const Preloader = ({ drakeMode = false }) => {
         {/* Loading Animation */}
         <div className="relative w-16 h-16">
           {/* Outer Ring */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full border-2 transition-colors duration-300"
             style={{
               borderColor: `${currentTheme.primary}20`,
               animation: 'spin 3s linear infinite'
             }}
           />
-          
+
           {/* Progress Ring */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full border-2 border-transparent transition-colors duration-300"
             style={{
               borderTopColor: currentTheme.primary,
@@ -172,9 +169,9 @@ const Preloader = ({ drakeMode = false }) => {
               clipPath: `inset(0 0 0 ${100 - progress}%)`
             }}
           />
-          
+
           {/* Center Dot */}
-          <div 
+          <div
             className="absolute inset-0 m-auto w-1 h-1 rounded-full transition-colors duration-300"
             style={{
               backgroundColor: currentTheme.primary,
@@ -185,7 +182,7 @@ const Preloader = ({ drakeMode = false }) => {
       </div>
 
       {/* Background Pattern */}
-      <div 
+      <div
         className="absolute inset-0 opacity-5 pointer-events-none"
         style={{
           backgroundImage: `radial-gradient(${currentTheme.primary} 1px, transparent 1px)`,
@@ -193,7 +190,7 @@ const Preloader = ({ drakeMode = false }) => {
         }}
       />
 
-      <style jsx global>{`
+      <style>{`
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }

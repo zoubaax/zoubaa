@@ -34,12 +34,14 @@ const ChatBot = ({ drakeMode }) => {
         }
     }, [isOpen, isMinimized]);
 
-    const handleSend = async (e) => {
-        e.preventDefault();
-        if (!input.trim() || isLoading) return;
+    const handleSend = async (e, directMessage = null) => {
+        if (e && e.preventDefault) e.preventDefault();
 
-        const userMessage = input.trim();
-        setInput('');
+        const messageToSend = directMessage || input;
+        if (!messageToSend.trim() || isLoading) return;
+
+        const userMessage = messageToSend.trim();
+        if (!directMessage) setInput('');
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
         setIsLoading(true);
         setIsTyping(true);

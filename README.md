@@ -12,25 +12,29 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
 - **Responsive Design** - Fully optimized for mobile, tablet, and desktop
 - **Custom Animations** - GSAP animations, custom cursor effects, and smooth transitions
 - **Preloader** - Elegant 3.5s loading animation on initial page load
+- **AI Portfolio Assistant** - Responsive AI chatbot powered by Google Gemini 2.5 Flash and Supabase Edge Functions
 
 ### Portfolio Sections
 1. **Home** - Hero section with profile photo, introduction, and call-to-action buttons
 2. **About** - Work experience and education timeline with company logos and tech stacks
 3. **Skills/Projects** - Dynamic project showcase with filtering (Full-stack, AI/ML, Data)
 4. **Certificates** - Dedicated page for displaying certifications
-5. **Contact** - Contact form with Web3Forms integration and social links
+5. **AI ChatBot** - Interactive assistant for quick questions about skills, projects, and contact info
+6. **Contact** - Contact form with Web3Forms integration and social links
 
 ### Admin Dashboard
 - **Protected Routes** - Secure authentication via Supabase
 - **Project Management** - Add, edit, and manage portfolio projects
 - **Technology Management** - Manage technology stack with image uploads
 - **Certificate Management** - Upload and organize certificates
+- **AI Configuration** - Deploy and manage AI Edge Functions
 - **Real-time Updates** - Changes reflect immediately on the portfolio
 
 ### Technical Features
 - **Supabase Integration** - Backend database and storage for projects, technologies, and certificates
 - **Dynamic Content** - All portfolio content managed through Supabase
 - **Image Storage** - Supabase storage for project images and technology logos
+- **Edge Functions** - Serverless logic for the AI Portfolio Assistant
 - **Form Handling** - Contact form with Web3Forms API integration
 
 ## 🛠️ Tech Stack
@@ -47,7 +51,8 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
 - **React Icons** - Additional icons
 
 ### Backend & Services
-- **Supabase** - Backend as a Service (Database, Auth, Storage)
+- **Supabase** - Backend as a Service (Database, Auth, Storage, Edge Functions)
+- **Google AI Studio** - Gemini 2.5 Flash for the AI assistant
 - **Web3Forms** - Contact form handling
 
 ### Development Tools
@@ -104,6 +109,7 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    VITE_WEB3FORMS_KEY=your_web3forms_key
+GOOGLE_API_KEY=your_google_ai_studio_key (set in Supabase Secrets)
    ```
 
 4. **Set up Supabase**
@@ -151,7 +157,10 @@ zoubaa/
 │   ├── App.jsx            # Main app component with routing
 │   ├── main.jsx           # React entry point
 │   └── index.css          # Tailwind CSS imports
-├── supabase/              # Database migrations and schemas
+├── supabase/              # Database migrations and Edge Functions
+│   ├── functions/         # Supabase Edge Functions
+│   │   └── portfolio-chat # AI assistant logic
+│   └── migrations/        # SQL schema migrations
 ├── index.html             # HTML entry point
 ├── vite.config.js         # Vite configuration
 ├── package.json           # Dependencies

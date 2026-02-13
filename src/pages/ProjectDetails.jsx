@@ -20,6 +20,7 @@ import Navbar from '../components/Navbar'
 import { getProjectById } from '../services/projectsService'
 import TechBadge from '../components/TechBadge'
 import ErrorState from '../components/ErrorState'
+import ProjectGallery from '../components/ProjectGallery'
 
 import { useTheme } from '../contexts/ThemeContext'
 
@@ -133,20 +134,12 @@ const ProjectDetails = () => {
             </button>
           </nav>
 
-          {/* Hero Section */}
-          <div className="mb-12 lg:mb-16">
-            <div className="relative h-64 md:h-80 lg:h-96 rounded-3xl overflow-hidden shadow-2xl">
-              <img
-                src={project.image_url || project.gallery_urls?.[0] || '/placeholder.jpg'}
-                alt={project.title}
-                className="w-full h-full object-cover"
-                loading="eager"
-              />
-              <div className={`absolute inset-0 bg-gradient-to-t ${drakeMode
-                ? 'from-[#050A30]/95 via-[#050A30]/60'
-                : 'from-white/90 via-white/50'
-                }`} />
-            </div>
+          {/* Premium Gallery Slider */}
+          <div className="mb-16 lg:mb-20">
+            <ProjectGallery
+              images={[project.image_url, ...(project.gallery_urls || [])].filter(Boolean)}
+              title={project.title}
+            />
           </div>
 
           {/* Project Header */}
@@ -450,8 +443,8 @@ const ProjectDetails = () => {
           {/* Premium CTA Section */}
           <div className="mt-20">
             <div className={`relative overflow-hidden rounded-3xl p-8 md:p-12 ${drakeMode
-                ? 'bg-gradient-to-br from-blue-600/20 via-[#050A30] to-cyan-500/20 border border-blue-500/30'
-                : 'bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 text-white shadow-2xl shadow-blue-500/20'
+              ? 'bg-gradient-to-br from-blue-600/20 via-[#050A30] to-cyan-500/20 border border-blue-500/30'
+              : 'bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-500 text-white shadow-2xl shadow-blue-500/20'
               }`}>
               {/* Decorative elements */}
               <div className="absolute top-0 right-0 -u-translate-y-1/2 u-translate-x-1/2 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -473,8 +466,8 @@ const ProjectDetails = () => {
                   <Link
                     to="/"
                     className={`inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 ${drakeMode
-                        ? 'bg-cyan-500 text-[#050A30] hover:bg-cyan-400 shadow-lg shadow-cyan-500/20'
-                        : 'bg-white text-blue-600 hover:bg-blue-50 shadow-xl'
+                      ? 'bg-cyan-500 text-[#050A30] hover:bg-cyan-400 shadow-lg shadow-cyan-500/20'
+                      : 'bg-white text-blue-600 hover:bg-blue-50 shadow-xl'
                       }`}
                   >
                     <MessageSquare className="w-5 h-5" />
@@ -483,8 +476,8 @@ const ProjectDetails = () => {
                   <button
                     onClick={handleBack}
                     className={`inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 border-2 ${drakeMode
-                        ? 'border-white/20 hover:bg-white/10 text-white backdrop-blur-sm'
-                        : 'border-white/30 hover:bg-white/10 text-white backdrop-blur-sm'
+                      ? 'border-white/20 hover:bg-white/10 text-white backdrop-blur-sm'
+                      : 'border-white/30 hover:bg-white/10 text-white backdrop-blur-sm'
                       }`}
                   >
                     <Rocket className="w-5 h-5" />

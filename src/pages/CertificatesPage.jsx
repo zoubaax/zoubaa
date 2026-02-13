@@ -3,11 +3,12 @@ import { Award, Calendar, ExternalLink, Download } from 'lucide-react'
 
 import { getCertificates } from '../services/certificatesService'
 import Navbar from '../components/Navbar'
+import { useTheme } from '../contexts/ThemeContext'
 
 function CertificatesPage() {
   const [certificates, setCertificates] = useState([])
   const [loading, setLoading] = useState(true)
-  const [drakeMode, setDrakeMode] = useState(false)
+  const { isDarkMode: drakeMode } = useTheme()
 
   useEffect(() => {
     const fetchCertificates = async () => {
@@ -27,12 +28,12 @@ function CertificatesPage() {
 
   return (
     <div style={{
-      backgroundColor: drakeMode ? '#1A1A1A' : '#EBE6E0',
+      backgroundColor: drakeMode ? '#050A30' : '#eff9ff',
       minHeight: '100vh',
       width: '100vw',
       position: 'relative',
     }}>
-      <Navbar drakeMode={drakeMode} setDrakeMode={setDrakeMode} />
+      <Navbar />
 
       <div className="relative min-h-screen">
 
@@ -85,14 +86,14 @@ function CertificatesPage() {
                       <div
                         key={cert.id}
                         className={`cursor-target group relative rounded-3xl border overflow-hidden transition-all duration-700 transform hover:-translate-y-2 ${drakeMode
-                            ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/20'
-                            : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10'
+                          ? 'bg-[#050A30] border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/20'
+                          : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10'
                           }`}
                       >
                         {/* Animated Background Gradient */}
                         <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${drakeMode
-                            ? 'bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5'
-                            : 'bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-purple-500/5'
+                          ? 'bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-purple-500/5'
+                          : 'bg-gradient-to-br from-blue-500/5 via-cyan-500/5 to-purple-500/5'
                           }`}></div>
 
                         {/* Certificate Image */}
@@ -103,7 +104,7 @@ function CertificatesPage() {
                               alt={cert.title}
                               className="w-full h-full object-contain bg-white/5 transform group-hover:scale-105 transition-transform duration-700"
                             />
-                            <div className={`absolute inset-0 bg-gradient-to-t ${drakeMode ? 'from-[#050A30] via-[#050A30]/80 to-transparent' : 'from-white via-white/80 to-transparent'
+                            <div className={`absolute inset-0 bg-gradient-to-t ${drakeMode ? 'from-[#050A30] via-[#050A30]/80 to-transparent' : 'from-[#eff9ff] via-[#eff9ff]/80 to-transparent'
                               } transition-all duration-500`}></div>
                           </div>
                         ) : (
@@ -140,8 +141,8 @@ function CertificatesPage() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={`cursor-target flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${drakeMode
-                                    ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
-                                    : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
+                                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25'
+                                  : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-blue-500/25'
                                   }`}
                               >
                                 <ExternalLink className="w-4 h-4" />
@@ -153,8 +154,8 @@ function CertificatesPage() {
                                 href={cert.image_url}
                                 download
                                 className={`cursor-target flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${drakeMode
-                                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
+                                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white border border-gray-600 hover:border-gray-500'
+                                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300 hover:border-gray-400'
                                   }`}
                               >
                                 <Download className="w-4 h-4" />
@@ -165,8 +166,8 @@ function CertificatesPage() {
 
                         {/* Glow Effect */}
                         <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none ${drakeMode
-                            ? 'shadow-2xl shadow-cyan-500/10'
-                            : 'shadow-2xl shadow-blue-500/5'
+                          ? 'shadow-2xl shadow-cyan-500/10'
+                          : 'shadow-2xl shadow-blue-500/5'
                           }`}></div>
                       </div>
                     ))}

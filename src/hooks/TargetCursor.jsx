@@ -1,13 +1,14 @@
-import { useEffect, useRef, useCallback, useMemo, useState } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import { gsap } from "gsap";
+import { useTheme } from "../contexts/ThemeContext";
 
 const TargetCursor = ({
   targetSelector = ".cursor-target",
   spinDuration = 2,
   hideDefaultCursor = true,
   mobileBreakpoint = 768,
-  drakeMode = false,
 }) => {
+  const { isDarkMode: drakeMode } = useTheme();
   const cursorRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 

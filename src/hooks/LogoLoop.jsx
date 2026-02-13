@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const ANIMATION_CONFIG = {
   SMOOTH_TAU: 0.25,
@@ -156,9 +157,9 @@ export const LogoLoop = memo(
     renderItem,
     ariaLabel = 'Partner logos',
     className,
-    style,
-    drakeMode = false // Add drakeMode prop
+    style
   }) => {
+    const { isDarkMode: drakeMode } = useTheme();
     const containerRef = useRef(null);
     const trackRef = useRef(null);
     const seqRef = useRef(null);
@@ -285,7 +286,7 @@ export const LogoLoop = memo(
               // Apply dark mode text color for React icons
               drakeMode ? 'text-gray-300' : 'text-gray-700',
               scaleOnHover &&
-                'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+              'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
             )}
             aria-hidden={!!item.href && !item.ariaLabel}
           >
@@ -301,7 +302,7 @@ export const LogoLoop = memo(
               // Apply filter for dark mode images
               drakeMode && 'filter brightness-0 invert',
               scaleOnHover &&
-                'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
+              'transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover/item:scale-120'
             )}
             src={item.src}
             srcSet={item.srcSet}

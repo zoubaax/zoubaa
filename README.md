@@ -7,35 +7,37 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
 
 ### Core Features
 - **Modern Single-Page Design** - Smooth scrolling navigation between sections
-- **Dark Mode ("Drake Mode")** - Toggle between light and dark themes
+- **Smart Dark Mode ("Drake Mode")** - Automatic system theme detection + manual toggle with persistent storage
+- **Interactive Project Gallery** - Premium image slider with smooth Framer Motion transitions and full-screen lightbox
 - **Multi-Language Support** - English and French (i18next)
 - **Responsive Design** - Fully optimized for mobile, tablet, and desktop
-- **Custom Animations** - GSAP animations, custom cursor effects, and smooth transitions
-- **Preloader** - Elegant 3.5s loading animation on initial page load
+- **Custom Animations** - GSAP animations, custom target-cursor effects, and smooth transitions
+- **Preloader** - Elegant loading animation on initial page load
 - **AI Portfolio Assistant** - Responsive AI chatbot powered by Google Gemini 2.5 Flash and Supabase Edge Functions
 
 ### Portfolio Sections
-1. **Home** - Hero section with profile photo, introduction, and call-to-action buttons
-2. **About** - Work experience and education timeline with company logos and tech stacks
-3. **Skills/Projects** - Dynamic project showcase with filtering (Full-stack, AI/ML, Data)
-4. **Certificates** - Dedicated page for displaying certifications
+1. **Home** - Hero section with profile photo, introduction, and premium CTA buttons
+2. **About** - Work experience and education timeline with animated tech loops
+3. **Skills/Projects** - Dynamic project showcase with advanced filtering and deep-dive detail pages
+4. **Certificates** - Dedicated page for professional certifications with verification links
 5. **AI ChatBot** - Interactive assistant for quick questions about skills, projects, and contact info
-6. **Contact** - Contact form with Web3Forms integration and social links
+6. **Contact** - Premium contact form with Web3Forms integration and social links
 
 ### Admin Dashboard
 - **Protected Routes** - Secure authentication via Supabase
-- **Project Management** - Add, edit, and manage portfolio projects
+- **Project Management** - Add, edit, and manage portfolio projects with **unlimited gallery images**
 - **Technology Management** - Manage technology stack with image uploads
 - **Certificate Management** - Upload and organize certificates
 - **AI Configuration** - Deploy and manage AI Edge Functions
-- **Real-time Updates** - Changes reflect immediately on the portfolio
+- **Real-time Updates** - Changes reflect immediately on the portfolio via Supabase listeners
 
 ### Technical Features
-- **Supabase Integration** - Backend database and storage for projects, technologies, and certificates
-- **Dynamic Content** - All portfolio content managed through Supabase
-- **Image Storage** - Supabase storage for project images and technology logos
-- **Edge Functions** - Serverless logic for the AI Portfolio Assistant
-- **Form Handling** - Contact form with Web3Forms API integration
+- **Centralized Theme Architecture** - Global `ThemeContext` managing "Drake Mode" across all pages and hooks
+- **Supabase Integration** - High-performance backend database and storage for projects, technologies, and certificates
+- **Dynamic Content** - All portfolio content managed through a unified Supabase schema
+- **Asset Storage** - Automated bucket management for project galleries and tech logos
+- **Edge Functions** - Serverless AI logic for the Portfolio Assistant
+- **Form Handling** - Secured contact form with Web3Forms API integration
 
 ## 🛠️ Tech Stack
 
@@ -173,10 +175,11 @@ zoubaa/
 Replace `src/assets/img/zoubaa2.jpg` with your own profile photo. The image should be square or portrait orientation for best results.
 
 ### Colors & Themes
-- Light mode background: `#eff9ff`
-- Dark mode background: `#050A30`
-- Primary colors: Blue (`#3b82f6`) and Cyan (`#06b6d4`)
-- Colors are defined in Tailwind classes throughout components
+- **Light mode background**: `#eff9ff` (Soft Slate Blue)
+- **Dark mode background**: `#050A30` (Deep Space Navy)
+- **Accent colors**: Cyan (`#22d3ee`) and Blue (`#2563eb`)
+- **Glassmorphism**: Extensive use of backdrop-blur and semi-transparent layers for a premium feel
+- **Global Tokens**: Colors are managed via `ThemeContext` and standardized Tailwind classes
 
 ### Content Management
 - **Projects**: Manage via `/dashboard/projects`

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { ExternalLink, Github, ArrowRight, Calendar, ChevronDown, ChevronUp, Star, Users, Zap, TrendingUp, Filter } from 'lucide-react';
 import LogoLoop from '../hooks/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
 import { getProjects } from '../services/projectsService';
+import { useTheme } from '../contexts/ThemeContext';
 
 // Import your local images
 import healthcareImage from '../assets/img/Healthcare.jpg';
@@ -29,7 +31,8 @@ const techLogos = [
   { node: <SiGithub />, title: "GitHub", href: "https://github.com" },
 ];
 
-const ProjectsSection = ({ drakeMode }) => {
+const ProjectsSection = () => {
+  const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [showAll, setShowAll] = useState(false);
@@ -75,7 +78,7 @@ const ProjectsSection = ({ drakeMode }) => {
             technologies_data: technologies, // Keep full technology objects with image URLs
             category: mapCategory(project.category),
             status: 'completed', // Default status
-            liveUrl: '#', // You can add this field to Supabase if needed
+            liveUrl: project.live_url || '#',
             githubUrl: project.github_url || '#',
             featured: false,
             year: new Date(project.created_at).getFullYear().toString(),
@@ -267,6 +270,17 @@ const ProjectsSection = ({ drakeMode }) => {
 
           {/* Actions - Updated GitHub Button */}
           <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            {/* Details Page Button */}
+            <Link
+              to={`/projects/${project.id}`}
+              className={`cursor-target flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 border ${drakeMode
+                ? 'bg-transparent text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/10'
+                : 'bg-transparent text-blue-700 border-blue-300 hover:bg-blue-50'
+                }`}
+            >
+              {t('portfolio.view_details')}
+            </Link>
+
             {/* Live Demo Button (if available) */}
             {project.liveUrl && project.liveUrl !== '#' && (
               <a

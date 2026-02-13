@@ -33,6 +33,12 @@ export async function getProjects() {
         }
       )
 
+      const galleryUrls = Array.isArray(project.gallery_paths)
+        ? project.gallery_paths.map((path) =>
+            getImageUrl(STORAGE_BUCKETS.PROJECTS, path)
+          )
+        : []
+
       return {
         ...project,
         technologies: technologies,
@@ -40,6 +46,7 @@ export async function getProjects() {
         image_url: project.image_path
           ? getImageUrl(STORAGE_BUCKETS.PROJECTS, project.image_path)
           : null,
+        gallery_urls: galleryUrls,
         // Remove the junction table data from response
         projects_technologies: undefined,
       }
@@ -84,6 +91,12 @@ export async function getProjectById(id) {
       }
     )
 
+    const galleryUrls = Array.isArray(data.gallery_paths)
+      ? data.gallery_paths.map((path) =>
+          getImageUrl(STORAGE_BUCKETS.PROJECTS, path)
+        )
+      : []
+
     const projectWithUrl = {
       ...data,
       technologies: technologies,
@@ -91,6 +104,7 @@ export async function getProjectById(id) {
       image_url: data.image_path
         ? getImageUrl(STORAGE_BUCKETS.PROJECTS, data.image_path)
         : null,
+      gallery_urls: galleryUrls,
       projects_technologies: undefined,
     }
 
@@ -105,11 +119,13 @@ export async function getProjectById(id) {
  * Create a new project
  * @param {Object} projectData - Project data (includes technologyIds array)
  * @param {File|null} imageFile - Optional image file to upload
+ * @param {File[]|null} galleryFiles - Optional additional images for gallery
  * @returns {Promise<{data: Object|null, error: Error|null}>}
  */
-export async function createProject(projectData, imageFile = null) {
+export async function createProject(projectData, imageFile = null, galleryFiles = []) {
   try {
     let imagePath = null
+    let galleryPaths = []
 
     // Upload image if provided
     if (imageFile) {
@@ -124,6 +140,29 @@ export async function createProject(projectData, imageFile = null) {
       imagePath = uploadResult.path
     }
 
+    // Upload gallery images if provided
+    if (Array.isArray(galleryFiles) && galleryFiles.length > 0) {
+      for (const file of galleryFiles) {
+        if (!file) continue
+        const uploadResult = await uploadImage(
+          file,
+          STORAGE_BUCKETS.PROJECTS,
+          'gallery'
+        )
+        if (uploadResult.error) {
+          // If any gallery upload fails, clean up previous uploads
+          if (imagePath) {
+            await deleteImage(STORAGE_BUCKETS.PROJECTS, imagePath)
+          }
+          for (const path of galleryPaths) {
+            await deleteImage(STORAGE_BUCKETS.PROJECTS, path)
+          }
+          throw uploadResult.error
+        }
+        galleryPaths.push(uploadResult.path)
+      }
+    }
+
     // Insert project into database
     const { data: project, error: projectError } = await supabase
       .from('projects')
@@ -131,9 +170,20 @@ export async function createProject(projectData, imageFile = null) {
         {
           title: projectData.title,
           description: projectData.description,
+          tagline: projectData.tagline || null,
+          features: Array.isArray(projectData.features) && projectData.features.length > 0
+            ? projectData.features
+            : null,
+          duration: projectData.duration || null,
+          team_size: projectData.team_size || null,
+          role: projectData.role || null,
+          challenges: projectData.challenges || null,
+          solutions: projectData.solutions || null,
           image_path: imagePath,
           category: projectData.category,
           github_url: projectData.github_url || null,
+          live_url: projectData.live_url || null,
+          gallery_paths: galleryPaths.length > 0 ? galleryPaths : null,
         },
       ])
       .select()
@@ -143,6 +193,11 @@ export async function createProject(projectData, imageFile = null) {
       // If database insert fails, delete uploaded image
       if (imagePath) {
         await deleteImage(STORAGE_BUCKETS.PROJECTS, imagePath)
+      }
+      if (galleryPaths.length > 0) {
+        for (const path of galleryPaths) {
+          await deleteImage(STORAGE_BUCKETS.PROJECTS, path)
+        }
       }
       throw projectError
     }
@@ -184,20 +239,26 @@ export async function createProject(projectData, imageFile = null) {
  * @param {Object} projectData - Updated project data
  * @param {File|null} imageFile - Optional new image file to upload
  * @param {boolean} deleteOldImage - Whether to delete old image
+ * @param {File[]|null} galleryFiles - Optional new gallery images (replaces existing)
  * @returns {Promise<{data: Object|null, error: Error|null}>}
  */
 export async function updateProject(
   id,
   projectData,
   imageFile = null,
-  deleteOldImage = false
+  deleteOldImage = false,
+  galleryFiles = []
 ) {
   try {
-    // Get current project to access old image path
+    // Get current project to access old image and gallery paths
     const { data: currentProject } = await getProjectById(id)
     const oldImagePath = currentProject?.image_path
+    const oldGalleryPaths = Array.isArray(currentProject?.gallery_paths)
+      ? currentProject.gallery_paths
+      : []
 
     let imagePath = projectData.image_path || oldImagePath
+    let galleryPaths = oldGalleryPaths
 
     // Upload new image if provided
     if (imageFile) {
@@ -217,15 +278,56 @@ export async function updateProject(
       }
     }
 
+    // If new gallery files are provided, replace existing gallery
+    if (Array.isArray(galleryFiles) && galleryFiles.length > 0) {
+      const newGalleryPaths = []
+      for (const file of galleryFiles) {
+        if (!file) continue
+        const uploadResult = await uploadImage(
+          file,
+          STORAGE_BUCKETS.PROJECTS,
+          'gallery'
+        )
+        if (uploadResult.error) {
+          // Clean up any newly uploaded gallery images
+          for (const path of newGalleryPaths) {
+            await deleteImage(STORAGE_BUCKETS.PROJECTS, path)
+          }
+          throw uploadResult.error
+        }
+        newGalleryPaths.push(uploadResult.path)
+      }
+
+      // Delete old gallery images
+      if (oldGalleryPaths.length > 0) {
+        for (const path of oldGalleryPaths) {
+          await deleteImage(STORAGE_BUCKETS.PROJECTS, path)
+        }
+      }
+
+      galleryPaths = newGalleryPaths
+    }
+
     // Update project in database
     const { data: project, error: projectError } = await supabase
       .from('projects')
       .update({
         title: projectData.title,
         description: projectData.description,
+        tagline: projectData.tagline || null,
+        features: Array.isArray(projectData.features) && projectData.features.length > 0
+          ? projectData.features
+          : null,
+        duration: projectData.duration || null,
+        team_size: projectData.team_size || null,
+        role: projectData.role || null,
+        challenges: projectData.challenges || null,
+        solutions: projectData.solutions || null,
         image_path: imagePath,
         category: projectData.category,
         github_url: projectData.github_url || null,
+        live_url: projectData.live_url || null,
+        gallery_paths: galleryPaths.length > 0 ? galleryPaths : null,
       })
       .eq('id', id)
       .select()

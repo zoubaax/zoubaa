@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, Send, X, Bot, User, Loader2, Minimize2, Maximize2, Sparkles, Smartphone, Tablet, Monitor } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { MessageSquare, Send, X, Bot, User, Minimize2, Maximize2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
+import { useTheme } from '../contexts/ThemeContext';
 
-const ChatBot = ({ drakeMode }) => {
+const ChatBot = () => {
+    const { isDarkMode: drakeMode } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([
         {

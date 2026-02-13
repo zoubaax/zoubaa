@@ -21,9 +21,18 @@ CREATE TABLE IF NOT EXISTS projects (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   description TEXT NOT NULL,
+  tagline TEXT,
+  features TEXT[],
+  duration TEXT,
+  team_size TEXT,
+  role TEXT,
+  challenges TEXT,
+  solutions TEXT,
   image_path TEXT,
   category TEXT NOT NULL CHECK (category IN ('fullstack', 'AI/ML', 'data')),
   github_url TEXT,
+  live_url TEXT,
+  gallery_paths TEXT[],
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

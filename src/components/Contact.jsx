@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, MessageCircle, User, ArrowRight, Heart, Code, Coffee, Github, Linkedin, Twitter, Instagram } from 'lucide-react';
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../contexts/ThemeContext';
 
 
-const Contact = ({ drakeMode }) => {
+const Contact = () => {
+  const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
@@ -118,8 +120,7 @@ const Contact = ({ drakeMode }) => {
 
   return (
     <div className="relative">
-      <div id="contact" className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'
-        }`}>
+      <div id="contact" className={`min-h-screen py-20 px-4 sm:px-6 font-sans antialiased ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">

@@ -6,15 +6,25 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    tagline: '',
+    featuresText: '',
     technologyIds: [],
     category: 'fullstack',
     github_url: '',
     image_path: null,
+    live_url: '',
+    duration: '',
+    team_size: '',
+    role: '',
+    challenges: '',
+    solutions: '',
   })
   const [availableTechnologies, setAvailableTechnologies] = useState([])
   const [loadingTechnologies, setLoadingTechnologies] = useState(true)
   const [imageFile, setImageFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
+  const [galleryFiles, setGalleryFiles] = useState([])
+  const [galleryPreviews, setGalleryPreviews] = useState([])
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -34,10 +44,18 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
       setFormData({
         title: project.title || '',
         description: project.description || '',
+        tagline: project.tagline || '',
+        featuresText: Array.isArray(project.features) ? project.features.join('\n') : '',
         technologyIds: project.technologies ? project.technologies.map(t => t.id) : [],
         category: project.category || 'fullstack',
         github_url: project.github_url || '',
         image_path: project.image_path || null,
+        live_url: project.live_url || '',
+        duration: project.duration || '',
+        team_size: project.team_size || '',
+        role: project.role || '',
+        challenges: project.challenges || '',
+        solutions: project.solutions || '',
       })
       setImagePreview(project.image_url || null)
     }
@@ -75,6 +93,41 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
     setImagePreview(project?.image_url || null)
   }
 
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files || [])
+    const validImages = files.filter((file) => file.type.startsWith('image/'))
+
+    if (validImages.length === 0) {
+      setErrors((prev) => ({ ...prev, gallery: 'Please select image files only' }))
+      return
+    }
+
+    setGalleryFiles(validImages)
+    setErrors((prev) => ({ ...prev, gallery: '' }))
+
+    // Create previews
+    const readers = []
+    const previews = []
+
+    validImages.forEach((file, index) => {
+      const reader = new FileReader()
+      readers.push(reader)
+      reader.onloadend = () => {
+        previews[index] = reader.result
+        // When all readers have loaded, update state
+        if (previews.filter(Boolean).length === validImages.length) {
+          setGalleryPreviews(previews)
+        }
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const handleClearGallery = () => {
+    setGalleryFiles([])
+    setGalleryPreviews([])
+  }
+
   const handleToggleTechnology = (techId) => {
     setFormData((prev) => {
       const isSelected = prev.technologyIds.includes(techId)
@@ -107,7 +160,21 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
       return
     }
 
-    onSave(formData, imageFile)
+    const features = formData.featuresText
+      ? formData.featuresText
+          .split('\n')
+          .map((f) => f.trim())
+          .filter(Boolean)
+      : []
+
+    onSave(
+      {
+        ...formData,
+        features,
+      },
+      imageFile,
+      galleryFiles
+    )
   }
 
   return (
@@ -156,6 +223,21 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
         )}
       </div>
 
+      {/* Short Tagline */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">
+          Short Tagline
+        </label>
+        <input
+          type="text"
+          name="tagline"
+          value={formData.tagline}
+          onChange={handleInputChange}
+          className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+          placeholder="e.g. Secure patient management system for modern clinics"
+        />
+      </div>
+
       {/* Category */}
       <div>
         <label className="block text-sm font-semibold text-white mb-2">
@@ -192,6 +274,36 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
           onChange={handleInputChange}
           className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
           placeholder="https://github.com/username/repo"
+        />
+      </div>
+
+      {/* Live URL */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">
+          Live Project URL
+        </label>
+        <input
+          type="url"
+          name="live_url"
+          value={formData.live_url}
+          onChange={handleInputChange}
+          className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+          placeholder="https://your-live-project.com"
+        />
+      </div>
+
+      {/* Key Features */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">
+          Key Features (one per line)
+        </label>
+        <textarea
+          name="featuresText"
+          value={formData.featuresText}
+          onChange={handleInputChange}
+          rows={3}
+          className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all resize-none"
+          placeholder={`Real-time appointment scheduling\nRole-based access control\nAutomated reporting`}
         />
       </div>
 
@@ -248,6 +360,79 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
         )}
       </div>
 
+      {/* Metadata: Duration, Team size, Role */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">
+            Duration
+          </label>
+          <input
+            type="text"
+            name="duration"
+            value={formData.duration}
+            onChange={handleInputChange}
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+            placeholder="e.g. 3 months"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">
+            Team Size
+          </label>
+          <input
+            type="text"
+            name="team_size"
+            value={formData.team_size}
+            onChange={handleInputChange}
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+            placeholder="e.g. Solo, 3 people"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">
+            My Role
+          </label>
+          <input
+            type="text"
+            name="role"
+            value={formData.role}
+            onChange={handleInputChange}
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+            placeholder="e.g. Full‑stack developer"
+          />
+        </div>
+      </div>
+
+      {/* Challenges & Solutions */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">
+            Main Challenges
+          </label>
+          <textarea
+            name="challenges"
+            value={formData.challenges}
+            onChange={handleInputChange}
+            rows={3}
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all resize-none"
+            placeholder="What were the hardest parts of this project?"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-white mb-2">
+            Solutions / Impact
+          </label>
+          <textarea
+            name="solutions"
+            value={formData.solutions}
+            onChange={handleInputChange}
+            rows={3}
+            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all resize-none"
+            placeholder="How did you solve those challenges? What was the result?"
+          />
+        </div>
+      </div>
+
       {/* Image Upload */}
       <div>
         <label className="block text-sm font-semibold text-white mb-2">
@@ -287,6 +472,58 @@ function ProjectForm({ project = null, onSave, onCancel, loading = false }) {
         )}
         {errors.image && (
           <p className="mt-1 text-sm text-red-400">{errors.image}</p>
+        )}
+      </div>
+
+      {/* Gallery Upload */}
+      <div>
+        <label className="block text-sm font-semibold text-white mb-2">
+          Additional Project Images (Gallery)
+        </label>
+        {galleryPreviews.length > 0 ? (
+          <div>
+            <div className="grid grid-cols-2 gap-3 mb-3">
+              {galleryPreviews.map((preview, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={preview}
+                    alt={`Gallery preview ${index + 1}`}
+                    className="w-full h-32 object-cover rounded-xl border-2 border-white/10"
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={handleClearGallery}
+              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm border border-white/20 transition-all"
+            >
+              Clear gallery selection
+            </button>
+            <p className="mt-2 text-xs text-gray-400">
+              Uploading new gallery images will replace any existing gallery for this project.
+            </p>
+          </div>
+        ) : (
+          <label className="cursor-target flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-white/20 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+            <div className="flex flex-col items-center justify-center pt-3 pb-4">
+              <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
+              <p className="mb-1 text-sm text-gray-400">
+                <span className="font-semibold">Click to upload</span> or drag and drop
+              </p>
+              <p className="text-xs text-gray-500">You can select multiple images (MAX. 5MB each)</p>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleGalleryChange}
+              className="hidden"
+            />
+          </label>
+        )}
+        {errors.gallery && (
+          <p className="mt-1 text-sm text-red-400">{errors.gallery}</p>
         )}
       </div>
 

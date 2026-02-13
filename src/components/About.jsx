@@ -3,6 +3,7 @@ import { GraduationCap, Briefcase, Calendar, MapPin, Award, Code } from 'lucide-
 import LogoLoop from '../hooks/LogoLoop';
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiMongodb, SiFigma, SiGithub } from 'react-icons/si';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../contexts/ThemeContext';
 
 const techLogos = [
   { node: <SiReact />, title: "React", href: "https://react.dev" },
@@ -38,7 +39,8 @@ import supabase_img from '../assets/img/supabase.png';
 import LOGOFMPDF from '../assets/img/LOGO-FMPDF.png';
 import NewDev from '../assets/img/NewDev.jpeg';
 import fiverr from '../assets/img/fiverr.webp';
-const WorkHistory = ({ drakeMode }) => {
+const WorkHistory = () => {
+  const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const [isVisible, setIsVisible] = useState(false);

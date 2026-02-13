@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../contexts/ThemeContext';
 import zoubaaImage from '../assets/img/zoubaa2.jpg';
 import handIcon from '../assets/img/hand-icon.png';
 import rightArrow from '../assets/img/right-arrow-bold.png';
@@ -16,7 +17,8 @@ const scrollToSection = (e, sectionId) => {
   }
 };
 
-export default function Home({ drakeMode }) {
+export default function Home() {
+  const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
 
   return (

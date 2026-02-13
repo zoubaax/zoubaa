@@ -5,7 +5,10 @@ import logoDark from "../assets/img/2.png";
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
-const Navbar = ({ drakeMode, setDrakeMode }) => {
+import { useTheme } from "../contexts/ThemeContext";
+
+const Navbar = () => {
+  const { isDarkMode: drakeMode, toggleTheme: setDrakeMode } = useTheme();
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();

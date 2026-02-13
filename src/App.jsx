@@ -13,29 +13,31 @@ import Certificates from './pages/dashboard/Certificates.jsx'
 import Projects from './pages/dashboard/Projects.jsx'
 import Technologies from './pages/dashboard/Technologies.jsx'
 import ProtectedRoute from './components/dashboard/ProtectedRoute.jsx'
+import ProjectDetails from './pages/ProjectDetails.jsx'
 
 function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
         <Routes>
-        <Route path="/" element={<Portfolio />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/certificates" element={<CertificatesPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="certificates" element={<Certificates />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="technologies" element={<Technologies />} />
-        </Route>
-      </Routes>
+          <Route path="/" element={<Portfolio />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/certificates" element={<CertificatesPage />} />
+          <Route path="/projects/:id" element={<ProjectDetails />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="certificates" element={<Certificates />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="technologies" element={<Technologies />} />
+          </Route>
+        </Routes>
       </ThemeProvider>
     </AuthProvider>
   )

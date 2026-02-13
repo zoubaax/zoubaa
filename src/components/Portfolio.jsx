@@ -8,9 +8,11 @@ import Preloader from './Preloader.jsx'
 import ChatBot from './ChatBot.jsx'
 import TargetCursor from '../hooks/TargetCursor'
 
+import { useTheme } from '../contexts/ThemeContext'
+
 function Portfolio() {
+  const { isDarkMode: drakeMode } = useTheme()
   const [loading, setLoading] = useState(true);
-  const [drakeMode, setDrakeMode] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3500);
@@ -18,13 +20,13 @@ function Portfolio() {
   }, []);
 
   if (loading) {
-    return <Preloader drakeMode={drakeMode} setDrakeMode={setDrakeMode} />;
+    return <Preloader />;
   }
 
   return (
     // Single-page layout: render sections with IDs for in-page scrolling
     <div style={{
-      backgroundColor: drakeMode ? '#1A1A1A' : '#EBE6E0',
+      backgroundColor: drakeMode ? '#050A30' : '#eff9ff',
       minHeight: '100vh',
       width: '100vw',
       position: 'relative',
@@ -36,27 +38,27 @@ function Portfolio() {
         drakeMode={drakeMode}
       />
 
-      <Navbar drakeMode={drakeMode} setDrakeMode={setDrakeMode} />
+      <Navbar />
       <main className="relative z-10">
         <section id="home" className="min-h-screen">
-          <Home drakeMode={drakeMode} />
+          <Home />
         </section>
 
         <section id="about" className="min-h-screen">
-          <About drakeMode={drakeMode} />
+          <About />
         </section>
 
         <section id="skills" className="min-h-screen">
-          <MySkills drakeMode={drakeMode} />
+          <MySkills />
         </section>
 
         <section id="contact" className="min-h-screen">
-          <Contact drakeMode={drakeMode} />
+          <Contact />
         </section>
       </main>
 
       {/* Persistent ChatBot */}
-      <ChatBot drakeMode={drakeMode} />
+      <ChatBot />
     </div>
   )
 }

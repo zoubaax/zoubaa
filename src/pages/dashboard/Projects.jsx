@@ -70,7 +70,7 @@ function Projects() {
     setProjectToDelete(null)
   }
 
-  const handleSave = async (formData, imageFile) => {
+  const handleSave = async (formData, imageFile, galleryFiles) => {
     setFormLoading(true)
     setError(null)
 
@@ -81,7 +81,8 @@ function Projects() {
           editingProject.id,
           formData,
           imageFile,
-          true // delete old image
+          true, // delete old image
+          galleryFiles
         )
         if (updateError) {
           setError('Failed to update project')
@@ -93,7 +94,7 @@ function Projects() {
         }
       } else {
         // Create new project
-        const { data, error: createError } = await createProject(formData, imageFile)
+        const { data, error: createError } = await createProject(formData, imageFile, galleryFiles)
         if (createError) {
           setError('Failed to create project')
           console.error(createError)
@@ -321,11 +322,16 @@ function Projects() {
                         </div>
                       </div>
 
-                      {/* Description */}
-                      <p className={`mb-4 line-clamp-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                      {/* Tagline / Description */}
+                      <p className={`mb-1 line-clamp-2 ${isDarkMode ? 'text-cyan-100' : 'text-gray-800'
                         }`}>
-                        {project.description}
+                        {project.tagline || project.description}
                       </p>
+                      {project.duration && (
+                        <p className={`mb-3 text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                          Duration: {project.duration}
+                        </p>
+                      )}
 
                       {/* Technologies */}
                       {project.technologies && project.technologies.length > 0 && (

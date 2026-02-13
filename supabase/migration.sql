@@ -30,11 +30,78 @@ CREATE TABLE IF NOT EXISTS projects_technologies (
 -- Only add if column doesn't exist
 DO $$ 
 BEGIN
+  -- GitHub URL
   IF NOT EXISTS (
     SELECT 1 FROM information_schema.columns 
     WHERE table_name = 'projects' AND column_name = 'github_url'
   ) THEN
     ALTER TABLE projects ADD COLUMN github_url TEXT;
+  END IF;
+
+  -- Live project URL
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'live_url'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN live_url TEXT;
+  END IF;
+
+  -- Optional gallery of additional image paths
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'gallery_paths'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN gallery_paths TEXT[];
+  END IF;
+
+  -- Optional extended metadata for project details page
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'tagline'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN tagline TEXT;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'features'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN features TEXT[];
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'duration'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN duration TEXT;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'team_size'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN team_size TEXT;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'role'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN role TEXT;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'challenges'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN challenges TEXT;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_name = 'projects' AND column_name = 'solutions'
+  ) THEN
+    ALTER TABLE projects ADD COLUMN solutions TEXT;
   END IF;
 END $$;
 

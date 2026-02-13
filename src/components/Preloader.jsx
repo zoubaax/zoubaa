@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 import logoLight from '../assets/img/1.png';
 import logoDark from '../assets/img/2.png';
 
-const Preloader = ({ drakeMode = false }) => {
+const Preloader = () => {
+  const { isDarkMode: drakeMode } = useTheme();
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isExiting, setIsExiting] = useState(false);

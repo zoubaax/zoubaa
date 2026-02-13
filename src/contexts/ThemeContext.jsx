@@ -4,15 +4,34 @@ const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Check localStorage first, then default to dark mode
+    // 1. Check localStorage first
     const saved = localStorage.getItem('dashboard-theme')
-    return saved ? saved === 'dark' : true
+    if (saved) return saved === 'dark'
+
+    // 2. Otherwise check system preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return true
+    }
+
+    // 3. Fallback to dark mode (default for this portfolio)
+    return true
   })
 
   useEffect(() => {
+    // Listen for system theme changes if no manual preference is set
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = (e) => {
+      const saved = localStorage.getItem('dashboard-theme')
+      if (!saved) {
+        setIsDarkMode(e.matches)
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+
     // Save theme preference to localStorage
     localStorage.setItem('dashboard-theme', isDarkMode ? 'dark' : 'light')
-    
+
     // Apply theme class to document root for global styles
     if (isDarkMode) {
       document.documentElement.classList.add('dark')

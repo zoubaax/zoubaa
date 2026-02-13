@@ -12,12 +12,20 @@ import { useTheme } from '../contexts/ThemeContext'
 
 function Portfolio() {
   const { isDarkMode: drakeMode } = useTheme()
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    // Check if we've already shown the preloader in this session
+    return !sessionStorage.getItem('has-loaded');
+  });
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3500);
-    return () => clearTimeout(timer);
-  }, []);
+    if (loading) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem('has-loaded', 'true');
+      }, 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   if (loading) {
     return <Preloader />;

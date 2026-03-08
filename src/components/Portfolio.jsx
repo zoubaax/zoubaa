@@ -7,6 +7,7 @@ import Contact from './Contact.jsx'
 import Preloader from './Preloader.jsx'
 import ChatBot from './ChatBot.jsx'
 import SplashCursor from './SplashCursor.jsx'
+import GitHubStats from './GitHubStats.jsx'
 
 
 import { useTheme } from '../contexts/ThemeContext'
@@ -34,31 +35,31 @@ function Portfolio() {
 
   return (
     // Single-page layout: render sections with IDs for in-page scrolling
-    <div style={{
-      backgroundColor: drakeMode ? '#050A30' : '#eff9ff',
-      minHeight: '100vh',
-      width: '100vw',
-      position: 'relative',
-    }}>
+    <div className={`relative min-h-screen w-full transition-colors duration-1000 ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
       <SplashCursor />
       <Navbar />
-      <main className="relative z-10">
-        <section id="home" className="min-h-screen">
+      <main className="relative z-10 bg-transparent">
+        <section id="home" className="min-h-screen bg-transparent">
           <Home />
         </section>
 
-        <section id="about" className="min-h-screen">
+        <section id="about" className="min-h-screen bg-transparent">
           <About />
         </section>
 
-        <section id="skills" className="min-h-screen">
+        <section id="skills" className="min-h-screen bg-transparent">
           <MySkills />
         </section>
 
-        <section id="contact" className="min-h-screen">
+        <section id="stats" className="bg-transparent py-10">
+          <GitHubStats />
+        </section>
+
+        <section id="contact" className="min-h-screen bg-transparent">
           <Contact />
         </section>
       </main>
+
 
       {/* Persistent ChatBot */}
       <ChatBot />

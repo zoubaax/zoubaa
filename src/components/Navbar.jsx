@@ -14,6 +14,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Check if we're on the portfolio page (home page)
   const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa';
@@ -21,9 +23,42 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
+
+      // Calculate scroll progress
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled_val = (winScroll / height) * 100;
+      setScrollProgress(scrolled_val);
     };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Intersection Observer for active section tracking
+    const sections = ['home', 'about', 'skills', 'stats', 'contact'];
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px', // Trigger when section is in the upper part of the screen
+      threshold: 0
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const openMenu = () => setMenuOpen(true);
@@ -85,14 +120,16 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <ul
-          className={`hidden md:flex items-center gap-8 rounded-full px-10 py-3 mx-8 backdrop-blur-sm border font-medium transition-all duration-300 ${drakeMode
-            ? "bg-[#0A1A3A]/80 border-blue-500/30 text-white"
-            : "bg-white/80 border-gray-200 text-gray-700 shadow-sm"
+          className={`hidden md:flex items-center gap-8 rounded-full px-10 py-3 mx-8 backdrop-blur-md border font-medium transition-all duration-500 ${drakeMode
+            ? "bg-[#0A1A3A]/40 border-blue-500/20 text-white"
+            : "bg-white/40 border-blue-100 text-gray-700 shadow-sm"
             }`}
         >
           {/* only include routes that exist and map Home -> "/" */}
-          {['Home', 'About', 'Skills', 'Certificates', 'Contact'].map((item) => {
+          {['Home', 'About', 'Skills', 'Contact', 'Certificates'].map((item) => {
             const id = item === 'Home' ? 'home' : item.toLowerCase();
+            const isActive = isPortfolioPage && activeSection === id;
+
             const labelKey = {
               Home: 'nav.home',
               About: 'nav.about',
@@ -104,7 +141,7 @@ const Navbar = () => {
             // Handle Certificates as external link
             if (item === 'Certificates') {
               return (
-                <li key={item} className="cursor-target">
+                <li key={item} className="cursor-target relative group">
                   <a
                     href="/zoubaa/certificates"
                     onClick={(e) => {
@@ -112,59 +149,55 @@ const Navbar = () => {
                         e.preventDefault();
                       }
                     }}
-                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                    className={`transition-all duration-300 text-sm tracking-wide font-bold ${drakeMode
+                      ? "text-gray-400 hover:text-cyan-400"
+                      : "text-gray-500 hover:text-blue-600"
                       }`}
                   >
                     {t(labelKey)}
                   </a>
-                </li>
-              );
-            }
-
-            // Handle Home link - navigate to portfolio if not on portfolio page
-            if (item === 'Home') {
-              return (
-                <li key={item} className="cursor-target">
-                  <a
-                    href={isPortfolioPage ? "#home" : "/"}
-                    onClick={(e) => {
-                      if (!isPortfolioPage) {
-                        e.preventDefault();
-                        navigate('/');
-                      } else {
-                        scrollToSection(e, 'home');
-                      }
-                    }}
-                    className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
-                      }`}
-                  >
-                    {t(labelKey)}
-                  </a>
+                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 bg-current group-hover:w-full ${drakeMode ? 'bg-cyan-400' : 'bg-blue-600'}`}></span>
                 </li>
               );
             }
 
             return (
-              <li key={item} className="cursor-target">
+              <li key={item} className="cursor-target relative group">
                 <a
                   href={isPortfolioPage ? `#${id}` : `/#${id}`}
                   onClick={(e) => {
                     if (!isPortfolioPage) {
                       e.preventDefault();
-                      navigate(`/#${id}`);
+                      navigate(id === 'home' ? '/' : `/#${id}`);
                     } else {
                       scrollToSection(e, id);
                     }
                   }}
-                  className={`hover:opacity-80 transition-all duration-300 text-sm tracking-wide transform hover:-translate-y-0.5 ${drakeMode ? "text-white hover:text-blue-400" : "text-gray-700"
+                  className={`transition-all duration-300 text-sm tracking-wide font-bold ${isActive
+                    ? (drakeMode ? "text-cyan-400" : "text-blue-600")
+                    : (drakeMode ? "text-gray-400 hover:text-gray-200" : "text-gray-500 hover:text-gray-900")
                     }`}
                 >
                   {t(labelKey)}
+                  {isActive && (
+                    <span className={`absolute -bottom-1 left-0 w-full h-0.5 rounded-full ${drakeMode ? 'bg-cyan-400' : 'bg-blue-600'} shadow-[0_0_10px_rgba(6,182,212,0.5)]`} />
+                  )}
                 </a>
+                {!isActive && (
+                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 transition-all duration-300 rounded-full group-hover:w-full ${drakeMode ? 'bg-cyan-400/50' : 'bg-blue-600/50'}`}></span>
+                )}
               </li>
             );
           })}
         </ul>
+
+        {/* Scroll Progress Bar */}
+        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-transparent overflow-hidden">
+          <div
+            className={`h-full transition-all duration-150 ease-out ${drakeMode ? 'bg-cyan-400 shadow-[0_0_10px_#22d3ee]' : 'bg-blue-600 shadow-[0_0_10px_#2563eb]'}`}
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
 
         {/* Right Side Controls */}
         <div className="flex items-center gap-4">
@@ -216,9 +249,9 @@ const Navbar = () => {
           <a
             href="#contact"
             onClick={(e) => scrollToSection(e, 'contact')}
-            className={`cursor-target hidden lg:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-medium text-sm transform hover:-translate-y-0.5 ${drakeMode
-              ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
-              : "border-gray-400 text-gray-700 hover:bg-gray-100 shadow-sm hover:shadow-lg"
+            className={`cursor-target hidden lg:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-bold text-sm transform hover:-translate-y-0.5 shadow-sm hover:shadow-lg ${drakeMode
+              ? "border-cyan-500/50 text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10"
+              : "border-blue-500/50 text-blue-600 bg-blue-500/5 hover:bg-blue-500/10"
               }`}
           >
             {t('nav.explore')}
@@ -240,24 +273,15 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="cursor-target block md:hidden p-2 transition-all duration-300 hover:scale-110 transform hover:-translate-y-0.5"
+            className="cursor-target block md:hidden p-3 rounded-xl transition-all duration-300 hover:scale-110 transform hover:-translate-y-0.5"
             onClick={openMenu}
             aria-label="Open menu"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke={drakeMode ? "white" : "currentColor"}
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <div className="space-y-1.5">
+              <div className={`w-6 h-0.5 transition-all duration-300 ${drakeMode ? 'bg-white' : 'bg-gray-900'}`}></div>
+              <div className={`w-4 h-0.5 transition-all duration-300 ${drakeMode ? 'bg-cyan-400' : 'bg-blue-500'}`}></div>
+              <div className={`w-6 h-0.5 transition-all duration-300 ${drakeMode ? 'bg-white' : 'bg-gray-900'}`}></div>
+            </div>
           </button>
         </div>
 
@@ -307,7 +331,7 @@ const Navbar = () => {
             </button>
 
             {/* Menu Items */}
-            {['Home', 'About', 'Skills', 'Certificates', 'Contact'].map((item) => {
+            {['Home', 'About', 'Skills', 'Contact', 'Certificates'].map((item) => {
               const id = item === 'Home' ? 'home' : item.toLowerCase();
               const labelKey = {
                 Home: 'nav.home',
@@ -395,12 +419,12 @@ const Navbar = () => {
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, 'contact')}
-              className={`cursor-target mt-8 px-6 py-4 rounded-lg border text-center transition-all duration-300 font-medium transform hover:-translate-y-0.5 ${drakeMode
-                ? "border-blue-500 text-white hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20"
-                : "border-gray-400 text-gray-700 hover:bg-gray-100 hover:shadow-lg"
+              className={`cursor-target mt-8 px-6 py-4 rounded-xl border text-center transition-all duration-300 font-bold transform hover:-translate-y-1 ${drakeMode
+                ? "border-cyan-500/50 text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 shadow-[0_0_20px_rgba(6,182,212,0.1)]"
+                : "border-blue-500/50 text-blue-600 bg-blue-500/5 hover:bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.1)]"
                 }`}
             >
-              {t('nav.explore')} NOW
+              {t('nav.explore')}
             </a>
           </div>
         </div>

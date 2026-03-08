@@ -12,8 +12,11 @@ import {
   Users,
   Code,
   MessageSquare,
-  Rocket
+  Rocket,
+  Sparkles,
+  CheckCircle2
 } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 import Navbar from '../components/Navbar'
@@ -241,32 +244,45 @@ const ProjectDetails = () => {
 
               {/* Key Features */}
               {project.features && project.features.length > 0 && (
-                <section className="space-y-6">
-                  <h2 className={`text-2xl font-bold ${drakeMode ? 'text-white' : 'text-black'
-                    }`}>
-                    Key Features
-                  </h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                <section className="space-y-8">
+                  <div className="flex items-center gap-4">
+                    <h2 className={`text-2xl font-bold ${drakeMode ? 'text-white' : 'text-black'}`}>
+                      Key Features
+                    </h2>
+                    <div className={`h-[2px] flex-1 rounded-full ${drakeMode ? 'bg-gradient-to-r from-blue-500/50 to-transparent' : 'bg-gradient-to-r from-blue-200 to-transparent'}`}></div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-5">
                     {project.features.map((feature, idx) => (
-                      <div
+                      <motion.div
                         key={idx}
-                        className={`p-4 rounded-xl border ${drakeMode
-                          ? 'border-[#334155] bg-[#050A30]/50'
-                          : 'border-gray-200 bg-white'
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: idx * 0.1 }}
+                        whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                        className={`group p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden ${drakeMode
+                            ? 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10'
+                            : 'border-blue-100 bg-white hover:border-blue-200 shadow-sm hover:shadow-xl'
                           }`}
                       >
-                        <div className="flex items-start gap-3">
-                          <div className={`p-2 rounded-lg ${drakeMode ? 'bg-blue-900/40' : 'bg-blue-50'
+                        {/* Decorative background element for dark mode */}
+                        {drakeMode && (
+                          <div className="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-400/20 transition-colors duration-500"></div>
+                        )}
+
+                        <div className="flex items-center gap-4 relative z-10">
+                          <div className={`p-3 rounded-xl transition-all duration-300 ${drakeMode
+                              ? 'bg-blue-500/10 group-hover:bg-blue-500/20 text-blue-400'
+                              : 'bg-blue-50 group-hover:bg-blue-100 text-blue-600'
                             }`}>
-                            <Code className={`w-5 h-5 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
-                              }`} />
+                            <Sparkles className="w-5 h-5" />
                           </div>
-                          <span className={`font-medium ${drakeMode ? 'text-white' : 'text-black'
-                            }`}>
+                          <p className={`font-semibold tracking-wide ${drakeMode ? 'text-gray-100' : 'text-gray-900'}`}>
                             {feature}
-                          </span>
+                          </p>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </section>

@@ -6,6 +6,7 @@ import MySkills from './MySkills.jsx'
 import Contact from './Contact.jsx'
 import Preloader from './Preloader.jsx'
 import ChatBot from './ChatBot.jsx'
+import SplashCursor from './SplashCursor.jsx'
 
 
 import { useTheme } from '../contexts/ThemeContext'
@@ -39,8 +40,7 @@ function Portfolio() {
       width: '100vw',
       position: 'relative',
     }}>
-
-
+      <SplashCursor />
       <Navbar />
       <main className="relative z-10">
         <section id="home" className="min-h-screen">
@@ -62,7 +62,7 @@ function Portfolio() {
 
       {/* Persistent ChatBot */}
       <ChatBot />
-    </div>
+    </div >
   )
 }
 

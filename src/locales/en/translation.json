@@ -13,6 +13,7 @@
     "subtitle": "Transforming ideas into exceptional digital experiences that drive results and inspire innovation",
     "cta_start": "Start a Project",
     "live_demo": "Live Demo",
+    "view_code": "View Code",
     "featured": "Featured",
     "live": "Live",
     "in_progress": "In Progress",
@@ -29,24 +30,30 @@
     "data": "Data Analytics",
     "web3": "Web3",
     "social": "Social",
-    "view_details": "View Details"
+    "view_details": "View Details",
+    "technologies_used": "Technologies Used",
+    "no_projects": "No projects found. Add projects from your dashboard to see them here.",
+    "loading": "Loading projects..."
   },
-  "projects": {
-    "1": {
-      "title": "Healthcare Management",
-      "description": "Secure patient management system with telemedicine capabilities.",
-      "highlights": ["HIPAA", "Telemedicine", "Secure"]
-    },
-    "2": {
-      "title": "E-Commerce Platform",
-      "description": "Full-stack e-commerce with real-time inventory and payment processing.",
-      "highlights": ["Microservices", "Real-time", "Scalable"]
-    },
-    "3": {
-      "title": "AI Content Generator",
-      "description": "AI-powered content creation with real-time collaboration features.",
-      "highlights": ["AI/ML", "Collaboration", "Real-time"]
-    }
+  "project_details": {
+    "back": "All Projects",
+    "overview": "Project Overview",
+    "features": "Key Features",
+    "gallery": "Project Gallery",
+    "tech_stack": "Tech Stack",
+    "details": "Project Details",
+    "duration": "Duration",
+    "team_size": "Team Size",
+    "my_role": "My Role",
+    "challenges": "Challenges",
+    "solutions": "Solutions",
+    "challenges_solutions": "Challenges & Solutions",
+    "cta_title": "Interested in this project?",
+    "cta_subtitle": "Want to discuss similar projects or have questions about the implementation? Let's build something amazing together.",
+    "get_in_touch": "Get In Touch",
+    "view_more": "View More Projects",
+    "view_live": "View Live Demo",
+    "view_source": "View Source Code"
   },
   "contact": {
     "get_in_touch": "Get In Touch",
@@ -54,9 +61,24 @@
     "subtitle": "Ready to bring your ideas to life? Let's discuss your project and create something amazing together.",
     "send_message": "Send Message",
     "sending": "Sending...",
-    "available": "Available for new projects",
-    "privacy": "Your information is secure. I'll never share your details with anyone else.",
-    "prefer_social": "Prefer to connect socially?"
+    "available": "AVAILABLE FOR PROJECTS",
+    "available_subtitle": "Ready to start work immediately",
+    "morocco": "FEZ, Morocco",
+    "form_name": "Full Name",
+    "form_name_placeholder": "John Doe",
+    "form_email": "Email Address",
+    "form_email_placeholder": "john@example.com",
+    "form_message": "Message",
+    "form_message_placeholder": "Tell me about your project...",
+    "status": {
+      "success": "Message sent successfully!",
+      "error": "An error occurred. Please try again."
+    },
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "lets_connect": "Let's Connect",
+    "interest_opportunities": "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!"
   },
   "about": {
     "my_journey": "My Journey",
@@ -65,10 +87,26 @@
     "work_experience": "Work Experience",
     "education": "Education",
     "view_all_experiences": "View All Experiences",
-    "show_less": "Show Less"
+    "show_less": "Show Less",
+    "key_achievements": "Key Achievements",
+    "tech_stack": "Tech Stack",
+    "key_courses": "Key Courses",
+    "technologies": "Technologies",
+    "tech_work_with": "Technologies I Work With",
+    "trusted_by": "Trusted by developers and companies worldwide",
+    "completed": "Completed",
+    "in_progress_status": "In Progress"
   },
   "footer": {
-    "copyright": "© {{year}} ZOUBAA Mohammed. All rights reserved."
+    "description": "Building digital experiences that combine innovative technology with exceptional design. Full-stack developer and Computer Engineering student passionate about modern web applications.",
+    "quick_links": "Quick Links",
+    "legal": "Legal",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "cookie_policy": "Cookie Policy",
+    "all_rights_reserved": "All rights reserved.",
+    "made_with": "Made with",
+    "by_mohammed": "by Mohammed"
   },
   "form": {
     "full_name": "Full Name",
@@ -76,7 +114,10 @@
     "your_message": "Your Message",
     "placeholder_name": "Enter your full name",
     "placeholder_email": "Enter your email address",
-    "placeholder_message": "Tell me about your project, ideas, or just say hello..."
+    "placeholder_message": "Tell me about your project, ideas, or just say hello...",
+    "success": "Message sent successfully!",
+    "error": "An error occurred. Please try again.",
+    "network_error": "Network error. Please try again."
   },
   "language": {
     "switcher": "Language",
@@ -91,5 +132,123 @@
     "resume_button": "My resume",
     "github": "GitHub",
     "linkedin": "LinkedIn"
+  },
+  "data": {
+    "experiences": [
+      {
+        "role": "Full-Stack Developer",
+        "company": "Fiverr - Freelance",
+        "duration": "Jan 2024 — Present",
+        "location": "Remote",
+        "description": "Providing full-stack development services to international clients through Fiverr platform. Specializing in building e-learning platforms, web applications, and custom software solutions using modern technologies.",
+        "type": "Freelance",
+        "technologies": [
+          "React",
+          "Node.js",
+          "Supabase",
+          "JavaScript",
+          "Python",
+          "PostgreSQL",
+          "Tailwind CSS",
+          "Figma",
+          "GitHub"
+        ],
+        "achievements": [
+          "Delivered successful projects",
+          "Built custom e-learning platforms with interactive features",
+          "Developed medical management systems for healthcare clients"
+        ]
+      },
+      {
+        "role": "Full-Stack Developer",
+        "company": "NewDev Maroc",
+        "duration": "Feb 2025 – April 2025",
+        "location": "Remote",
+        "description": "Creation of a medical management system with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of features (online appointment scheduling, office administration, patient tracking) and DevOps practices for deployment.",
+        "type": "Full-time",
+        "technologies": [
+          "React",
+          "JavaScript",
+          "Node.js",
+          "PostgreSQL",
+          "Tailwind CSS",
+          "GitHub",
+          "Figma"
+        ],
+        "achievements": [
+          "Enabled online appointments",
+          "Streamlined clinic administration",
+          "Automated DevOps deployment"
+        ]
+      },
+      {
+        "role": "Full-Stack Developer",
+        "company": "The Center for E-Learning, Simulation and Telemedicine",
+        "duration": "Jan 2023 — Present",
+        "location": "Remote",
+        "description": "Development of a Python e-learning platform with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of interactive features (quiz, exercises, animations) and collaborative management via GitHub.",
+        "type": "Freelance",
+        "technologies": [
+          "PostgreSQL",
+          "JavaScript",
+          "Tailwind CSS",
+          "Figma",
+          "React",
+          "Node.js"
+        ],
+        "achievements": [
+          "Built Python e-learning platform",
+          "Added interactive quizzes & exercises",
+          "Managed collaboration via GitHub"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "degree": "Software Engineering",
+        "institution": "The Private University of Fez (UPF)",
+        "duration": "2025 — Present",
+        "location": "Morocco",
+        "description": "Advanced studies in software engineering with focus on modern web technologies, system architecture, and software development methodologies.",
+        "status": "In Progress",
+        "technologies": [
+          "angularjs",
+          "Spring Boot",
+          "Selenium",
+          "Machine Learning",
+          ".NET"
+        ],
+        "courses": [
+          "Full Stack",
+          "Cloud Computing",
+          "Database Design",
+          "DevOps",
+          "Testing & QA",
+          "Machine Learning",
+          "Deep Learning"
+        ]
+      },
+      {
+        "degree": "Specialized Technician in Digital Development",
+        "institution": "OFPPT",
+        "duration": "2023 — 2025",
+        "location": "Morocco",
+        "description": "Comprehensive training in web development, mobile applications, digital design principles, and project management.",
+        "status": "Completed",
+        "technologies": [
+          "React",
+          "Node.js",
+          "JavaScript",
+          "Python",
+          "PostgreSQL",
+          "Figma"
+        ],
+        "courses": [
+          "Frontend Development",
+          "UI/UX",
+          "Project Management"
+        ]
+      }
+    ]
   }
 }

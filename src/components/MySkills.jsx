@@ -64,11 +64,6 @@ const ProjectsSection = () => {
           // Technologies should already have image_url from projectsService
           const technologies = project.technologies || []
 
-          // Debug: Log technologies for each project
-          if (technologies.length > 0) {
-            console.log(`Project "${project.title}" has ${technologies.length} technologies:`, technologies);
-          }
-
           return {
             id: project.id,
             title: project.title,
@@ -86,7 +81,6 @@ const ProjectsSection = () => {
           }
         });
 
-        console.log('Transformed projects:', transformedProjects);
         setProjects(transformedProjects);
       }
       setLoading(false);
@@ -137,13 +131,13 @@ const ProjectsSection = () => {
             ? drakeMode ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-green-100 text-green-700 border-green-200'
             : drakeMode ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 'bg-yellow-100 text-yellow-700 border-yellow-200'
             }`}>
-            {project.status === 'completed' ? '🚀 Live' : '🛠️ In Progress'}
+            {project.status === 'completed' ? `🚀 ${t('portfolio.live')}` : `🛠️ ${t('portfolio.in_progress')}`}
           </div>
 
           {project.featured && (
             <div className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm border transition-all duration-300 transform group-hover:scale-105 ${drakeMode ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30' : 'bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 border-purple-200'
               }`}>
-              ⭐ Featured
+              ⭐ {t('portfolio.featured')}
             </div>
           )}
         </div>
@@ -199,17 +193,12 @@ const ProjectsSection = () => {
           {(() => {
             const techs = project.technologies_data || project.technologies || []
 
-            // Debug: Log technologies for this project
-            if (techs.length > 0) {
-              console.log(`Rendering technologies for project "${project.title}":`, techs);
-            }
-
             if (techs.length === 0) {
               // Show a placeholder if no technologies are linked
               return (
                 <div className="mb-4 pt-2 border-t border-gray-200/20 dark:border-gray-700/20">
                   <div className={`text-xs font-semibold mb-2 ${drakeMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                    No technologies linked
+                    {t('portfolio.technologies_used')}
                   </div>
                 </div>
               )
@@ -219,7 +208,7 @@ const ProjectsSection = () => {
               <div className="mb-4 pt-2 border-t border-gray-200/20 dark:border-gray-700/20">
                 <div className={`text-xs font-semibold mb-3 flex items-center gap-2 ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
                   <span className="inline-block w-1.5 h-1.5 rounded-full bg-current"></span>
-                  Technologies Used ({techs.length})
+                  {t('portfolio.technologies_used')} ({techs.length})
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {techs.slice(0, 8).map((tech, index) => {
@@ -309,7 +298,7 @@ const ProjectsSection = () => {
                   }`}
               >
                 <Github className="w-4 h-4" />
-                View Code
+                {t('portfolio.view_code')}
               </a>
             )}
           </div>
@@ -398,7 +387,7 @@ const ProjectsSection = () => {
         {loading && (
           <div className="text-center py-20">
             <div className={`text-lg ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Loading projects...
+              {t('portfolio.loading')}
             </div>
           </div>
         )}
@@ -409,7 +398,7 @@ const ProjectsSection = () => {
             {displayedProjects.length === 0 ? (
               <div className="text-center py-20">
                 <div className={`text-lg ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  No projects found. Add projects from your dashboard to see them here.
+                  {t('portfolio.no_projects')}
                 </div>
               </div>
             ) : (
@@ -459,7 +448,7 @@ const ProjectsSection = () => {
             <a
               href="#contact"
               onClick={(e) => scrollToSection(e, 'contact')}
-              className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-500 transform hover:scale-105 flex items-center gap-3 ${drakeMode ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25' : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'}`}
+              className={`cursor-target px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-3 ${drakeMode ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-2xl hover:shadow-cyan-500/25' : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-2xl hover:shadow-blue-500/25'}`}
             >
               {t('portfolio.cta_start')}
               <ArrowRight className="w-5 h-5" />

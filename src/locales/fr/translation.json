@@ -13,50 +13,72 @@
     "subtitle": "Transformer les idées en expériences numériques exceptionnelles qui génèrent des résultats et inspirent l'innovation",
     "cta_start": "Commencer un projet",
     "live_demo": "Démo en ligne",
+    "view_code": "Voir le code",
     "featured": "En vedette",
-    "live": "En ligne",
-    "in_progress": "En cours",
+    "live": "En Direct",
+    "in_progress": "En Cours",
     "view_more": "Voir plus de projets",
-    "show_less": "Voir moins",
+    "show_less": "Voir Moins",
     "displaying_all": "Affichage de tous les {{count}} projets",
     "showing_of": "Affichage de 3 sur {{count}} projets",
-    "powered": "Propulsé par des technologies modernes",
+    "powered": "Propulsé par des Technologies Modernes",
     "technologies": "Outils et frameworks de pointe pour des résultats exceptionnels",
-    "all_projects": "Tous les projets",
+    "all_projects": "Tous les Projets",
     "fullstack": "Full Stack",
     "ai": "IA/ML",
     "mobile": "Mobile",
-    "data": "Analyse de données",
+    "data": "Analyse de Données",
     "web3": "Web3",
     "social": "Social",
-    "view_details": "Voir les détails"
+    "view_details": "Voir les Détails",
+    "technologies_used": "Technologies Utilisées",
+    "no_projects": "Aucun projet trouvé. Ajoutez des projets depuis votre tableau de bord pour les voir ici.",
+    "loading": "Chargement des projets..."
   },
-  "projects": {
-    "1": {
-      "title": "Gestion des soins de santé",
-      "description": "Système sécurisé de gestion des patients avec fonctionnalités de télémédecine.",
-      "highlights": ["HIPAA", "Télémédecine", "Sécurisé"]
-    },
-    "2": {
-      "title": "Plateforme e-commerce",
-      "description": "E‑commerce full-stack avec inventaire en temps réel et traitement des paiements.",
-      "highlights": ["Microservices", "Temps réel", "Évolutif"]
-    },
-    "3": {
-      "title": "Générateur de contenu IA",
-      "description": "Création de contenu pilotée par l'IA avec fonctionnalités de collaboration en temps réel.",
-      "highlights": ["IA/ML", "Collaboration", "Temps réel"]
-    }
+  "project_details": {
+    "back": "Tous les projets",
+    "overview": "Aperçu du projet",
+    "features": "Principales caractéristiques",
+    "gallery": "Galerie du projet",
+    "tech_stack": "Technologies utilisées",
+    "details": "Détails du projet",
+    "duration": "Durée",
+    "team_size": "Taille de l'équipe",
+    "my_role": "Mon rôle",
+    "challenges": "Défis",
+    "solutions": "Solutions",
+    "challenges_solutions": "Défis & Solutions",
+    "cta_title": "Intéressé par ce projet ?",
+    "cta_subtitle": "Vous voulez discuter de projets similaires ou avez des questions sur l'implémentation ? Construisons quelque chose d'incroyable ensemble.",
+    "get_in_touch": "Entrer en contact",
+    "view_more": "Voir plus de projets",
+    "view_live": "Démo en ligne",
+    "view_source": "Code source"
   },
   "contact": {
-    "get_in_touch": "Entrer en contact",
-    "work_together": "Travaillons ensemble",
+    "get_in_touch": "Contactez-moi",
+    "work_together": "Travaillons Ensemble",
     "subtitle": "Prêt à donner vie à vos idées ? Discutons de votre projet et créons quelque chose d'incroyable ensemble.",
-    "send_message": "Envoyer le message",
-    "sending": "Envoi...",
-    "available": "Disponible pour de nouveaux projets",
-    "privacy": "Vos informations sont sécurisées. Je ne partagerai jamais vos coordonnées.",
-    "prefer_social": "Préférez-vous vous connecter via les réseaux sociaux ?"
+    "send_message": "Envoyer le Message",
+    "sending": "Envoi en cours...",
+    "available": "DISPONIBLE POUR DES PROJETS",
+    "available_subtitle": "Prêt à commencer à travailler immédiatement",
+    "morocco": "FÈS, Maroc",
+    "form_name": "Nom Complet",
+    "form_name_placeholder": "Jean Dupont",
+    "form_email": "Adresse Email",
+    "form_email_placeholder": "jean@exemple.com",
+    "form_message": "Message",
+    "form_message_placeholder": "Parlez-moi de votre projet...",
+    "status": {
+      "success": "Message envoyé avec succès !",
+      "error": "Une erreur s'est produite. Veuillez réessayer."
+    },
+    "email": "Email",
+    "phone": "Téléphone",
+    "location": "Localisation",
+    "lets_connect": "Connectons-nous",
+    "interest_opportunities": "Je suis toujours intéressé par de nouveaux projets et opportunités. Que vous ayez une question ou que vous vouliez simplement dire bonjour, je ferai de mon mieux pour vous répondre !"
   },
   "about": {
     "my_journey": "Mon parcours",
@@ -65,10 +87,26 @@
     "work_experience": "Expérience professionnelle",
     "education": "Éducation",
     "view_all_experiences": "Voir toutes les expériences",
-    "show_less": "Voir moins"
+    "show_less": "Voir moins",
+    "key_achievements": "Principales réalisations",
+    "tech_stack": "Technologies utilisées",
+    "key_courses": "Cours principaux",
+    "technologies": "Technologies",
+    "tech_work_with": "Technologies avec lesquelles je travaille",
+    "trusted_by": "Approuvé par des développeurs et des entreprises du monde entier",
+    "completed": "Terminé",
+    "in_progress_status": "En cours"
   },
   "footer": {
-    "copyright": "© {{year}} ZOUBAA Mohammed. Tous droits réservés."
+    "description": "Création d'expériences numériques alliant technologie innovante et design exceptionnel. Développeur full-stack et étudiant en génie informatique passionné par les applications web modernes.",
+    "quick_links": "Liens Rapides",
+    "legal": "Mentions Légales",
+    "privacy_policy": "Politique de Confidentialité",
+    "terms_of_service": "Conditions d'Utilisation",
+    "cookie_policy": "Politique relative aux Cookies",
+    "all_rights_reserved": "Tous droits réservés.",
+    "made_with": "Fait avec",
+    "by_mohammed": "par Mohammed"
   },
   "form": {
     "full_name": "Nom complet",
@@ -76,7 +114,10 @@
     "your_message": "Votre message",
     "placeholder_name": "Entrez votre nom complet",
     "placeholder_email": "Entrez votre adresse e-mail",
-    "placeholder_message": "Parlez-moi de votre projet, vos idées, ou dites bonjour..."
+    "placeholder_message": "Parlez-moi de votre projet, vos idées, ou dites bonjour...",
+    "success": "Message envoyé avec succès !",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "network_error": "Erreur réseau. Veuillez réessayer."
   },
   "language": {
     "switcher": "Langue",
@@ -91,5 +132,123 @@
     "resume_button": "Mon CV",
     "github": "GitHub",
     "linkedin": "LinkedIn"
+  },
+  "data": {
+    "experiences": [
+      {
+        "role": "Développeur Full-Stack",
+        "company": "Fiverr - Freelance",
+        "duration": "Jan 2024 — Présent",
+        "location": "À distance",
+        "description": "Fourniture de services de développement full-stack à des clients internationaux via la plateforme Fiverr. Spécialisé dans la création de plateformes d'apprentissage en ligne, d'applications web et de solutions logicielles personnalisées utilisant des technologies modernes.",
+        "type": "Freelance",
+        "technologies": [
+          "React",
+          "Node.js",
+          "Supabase",
+          "JavaScript",
+          "Python",
+          "PostgreSQL",
+          "Tailwind CSS",
+          "Figma",
+          "GitHub"
+        ],
+        "achievements": [
+          "Livré des projets réussis",
+          "Construit des plateformes d'apprentissage en ligne personnalisées avec des fonctionnalités interactives",
+          "Développé des systèmes de gestion médicale pour des clients du secteur de la santé"
+        ]
+      },
+      {
+        "role": "Développeur Full-Stack",
+        "company": "NewDev Maroc",
+        "duration": "Fév 2025 – Avril 2025",
+        "location": "À distance",
+        "description": "Création d'un système de gestion médicale avec React.js, Tailwind CSS, Express.js et PostgreSQL ; intégration de fonctionnalités (prise de rendez-vous en ligne, administration de cabinet, suivi des patients) et pratiques DevOps pour le déploiement.",
+        "type": "Temps plein",
+        "technologies": [
+          "React",
+          "JavaScript",
+          "Node.js",
+          "PostgreSQL",
+          "Tailwind CSS",
+          "GitHub",
+          "Figma"
+        ],
+        "achievements": [
+          "Activé les rendez-vous en ligne",
+          "Simplifié l'administration des cliniques",
+          "Automatisé le déploiement DevOps"
+        ]
+      },
+      {
+        "role": "Développeur Full-Stack",
+        "company": "The Center for E-Learning, Simulation and Telemedicine",
+        "duration": "Jan 2023 — Présent",
+        "location": "À distance",
+        "description": "Développement d'une plateforme d'apprentissage en ligne Python avec React.js, Tailwind CSS, Express.js et PostgreSQL ; intégration de fonctionnalités interactives (quiz, exercices, animations) et gestion collaborative via GitHub.",
+        "type": "Freelance",
+        "technologies": [
+          "PostgreSQL",
+          "JavaScript",
+          "Tailwind CSS",
+          "Figma",
+          "React",
+          "Node.js"
+        ],
+        "achievements": [
+          "Construit une plateforme d'apprentissage en ligne Python",
+          "Ajouté des quiz et exercices interactifs",
+          "Géré la collaboration via GitHub"
+        ]
+      }
+    ],
+    "education": [
+      {
+        "degree": "Génie Logiciel",
+        "institution": "Université Privée de Fès (UPF)",
+        "duration": "2025 — Présent",
+        "location": "Maroc",
+        "description": "Études avancées en génie logiciel avec un accent sur les technologies web modernes, l'architecture système et les méthodologies de développement logiciel.",
+        "status": "En cours",
+        "technologies": [
+          "angularjs",
+          "Spring Boot",
+          "Selenium",
+          "Machine Learning",
+          ".NET"
+        ],
+        "courses": [
+          "Full Stack",
+          "Cloud Computing",
+          "Conception de bases de données",
+          "DevOps",
+          "Tests & QA",
+          "Machine Learning",
+          "Deep Learning"
+        ]
+      },
+      {
+        "degree": "Technicien Spécialisé en Développement Digital",
+        "institution": "OFPPT",
+        "duration": "2023 — 2025",
+        "location": "Maroc",
+        "description": "Formation complète en développement web, applications mobiles, principes de conception numérique et gestion de projet.",
+        "status": "Terminé",
+        "technologies": [
+          "React",
+          "Node.js",
+          "JavaScript",
+          "Python",
+          "PostgreSQL",
+          "Figma"
+        ],
+        "courses": [
+          "Développement Frontend",
+          "UI/UX",
+          "Gestion de projet"
+        ]
+      }
+    ]
   }
 }

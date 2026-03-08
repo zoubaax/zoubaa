@@ -6,7 +6,6 @@ import MySkills from './MySkills.jsx'
 import Contact from './Contact.jsx'
 import Preloader from './Preloader.jsx'
 import ChatBot from './ChatBot.jsx'
-import SplashCursor from './SplashCursor.jsx'
 import GitHubStats from './GitHubStats.jsx'
 
 
@@ -36,7 +35,6 @@ function Portfolio() {
   return (
     // Single-page layout: render sections with IDs for in-page scrolling
     <div className={`relative min-h-screen w-full transition-colors duration-1000 ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
-      <SplashCursor />
       <Navbar />
       <main className="relative z-10 bg-transparent">
         <section id="home" className="min-h-screen bg-transparent">

@@ -4,6 +4,7 @@ import './i18n'; // ...initialize i18n before the app
 
 import { AuthProvider } from './contexts/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
+import SplashCursor from './components/SplashCursor.jsx'
 import Portfolio from './components/Portfolio.jsx'
 import Login from './pages/auth/Login.jsx'
 import CertificatesPage from './pages/CertificatesPage.jsx'
@@ -19,6 +20,7 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
+        <SplashCursor />
         <Routes>
           <Route path="/" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />

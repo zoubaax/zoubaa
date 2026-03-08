@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 import Navbar from '../components/Navbar'
 import { getProjectById } from '../services/projectsService'
@@ -31,7 +32,7 @@ const ProjectDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { isDarkMode: drakeMode } = useTheme()
-
+  const { i18n, t } = useTranslation()
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -48,20 +49,20 @@ const ProjectDetails = () => {
 
         if (fetchError) {
           console.error('Error fetching project:', fetchError)
-          setError('Unable to load project details. Please try again.')
+          setError(t('portfolio.loading_error'))
         } else {
           setProject(data)
         }
       } catch (err) {
         console.error('Unexpected error:', err)
-        setError('An unexpected error occurred.')
+        setError(t('portfolio.unexpected_error'))
       } finally {
         setLoading(false)
       }
     }
 
     fetchProject()
-  }, [id])
+  }, [id, t])
 
   const handleBack = () => {
     navigate(-1)
@@ -69,7 +70,7 @@ const ProjectDetails = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return '—'
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(i18n.language === 'fr' ? 'fr-FR' : 'en-US', {
       year: 'numeric',
       month: 'long'
     })
@@ -130,10 +131,10 @@ const ProjectDetails = () => {
                 ? 'bg-[#334155]/20 hover:bg-[#334155]/40 text-cyan-400 hover:text-white border border-cyan-500/20 hover:border-cyan-400/40'
                 : 'bg-white text-blue-600 hover:text-blue-700 shadow-md hover:shadow-xl border border-blue-100 hover:border-blue-200'
                 }`}
-              aria-label="Back to projects"
+              aria-label={t('project_details.back')}
             >
               <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              <span className="text-sm font-bold tracking-wide">All Projects</span>
+              <span className="text-sm font-bold tracking-wide">{t('project_details.back')}</span>
             </button>
           </nav>
 
@@ -199,7 +200,7 @@ const ProjectDetails = () => {
                       }`}
                   >
                     <ExternalLink className="w-4 h-4" />
-                    <span>View Live Demo</span>
+                    <span>{t('project_details.view_live')}</span>
                     <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </a>
                 )}
@@ -215,7 +216,7 @@ const ProjectDetails = () => {
                       }`}
                   >
                     <Github className="w-4 h-4" />
-                    <span>View Source Code</span>
+                    <span>{t('project_details.view_source')}</span>
                   </a>
                 )}
               </div>
@@ -230,7 +231,7 @@ const ProjectDetails = () => {
               <section className="space-y-6">
                 <h2 className={`text-2xl font-bold ${drakeMode ? 'text-white' : 'text-black'
                   }`}>
-                  Project Overview
+                  {t('project_details.overview')}
                 </h2>
                 <div className={`prose prose-lg max-w-none ${drakeMode ? 'prose-invert' : ''
                   }`}>
@@ -247,7 +248,7 @@ const ProjectDetails = () => {
                 <section className="space-y-8">
                   <div className="flex items-center gap-4">
                     <h2 className={`text-2xl font-bold ${drakeMode ? 'text-white' : 'text-black'}`}>
-                      Key Features
+                      {t('project_details.features')}
                     </h2>
                     <div className={`h-[2px] flex-1 rounded-full ${drakeMode ? 'bg-gradient-to-r from-blue-500/50 to-transparent' : 'bg-gradient-to-r from-blue-200 to-transparent'}`}></div>
                   </div>
@@ -262,8 +263,8 @@ const ProjectDetails = () => {
                         transition={{ duration: 0.5, delay: idx * 0.1 }}
                         whileHover={{ y: -5, transition: { duration: 0.2 } }}
                         className={`group p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden ${drakeMode
-                            ? 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10'
-                            : 'border-blue-100 bg-white hover:border-blue-200 shadow-sm hover:shadow-xl'
+                          ? 'border-blue-500/20 bg-blue-500/5 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10'
+                          : 'border-blue-100 bg-white hover:border-blue-200 shadow-sm hover:shadow-xl'
                           }`}
                       >
                         {/* Decorative background element for dark mode */}
@@ -273,8 +274,8 @@ const ProjectDetails = () => {
 
                         <div className="flex items-center gap-4 relative z-10">
                           <div className={`p-3 rounded-xl transition-all duration-300 ${drakeMode
-                              ? 'bg-blue-500/10 group-hover:bg-blue-500/20 text-blue-400'
-                              : 'bg-blue-50 group-hover:bg-blue-100 text-blue-600'
+                            ? 'bg-blue-500/10 group-hover:bg-blue-500/20 text-blue-400'
+                            : 'bg-blue-50 group-hover:bg-blue-100 text-blue-600'
                             }`}>
                             <Sparkles className="w-5 h-5" />
                           </div>
@@ -293,7 +294,7 @@ const ProjectDetails = () => {
                 <section className="space-y-6">
                   <h2 className={`text-2xl font-bold ${drakeMode ? 'text-white' : 'text-black'
                     }`}>
-                    Project Gallery
+                    {t('project_details.gallery')}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {project.gallery_urls.map((url, idx) => (
@@ -327,7 +328,7 @@ const ProjectDetails = () => {
                     }`} />
                   <h3 className={`text-lg font-bold ${drakeMode ? 'text-white' : 'text-black'
                     }`}>
-                    Tech Stack
+                    {t('project_details.tech_stack')}
                   </h3>
                 </div>
 
@@ -355,7 +356,7 @@ const ProjectDetails = () => {
                 }`}>
                 <h3 className={`text-lg font-bold mb-6 ${drakeMode ? 'text-white' : 'text-black'
                   }`}>
-                  Project Details
+                  {t('project_details.details')}
                 </h3>
 
                 <div className="space-y-4">
@@ -366,7 +367,7 @@ const ProjectDetails = () => {
                       <div>
                         <p className={`text-sm font-medium ${drakeMode ? 'text-gray-300' : 'text-gray-700'
                           }`}>
-                          Duration
+                          {t('project_details.duration')}
                         </p>
                         <p className={`text-sm ${drakeMode ? 'text-gray-400' : 'text-gray-600'
                           }`}>
@@ -383,7 +384,7 @@ const ProjectDetails = () => {
                       <div>
                         <p className={`text-sm font-medium ${drakeMode ? 'text-gray-300' : 'text-gray-700'
                           }`}>
-                          Team Size
+                          {t('project_details.team_size')}
                         </p>
                         <p className={`text-sm ${drakeMode ? 'text-gray-400' : 'text-gray-600'
                           }`}>
@@ -403,7 +404,7 @@ const ProjectDetails = () => {
                       <div>
                         <p className={`text-sm font-medium ${drakeMode ? 'text-gray-300' : 'text-gray-700'
                           }`}>
-                          My Role
+                          {t('project_details.my_role')}
                         </p>
                         <p className={`text-sm ${drakeMode ? 'text-gray-400' : 'text-gray-600'
                           }`}>
@@ -423,14 +424,14 @@ const ProjectDetails = () => {
                   }`}>
                   <h3 className={`text-lg font-bold mb-6 ${drakeMode ? 'text-white' : 'text-black'
                     }`}>
-                    Challenges & Solutions
+                    {t('project_details.challenges_solutions')}
                   </h3>
 
                   {project.challenges && (
                     <div className="mb-4">
                       <h4 className={`text-sm font-semibold mb-2 ${drakeMode ? 'text-gray-300' : 'text-gray-700'
                         }`}>
-                        Challenges
+                        {t('project_details.challenges')}
                       </h4>
                       <p className={`text-sm ${drakeMode ? 'text-gray-400' : 'text-gray-600'
                         }`}>
@@ -443,7 +444,7 @@ const ProjectDetails = () => {
                     <div>
                       <h4 className={`text-sm font-semibold mb-2 ${drakeMode ? 'text-gray-300' : 'text-gray-700'
                         }`}>
-                        Solutions
+                        {t('project_details.solutions')}
                       </h4>
                       <p className={`text-sm ${drakeMode ? 'text-gray-400' : 'text-gray-600'
                         }`}>
@@ -470,11 +471,11 @@ const ProjectDetails = () => {
                 <div className="max-w-2xl">
                   <h2 className={`text-3xl md:text-4xl font-bold mb-4 tracking-tight ${drakeMode ? 'text-white' : 'text-white'
                     }`}>
-                    Interested in this project?
+                    {t('project_details.cta_title')}
                   </h2>
                   <p className={`text-lg md:text-xl ${drakeMode ? 'text-gray-300' : 'text-blue-50'
                     }`}>
-                    Want to discuss similar projects or have questions about the implementation? Let's build something amazing together.
+                    {t('project_details.cta_subtitle')}
                   </p>
                 </div>
 
@@ -487,7 +488,7 @@ const ProjectDetails = () => {
                       }`}
                   >
                     <MessageSquare className="w-5 h-5" />
-                    Get In Touch
+                    {t('project_details.get_in_touch')}
                   </Link>
                   <button
                     onClick={handleBack}
@@ -497,7 +498,7 @@ const ProjectDetails = () => {
                       }`}
                   >
                     <Rocket className="w-5 h-5" />
-                    View More Projects
+                    {t('project_details.view_more')}
                   </button>
                 </div>
               </div>

@@ -83,74 +83,8 @@ const WorkHistory = () => {
     return companyLogos[company] || null;
   };
 
-  const experiences = [
-    {
-      role: "Full-Stack Developer",
-      company: "Fiverr - Freelance",
-      duration: "Jan 2024 — Present",
-      location: "Remote",
-      description: "Providing full-stack development services to international clients through Fiverr platform. Specializing in building e-learning platforms, web applications, and custom software solutions using modern technologies.",
-      technologies: ["React", "Node.js", "Supabase", "JavaScript", "Python", "PostgreSQL", "Tailwind CSS", "Figma", "GitHub"],
-      type: "Freelance",
-      achievements: [
-        "Delivered  successful projects",
-        "Built custom e-learning platforms with interactive features",
-        "Developed medical management systems for healthcare clients",
-      ]
-    },
-
-    {
-      role: "Full-Stack Developer",
-      company: "NewDev Maroc",
-      duration: "Feb 2025 – April 2025",
-      location: "Remote",
-      description: "Creation of a medical management system with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of features (online appointment scheduling, office administration, patient tracking) and DevOps practices for deployment.",
-      technologies: ["React", "JavaScript", "Node.js", "PostgreSQL", "Tailwind CSS", "GitHub", "Figma"],
-      type: "Full-time",
-      achievements: [
-        "Enabled online appointments",
-        "Streamlined clinic administration",
-        "Automated DevOps deployment"
-      ]
-    },
-    {
-      role: "Full-Stack Developer",
-      company: "The Center for E-Learning, Simulation and Telemedicine",
-      duration: "Jan 2023 — Present",
-      location: "Remote",
-      description: "Development of a Python e-learning platform with React.js, Tailwind CSS, Express.js and PostgreSQL; integration of interactive features (quiz, exercises, animations) and collaborative management via GitHub.",
-      technologies: ["PostgreSQL", "JavaScript", "Tailwind CSS", "Figma", "React", "Node.js"],
-      type: "Freelance",
-      achievements: [
-        "Built Python e-learning platform",
-        "Added interactive quizzes & exercises",
-        "Managed collaboration via GitHub"
-      ]
-    },
-  ];
-
-  const education = [
-    {
-      degree: "Software Engineering",
-      institution: "The Private University of Fez (UPF)",
-      duration: "2025 — Present",
-      location: "Morocco",
-      description: "Advanced studies in software engineering with focus on modern web technologies, system architecture, and software development methodologies.",
-      status: "In Progress",
-      technologies: ["angularjs", "Spring Boot", "Selenium", "Machine Learning", ".NET"],
-      courses: ["Full Stack", "Cloud Computing", "Database Design", " DevOps", "Testing & QA", "Machine Learning", "Deep Learning"]
-    },
-    {
-      degree: "Specialized Technician in Digital Development",
-      institution: "OFPPT",
-      duration: "2023 — 2025",
-      location: "Morocco",
-      description: "Comprehensive training in web development, mobile applications, digital design principles, and project management.",
-      status: "Completed",
-      technologies: ["React", "Node.js", "JavaScript", "Python", "PostgreSQL", "Figma"],
-      courses: ["Frontend Development", "UI/UX", "Project Management"]
-    }
-  ];
+  const experiences = t('data.experiences', { returnObjects: true }) || [];
+  const education = t('data.education', { returnObjects: true }) || [];
 
   const displayedExperiences = showAll ? experiences : experiences.slice(0, 2);
   const displayedEducation = showAll ? education : education;
@@ -206,33 +140,40 @@ const WorkHistory = () => {
             {t('about.title')}
           </h2>
 
-          <p className={`max-w-2xl mx-auto text-xl leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <p className={`max-w-3xl mx-auto text-xl leading-relaxed mb-12 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
             {t('about.subtitle')}
           </p>
         </div>
 
         {/* Navigation Tabs */}
         <div className="flex justify-center mb-12">
-          <div className={`cursor-target flex rounded-2xl p-2 backdrop-blur-sm border ${drakeMode ? 'bg-[#0A1A3A]/80 border-blue-500/30' : 'bg-white/80 border-gray-200'}`}>
-            {[
-              { id: 'work', labelKey: 'about.work_experience', icon: Briefcase },
-              { id: 'education', labelKey: 'about.education', icon: GraduationCap }
-            ].map(({ id, labelKey, icon: Icon }) => (
-              <button
-                key={id}
-                onClick={() => setActiveSection(id)}
-                className={`cursor-target flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${activeSection === id ? (drakeMode ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25' : 'bg-blue-500 text-white shadow-lg shadow-blue-500/25') : (drakeMode ? 'text-gray-300 hover:text-white hover:bg-blue-500/20 hover:shadow-lg hover:shadow-blue-500/10' : 'text-gray-600 hover:text-gray-900 hover:bg-blue-500/10 hover:shadow-lg hover:shadow-blue-500/5')}`}
-              >
-                <Icon className="w-5 h-5" />
-                {t(labelKey)}
-              </button>
-            ))}
+          <div className={`flex p-1 rounded-2xl border ${drakeMode ? 'bg-[#334155]/20 border-cyan-500/20' : 'bg-white border-blue-100 shadow-sm'}`}>
+            <button
+              onClick={() => setActiveSection('work')}
+              className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 ${activeSection === 'work'
+                ? (drakeMode ? 'bg-cyan-500 text-[#050A30]' : 'bg-blue-600 text-white shadow-lg')
+                : (drakeMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-500 hover:text-blue-600')
+                }`}
+            >
+              <Briefcase className="w-4 h-4" />
+              {t('about.work_experience')}
+            </button>
+            <button
+              onClick={() => setActiveSection('education')}
+              className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300 ${activeSection === 'education'
+                ? (drakeMode ? 'bg-cyan-500 text-[#050A30]' : 'bg-blue-600 text-white shadow-lg')
+                : (drakeMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-500 hover:text-blue-600')
+                }`}
+            >
+              <GraduationCap className="w-4 h-4" />
+              {t('about.education')}
+            </button>
           </div>
         </div>
 
         {/* Education Section */}
         {activeSection === 'education' && (
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-8">
             {displayedEducation.map((edu, index) => (
               <Card
                 key={index}
@@ -262,7 +203,7 @@ const WorkHistory = () => {
                         ? 'bg-green-500/20 text-green-300 border border-green-500/30'
                         : 'bg-green-100 text-green-700 border border-green-200'
                       }`}>
-                      {edu.status}
+                      {edu.status === 'In Progress' ? t('about.in_progress_status') : t('about.completed')}
                     </span>
                   </div>
 
@@ -289,7 +230,7 @@ const WorkHistory = () => {
                     <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
                       }`}>
                       <Award className="w-4 h-4" />
-                      Key Courses
+                      {t('about.key_courses')}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {edu.courses.map((course, i) => (
@@ -311,7 +252,7 @@ const WorkHistory = () => {
                     <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
                       }`}>
                       <Code className="w-4 h-4" />
-                      Technologies
+                      {t('about.technologies')}
                     </h4>
                     <TechStack technologies={edu.technologies} />
                   </div>
@@ -388,7 +329,7 @@ const WorkHistory = () => {
                       <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
                         }`}>
                         <Award className="w-4 h-4" />
-                        Key Achievements
+                        {t('about.key_achievements')}
                       </h4>
                       <div className="space-y-2">
                         {exp.achievements.map((achievement, i) => (
@@ -408,7 +349,7 @@ const WorkHistory = () => {
                       <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
                         }`}>
                         <Code className="w-4 h-4" />
-                        Tech Stack
+                        {t('about.tech_stack')}
                       </h4>
                       <TechStack technologies={exp.technologies} />
                     </div>
@@ -435,8 +376,12 @@ const WorkHistory = () => {
         <div className="mt-20">
           <div className={`text-center mb-8 ${drakeMode ? 'text-gray-300' : 'text-gray-600'
             }`}>
-            <h3 className="text-xl font-semibold mb-2 cursor-target">Technologies I Work With</h3>
-            <p className="text-sm cursor-target">Trusted by developers and companies worldwide</p>
+            <h3 className="text-xl font-semibold mb-2 cursor-target">
+              {t('about.tech_work_with')}
+            </h3>
+            <p className="text-sm cursor-target">
+              {t('about.trusted_by')}
+            </p>
           </div>
 
           <div className="cursor-target">

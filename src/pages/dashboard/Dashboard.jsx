@@ -7,6 +7,8 @@ import { LayoutDashboard, Award, FolderKanban, Code, User, Calendar, Mail } from
 import { getProjects } from '../../services/projectsService'
 import { getCertificates } from '../../services/certificatesService'
 import { getTechnologies } from '../../services/technologiesService'
+import { syncAiKnowledge } from '../../services/aiService'
+import { Brain, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react'
 
 function Dashboard() {
   const { user } = useAuth()
@@ -16,6 +18,8 @@ function Dashboard() {
   const [certificatesCount, setCertificatesCount] = useState(0)
   const [technologiesCount, setTechnologiesCount] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [syncing, setSyncing] = useState(false)
+  const [syncStatus, setSyncStatus] = useState(null) // null, 'success', 'error'
 
   useEffect(() => {
     loadCounts()
@@ -39,6 +43,19 @@ function Dashboard() {
       setTechnologiesCount(technologiesResult.data.length)
     }
     setLoading(false)
+  }
+
+  const handleSyncAI = async () => {
+    setSyncing(true)
+    setSyncStatus(null)
+    const { data, error } = await syncAiKnowledge()
+    if (error) {
+      setSyncStatus('error')
+    } else {
+      setSyncStatus('success')
+    }
+    setSyncing(false)
+    setTimeout(() => setSyncStatus(null), 5000)
   }
 
   const stats = [
@@ -96,8 +113,8 @@ function Dashboard() {
                   key={stat.label}
                   onClick={stat.onClick}
                   className={`cursor-target group relative backdrop-blur-lg rounded-2xl border p-6 transition-all duration-500 transform hover:-translate-y-2 text-left ${isDarkMode
-                      ? 'bg-white/5 border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
-                      : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/10'
+                    ? 'bg-white/5 border-blue-500/30 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10'
+                    : 'bg-white border-blue-200 hover:border-blue-400 hover:shadow-2xl hover:shadow-blue-500/10'
                     }`}
                 >
                   <div className="flex items-center justify-between">
@@ -163,56 +180,48 @@ function Dashboard() {
             <div className={`backdrop-blur-lg rounded-2xl border p-6 ${isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
               }`}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
-                  <LayoutDashboard className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+                  <Brain className="w-6 h-6 text-white" />
                 </div>
                 <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Quick Navigation
+                  AI Portfolio Brain
                 </h3>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-4">
+                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  Your RAG chatbot uses embeddings to answer questions about your work. Update the brain after adding new projects.
+                </p>
+
                 <button
-                  onClick={() => navigate('/dashboard/projects')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
-                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white'
-                      : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
+                  onClick={handleSyncAI}
+                  disabled={syncing}
+                  className={`cursor-target w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group ${syncing
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:scale-105 active:scale-95'
+                    } ${isDarkMode
+                      ? 'bg-purple-500/20 border-purple-400/30 text-purple-300 hover:bg-purple-500/30'
+                      : 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100'
                     }`}
                 >
-                  <FolderKanban className={`w-5 h-5 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'
-                    }`} />
-                  <span className="font-medium">View Projects</span>
+                  <RefreshCw className={`w-5 h-5 ${syncing ? 'animate-spin' : ''}`} />
+                  <span className="font-semibold">
+                    {syncing ? 'Syncing...' : 'Sync AI Knowledge'}
+                  </span>
                 </button>
-                <button
-                  onClick={() => navigate('/dashboard/technologies')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
-                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white'
-                      : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
-                    }`}
-                >
-                  <Code className={`w-5 h-5 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'
-                    }`} />
-                  <span className="font-medium">View Technologies</span>
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/certificates')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
-                      ? 'bg-white/5 hover:bg-white/10 border-blue-500/30 hover:border-cyan-400/50 text-white'
-                      : 'bg-white hover:bg-blue-50 border-blue-200 hover:border-blue-400 text-gray-900'
-                    }`}
-                >
-                  <Award className={`w-5 h-5 group-hover:scale-110 transition-transform ${isDarkMode ? 'text-cyan-400' : 'text-blue-600'
-                    }`} />
-                  <span className="font-medium">View Certificates</span>
-                </button>
-                <button
-                  onClick={() => navigate('/')}
-                  className={`cursor-target w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group hover:scale-105 ${isDarkMode
-                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border-cyan-400/30 hover:border-cyan-400/50 text-cyan-400'
-                      : 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border-blue-400/30 hover:border-blue-400 text-blue-700'
-                    }`}
-                >
-                  <span className="font-medium">Go to Portfolio</span>
-                </button>
+
+                {syncStatus === 'success' && (
+                  <div className="flex items-center gap-2 text-green-500 text-sm animate-fade-in">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>AI Brain is up to date!</span>
+                  </div>
+                )}
+
+                {syncStatus === 'error' && (
+                  <div className="flex items-center gap-2 text-red-500 text-sm animate-fade-in">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>Sync failed. Check function logs.</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

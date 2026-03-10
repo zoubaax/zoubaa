@@ -2,18 +2,18 @@
 
 A modern, full-featured portfolio website built with React and Vite, showcasing the work and skills of Mohammed Zoubaa. Features a beautiful single-page design with dark mode, multi-language support, dynamic project management, and a comprehensive admin dashboard.
 
-
 ## 🌟 Features
 
 ### Core Features
 - **Modern Single-Page Design** - Smooth scrolling navigation between sections
+- **Advanced RAG AI Assistant** - Retrieval-Augmented Generation (RAG) system using Google Gemini 2.5 Flash and vector search to answer questions accurately based on actual project data.
+- **AI Knowledge Sync** - Admin feature to index and update the AI's "brain" directly from the dashboard.
 - **Smart Dark Mode ("Drake Mode")** - Automatic system theme detection + manual toggle with persistent storage
 - **Interactive Project Gallery** - Premium image slider with smooth Framer Motion transitions and full-screen lightbox
 - **Multi-Language Support** - English and French (i18next)
 - **Responsive Design** - Fully optimized for mobile, tablet, and desktop
 - **Custom Animations** - GSAP animations, custom target-cursor effects, and smooth transitions
 - **Preloader** - Elegant loading animation on initial page load
-- **AI Portfolio Assistant** - Responsive AI chatbot powered by Google Gemini 2.5 Flash and Supabase Edge Functions
 
 ### Portfolio Sections
 1. **Home** - Hero section with profile photo, introduction, and premium CTA buttons
@@ -28,13 +28,13 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
 - **Project Management** - Add, edit, and manage portfolio projects with **unlimited gallery images**
 - **Technology Management** - Manage technology stack with image uploads
 - **Certificate Management** - Upload and organize certificates
-- **AI Configuration** - Deploy and manage AI Edge Functions
+- **AI Portfolio Brain** - Manual trigger to sync and update the RAG AI knowledge base
 - **Real-time Updates** - Changes reflect immediately on the portfolio via Supabase listeners
 
 ### Technical Features
 - **Centralized Theme Architecture** - Global `ThemeContext` managing "Drake Mode" across all pages and hooks
 - **Supabase Integration** - High-performance backend database and storage for projects, technologies, and certificates
-- **Dynamic Content** - All portfolio content managed through a unified Supabase schema
+- **Vector Search (pgvector)** - PostgreSQL-based similarity search for the AI assistant
 - **Asset Storage** - Automated bucket management for project galleries and tech logos
 - **Edge Functions** - Serverless AI logic for the Portfolio Assistant
 - **Form Handling** - Secured contact form with Web3Forms API integration
@@ -54,7 +54,9 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
 
 ### Backend & Services
 - **Supabase** - Backend as a Service (Database, Auth, Storage, Edge Functions)
+- **PostgreSQL + pgvector** - Relational database with vector similarity search
 - **Google AI Studio** - Gemini 2.5 Flash for the AI assistant
+- **Google Gemini Embedding-001** - High-quality text embeddings for RAG
 - **Web3Forms** - Contact form handling
 
 ### Development Tools
@@ -68,8 +70,6 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
 <img width="1890" height="868" alt="Screenshot 2025-11-29 101333" src="https://github.com/user-attachments/assets/589ff3a7-fc44-4968-8d26-98c2fb4c380f" />
 <img width="1879" height="862" alt="Screenshot 2025-11-29 101356" src="https://github.com/user-attachments/assets/aadf6c8a-b9a3-4f94-a78b-f5b49c6b4f40" />
 <img width="1073" height="513" alt="Screenshot 2025-11-29 200540" src="https://github.com/user-attachments/assets/f2f1847f-5de0-4875-a7d6-c81b9ce33027" />
-
-
 
 ### Technology Icons
 - React, Node.js, TypeScript, Python, Java, AngularJS
@@ -111,21 +111,21 @@ A modern, full-featured portfolio website built with React and Vite, showcasing 
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    VITE_WEB3FORMS_KEY=your_web3forms_key
-GOOGLE_API_KEY=your_google_ai_studio_key (set in Supabase Secrets)
+   GOOGLE_API_KEY=your_gemini_key (set in Supabase Secrets)
    ```
 
-4. **Set up Supabase**
-   - Create a Supabase project
-   - Run the migration scripts in `supabase/` directory
-   - Set up storage buckets for images
-   - See `SUPABASE_SETUP.md` for detailed instructions
+4. **Set up Supabase Functions**
+   ```bash
+   npx supabase functions deploy portfolio-chat
+   npx supabase functions deploy index-portfolio
+   ```
 
 5. **Start development server**
    ```bash
    npm run dev
    ```
 
-## 📜 Available Scripts
+## � Available Scripts
 
 - `npm run dev` - Start Vite development server
 - `npm run build` - Build production bundle
@@ -155,13 +155,14 @@ zoubaa/
 │   ├── lib/               # Utilities (Supabase client, storage)
 │   ├── locales/           # Translation files (en, fr)
 │   ├── pages/             # Page components
-│   ├── services/          # API services (projects, certificates, technologies)
+│   ├── services/          # API services (projects, certificates, technologies, aiService)
 │   ├── App.jsx            # Main app component with routing
 │   ├── main.jsx           # React entry point
 │   └── index.css          # Tailwind CSS imports
 ├── supabase/              # Database migrations and Edge Functions
 │   ├── functions/         # Supabase Edge Functions
-│   │   └── portfolio-chat # AI assistant logic
+│   │   ├── portfolio-chat # AI assistant logic (RAG)
+│   │   └── index-portfolio# AI knowledge indexing
 │   └── migrations/        # SQL schema migrations
 ├── index.html             # HTML entry point
 ├── vite.config.js         # Vite configuration
@@ -185,6 +186,7 @@ Replace `src/assets/img/zoubaa2.jpg` with your own profile photo. The image shou
 - **Projects**: Manage via `/dashboard/projects`
 - **Technologies**: Manage via `/dashboard/technologies`
 - **Certificates**: Manage via `/dashboard/certificates`
+- **AI Knowledge**: Sync via `/dashboard`
 - **Profile Info**: Edit in `src/components/Home.jsx` and `src/components/About.jsx`
 
 ### Translations
@@ -212,6 +214,9 @@ See `GITHUB_PAGES_SETUP.md` for detailed deployment instructions.
 
 ## 🎯 Key Features Explained
 
+### RAG AI Assistant
+An advanced AI chatbot that uses vector search (pgvector) to provide accurate, project-based answers about Mohammed's work.
+
 ### Dark Mode (Drake Mode)
 Toggle between light and dark themes using the theme button in the navbar. The entire UI adapts with appropriate color schemes.
 
@@ -227,7 +232,7 @@ Projects are fetched from Supabase and can be filtered by category (Full-stack, 
 ### Multi-language
 Switch between English and French using the language switcher in the navbar.
 
-## 📞 Contact
+## �📞 Contact
 
 - **Email**: Itsmezoubaa@gmail.com
 - **Phone**: +212 701-230904

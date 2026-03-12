@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Github, Linkedin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
+import { getCVUrl } from '../services/cvService';
 import zoubaaImage from '../assets/img/zoubaa2.jpg';
 import handIcon from '../assets/img/hand-icon.png';
 import resumePDF from '../assets/img/ZOUBAA-Mohammed.pdf';
@@ -20,6 +22,17 @@ const scrollToSection = (e, sectionId) => {
 export default function Home() {
   const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
+  const [dynamicCvUrl, setDynamicCvUrl] = useState(resumePDF);
+
+  useEffect(() => {
+    async function fetchCv() {
+      const { url } = await getCVUrl();
+      if (url) {
+        setDynamicCvUrl(url);
+      }
+    }
+    fetchCv();
+  }, []);
 
   return (
     <div className={`min-h-screen flex items-center justify-center p-4 md:p-10 font-sans antialiased relative overflow-hidden ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
@@ -84,8 +97,9 @@ export default function Home() {
             </a>
 
             <a
-              href={resumePDF}
-              download="ZOUBAA-Mohammed-Resume.pdf"
+              href={dynamicCvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`cursor-target w-full sm:w-auto px-6 py-3 border rounded-full flex items-center justify-center gap-2 transition-all duration-300 font-medium group text-sm ${drakeMode
                 ? 'bg-white/5 border-gray-500 text-white hover:bg-white/10'
                 : 'bg-white border-gray-500 text-gray-700 hover:bg-gray-100 shadow-sm'

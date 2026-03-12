@@ -8,7 +8,8 @@ import { getProjects } from '../../services/projectsService'
 import { getCertificates } from '../../services/certificatesService'
 import { getTechnologies } from '../../services/technologiesService'
 import { syncAiKnowledge } from '../../services/aiService'
-import { Brain, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react'
+import { uploadCV } from '../../services/cvService'
+import { Brain, RefreshCw, CheckCircle, AlertCircle, FileText, Upload } from 'lucide-react'
 
 function Dashboard() {
   const { user } = useAuth()
@@ -20,6 +21,9 @@ function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [syncing, setSyncing] = useState(false)
   const [syncStatus, setSyncStatus] = useState(null) // null, 'success', 'error'
+  const [cvFile, setCvFile] = useState(null)
+  const [uploadingCv, setUploadingCv] = useState(false)
+  const [cvStatus, setCvStatus] = useState(null)
 
   useEffect(() => {
     loadCounts()
@@ -56,6 +60,23 @@ function Dashboard() {
     }
     setSyncing(false)
     setTimeout(() => setSyncStatus(null), 5000)
+  }
+
+  const handleUploadCv = async () => {
+    if (!cvFile) return
+    setUploadingCv(true)
+    setCvStatus(null)
+    const { success, error } = await uploadCV(cvFile)
+    if (success) {
+      setCvStatus('success')
+      setCvFile(null)
+      const fileInput = document.getElementById('cv-upload')
+      if (fileInput) fileInput.value = ''
+    } else {
+      setCvStatus('error')
+    }
+    setUploadingCv(false)
+    setTimeout(() => setCvStatus(null), 5000)
   }
 
   const stats = [
@@ -220,6 +241,76 @@ function Dashboard() {
                   <div className="flex items-center gap-2 text-red-500 text-sm animate-fade-in">
                     <AlertCircle className="w-4 h-4" />
                     <span>Sync failed. Check function logs.</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Resume / CV Upload Card */}
+            <div className={`backdrop-blur-lg rounded-2xl border p-6 ${isDarkMode ? 'bg-white/5 border-blue-500/30' : 'bg-white border-blue-200'
+              }`}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-white" />
+                </div>
+                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Resume / CV
+                </h3>
+              </div>
+              <div className="space-y-4">
+                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  Upload your latest resume (PDF) here. It will automatically update the download link on the homepage.
+                </p>
+
+                <div className="flex flex-col gap-3">
+                  <input
+                    type="file"
+                    id="cv-upload"
+                    accept=".pdf,application/pdf"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setCvFile(e.target.files[0])
+                        setCvStatus(null)
+                      }
+                    }}
+                    className={`block w-full text-sm rounded-xl border file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold transition-all ${isDarkMode
+                        ? 'text-gray-300 border-gray-700 file:bg-gray-800 file:text-gray-300 hover:file:bg-gray-700'
+                        : 'text-gray-700 border-gray-200 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200'
+                      }`}
+                  />
+                  <button
+                    onClick={handleUploadCv}
+                    disabled={!cvFile || uploadingCv}
+                    className={`cursor-target w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border transition-all duration-300 group ${(!cvFile || uploadingCv)
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'hover:scale-105 active:scale-95'
+                      } ${isDarkMode
+                        ? 'bg-green-500/20 border-green-400/30 text-green-300 hover:bg-green-500/30'
+                        : 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100'
+                      }`}
+                  >
+                    {uploadingCv ? (
+                      <RefreshCw className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Upload className="w-5 h-5" />
+                    )}
+                    <span className="font-semibold">
+                      {uploadingCv ? 'Uploading...' : 'Upload New CV'}
+                    </span>
+                  </button>
+                </div>
+
+                {cvStatus === 'success' && (
+                  <div className="flex items-center gap-2 text-green-500 text-sm animate-fade-in">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>CV updated successfully!</span>
+                  </div>
+                )}
+
+                {cvStatus === 'error' && (
+                  <div className="flex items-center gap-2 text-red-500 text-sm animate-fade-in">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>Upload failed. Check console.</span>
                   </div>
                 )}
               </div>

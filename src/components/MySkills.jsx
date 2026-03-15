@@ -149,8 +149,8 @@ const ProjectsSection = () => {
             alt={title}
             className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
           />
-          <div className={`absolute inset-0 bg-gradient-to-t ${drakeMode ? 'from-[#050A30] via-[#050A30]/80 to-transparent' : 'from-white via-white/80 to-transparent'
-            } transition-all duration-500`}></div>
+          <div className={`absolute inset-0 bg-gradient-to-t ${drakeMode ? 'from-[#050A30]/80 via-transparent to-transparent' : 'from-white/80 via-transparent to-transparent'
+            } transition-all duration-500 group-hover:from-[#050A30] group-hover:via-[#050A30]/40 transition-all`}></div>
 
           {/* Highlights */}
           <div className="absolute bottom-3 left-4 flex flex-wrap gap-1.5">

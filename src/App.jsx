@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 import './i18n'; // ...initialize i18n before the app
 
@@ -17,10 +17,13 @@ import ProtectedRoute from './components/dashboard/ProtectedRoute.jsx'
 import ProjectDetails from './pages/ProjectDetails.jsx'
 
 function App() {
+  const location = useLocation()
+  const isDashboard = location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/zoubaa/dashboard')
+
   return (
     <AuthProvider>
       <ThemeProvider>
-        <SplashCursor />
+        {!isDashboard && <SplashCursor />}
         <Routes>
           <Route path="/" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />

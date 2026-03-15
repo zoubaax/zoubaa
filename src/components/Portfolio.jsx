@@ -45,7 +45,7 @@ function Portfolio() {
           <About />
         </section>
 
-        <section id="skills" className="min-h-screen bg-transparent">
+        <section id="projects" className="min-h-screen bg-transparent">
           <MySkills />
         </section>
 

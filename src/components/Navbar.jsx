@@ -34,7 +34,7 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
 
     // Intersection Observer for active section tracking
-    const sections = ['home', 'about', 'skills', 'stats', 'contact'];
+    const sections = ['home', 'about', 'projects', 'stats', 'contact'];
     const observerOptions = {
       root: null,
       rootMargin: '-20% 0px -60% 0px', // Trigger when section is in the upper part of the screen
@@ -126,14 +126,14 @@ const Navbar = () => {
             }`}
         >
           {/* only include routes that exist and map Home -> "/" */}
-          {['Home', 'About', 'Skills', 'Contact', 'Certificates'].map((item) => {
+          {['Home', 'About', 'Projects', 'Contact', 'Certificates'].map((item) => {
             const id = item === 'Home' ? 'home' : item.toLowerCase();
             const isActive = isPortfolioPage && activeSection === id;
 
             const labelKey = {
               Home: 'nav.home',
               About: 'nav.about',
-              Skills: 'nav.skills',
+              Projects: 'nav.skills',
               Certificates: 'nav.certificates',
               Contact: 'nav.contact'
             }[item];
@@ -331,12 +331,12 @@ const Navbar = () => {
             </button>
 
             {/* Menu Items */}
-            {['Home', 'About', 'Skills', 'Contact', 'Certificates'].map((item) => {
+            {['Home', 'About', 'Projects', 'Contact', 'Certificates'].map((item) => {
               const id = item === 'Home' ? 'home' : item.toLowerCase();
               const labelKey = {
                 Home: 'nav.home',
                 About: 'nav.about',
-                Skills: 'nav.skills',
+                Projects: 'nav.skills',
                 Certificates: 'nav.certificates',
                 Contact: 'nav.contact'
               }[item];

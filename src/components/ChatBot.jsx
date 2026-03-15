@@ -10,7 +10,7 @@ const ChatBot = () => {
     const [messages, setMessages] = useState([
         {
             role: 'assistant',
-            content: "Hello! 👋 I'm your guide to Mohammed's portfolio. I can tell you about his skills, projects, experience, and more. What would you like to know?"
+            content: "Hello! 👋 I'm Mohammed's AI Personal Assistant. I'm here to show you why he's the perfect fit for your next project. What would you like to explore first?"
         }
     ]);
     const [input, setInput] = useState('');
@@ -134,9 +134,9 @@ const ChatBot = () => {
     const isMobile = windowWidth < 640;
 
     const quickQuestions = [
-        "Tell me about Mohammed's skills",
-        "What projects has he worked on?",
-        "What's his experience?",
+        "Why should I hire Mohammed?",
+        "Tell me about his top qualities",
+        "Show me his best AI projects",
         "How can I contact him?"
     ];
 

@@ -184,6 +184,7 @@ export async function createProject(projectData, imageFile = null, galleryFiles 
           github_url: projectData.github_url || null,
           live_url: projectData.live_url || null,
           gallery_paths: galleryPaths.length > 0 ? galleryPaths : null,
+          test_accounts: projectData.test_accounts || [],
         },
       ])
       .select()
@@ -328,6 +329,7 @@ export async function updateProject(
         github_url: projectData.github_url || null,
         live_url: projectData.live_url || null,
         gallery_paths: galleryPaths.length > 0 ? galleryPaths : null,
+        test_accounts: projectData.test_accounts || [],
       })
       .eq('id', id)
       .select()

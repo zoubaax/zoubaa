@@ -14,7 +14,11 @@ import {
   MessageSquare,
   Rocket,
   Sparkles,
-  CheckCircle2
+  CheckCircle2,
+  Copy,
+  Check,
+  Eye,
+  EyeOff
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -36,6 +40,21 @@ const ProjectDetails = () => {
   const [project, setProject] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [copiedId, setCopiedId] = useState(null)
+  const [visiblePasswords, setVisiblePasswords] = useState({})
+
+  const togglePasswordVisibility = (id) => {
+    setVisiblePasswords(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }))
+  }
+
+  const handleCopy = (text, id) => {
+    navigator.clipboard.writeText(text)
+    setCopiedId(id)
+    setTimeout(() => setCopiedId(null), 2000)
+  }
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -318,6 +337,92 @@ const ProjectDetails = () => {
 
             {/* Sidebar */}
             <div className="space-y-8">
+              {/* Test Accounts Section */}
+              {project.test_accounts && project.test_accounts.length > 0 && (
+                <aside className={`rounded-2xl p-6 border overflow-hidden relative group transition-all duration-300 ${drakeMode
+                  ? 'border-cyan-500/20 bg-[#050A30]/50 hover:border-cyan-500/40'
+                  : 'border-blue-100 bg-white hover:border-blue-200 shadow-sm hover:shadow-md'
+                  }`}>
+                  {/* Decorative background glow for dark mode */}
+                  {drakeMode && (
+                    <div className="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-colors duration-500"></div>
+                  )}
+
+                  <div className="flex items-center gap-3 mb-6 relative z-10">
+                    <div className={`p-2 rounded-lg ${drakeMode ? 'bg-cyan-500/10 text-cyan-400' : 'bg-blue-50 text-blue-600'}`}>
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <h3 className={`text-lg font-bold ${drakeMode ? 'text-white' : 'text-black'}`}>
+                      {t('project_details.demo_accounts') || 'Demo Accounts'}
+                    </h3>
+                  </div>
+
+                  <div className="space-y-4 relative z-10">
+                    {project.test_accounts.map((acc, idx) => (
+                      <div key={idx} className={`p-4 rounded-xl border transition-all duration-300 ${drakeMode
+                        ? 'bg-white/5 border-white/10 hover:bg-white/10'
+                        : 'bg-gray-50 border-gray-100 hover:bg-white hover:border-blue-100 hover:shadow-sm'
+                        }`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${drakeMode
+                            ? 'bg-cyan-500/20 text-cyan-400'
+                            : 'bg-blue-100 text-blue-700'
+                            }`}>
+                            {acc.role}
+                          </span>
+                        </div>
+
+                        <div className="space-y-2">
+                          {/* Email */}
+                          <div className="flex items-center justify-between group/item">
+                            <div className="flex flex-col">
+                              <span className={`text-[10px] uppercase opacity-50 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>Email</span>
+                              <span className="text-sm font-medium truncate max-w-[140px]">{acc.email}</span>
+                            </div>
+                            <button
+                              onClick={() => handleCopy(acc.email, `email-${idx}`)}
+                              className={`p-2 rounded-lg transition-all duration-200 ${drakeMode ? 'hover:bg-white/10 text-gray-400 hover:text-cyan-400' : 'hover:bg-blue-50 text-gray-400 hover:text-blue-600'}`}
+                              title="Copy email"
+                            >
+                              {copiedId === `email-${idx}` ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                            </button>
+                          </div>
+
+                          {/* Password */}
+                          <div className="flex items-center justify-between group/item">
+                            <div className="flex flex-col flex-1 cursor-pointer" onClick={() => togglePasswordVisibility(`pass-${idx}`)}>
+                              <span className={`text-[10px] uppercase opacity-50 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>Password</span>
+                              <span className="text-sm font-medium font-mono tracking-wider">
+                                {visiblePasswords[`pass-${idx}`] ? acc.password : '••••••••'}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => togglePasswordVisibility(`pass-${idx}`)}
+                                className={`p-2 rounded-lg transition-all duration-200 ${drakeMode ? 'hover:bg-white/10 text-gray-400 hover:text-cyan-400' : 'hover:bg-blue-50 text-gray-400 hover:text-blue-600'}`}
+                                title={visiblePasswords[`pass-${idx}`] ? "Hide password" : "Show password"}
+                              >
+                                {visiblePasswords[`pass-${idx}`] ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                              </button>
+                              <button
+                                onClick={() => handleCopy(acc.password, `pass-${idx}`)}
+                                className={`p-2 rounded-lg transition-all duration-200 ${drakeMode ? 'hover:bg-white/10 text-gray-400 hover:text-cyan-400' : 'hover:bg-blue-50 text-gray-400 hover:text-blue-600'}`}
+                                title="Copy password"
+                              >
+                                {copiedId === `pass-${idx}` ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <p className={`text-[10px] mt-4 opacity-50 text-center uppercase tracking-widest ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    Click icons to copy
+                  </p>
+                </aside>
+              )}
               {/* Tech Stack */}
               <aside className={`rounded-2xl p-6 border ${drakeMode
                 ? 'border-[#334155] bg-[#050A30]/50'

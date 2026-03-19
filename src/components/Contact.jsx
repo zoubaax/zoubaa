@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, MessageCircle, MessageSquare, User, ArrowRight, Heart, Code, Coffee, Github, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logoLight from "../assets/img/1.png";
 import logoDark from "../assets/img/2.png";
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,20 @@ import { useTheme } from '../contexts/ThemeContext';
 const Contact = () => {
   const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa';
+
+  const scrollToSection = (e, id) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const cleanId = id.replace('#', '');
+    const el = document.getElementById(cleanId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -111,11 +126,11 @@ const Contact = () => {
   ];
 
   const quickLinks = [
-    { name: t('navbar.home'), href: "#home" },
-    { name: t('navbar.about'), href: "#about" },
-    { name: t('navbar.skills'), href: "#skills" },
-    { name: t('navbar.projects'), href: "#projects" },
-    { name: t('navbar.contact'), href: "#contact" }
+    { name: t('nav.home'), href: "#home" },
+    { name: t('nav.about'), href: "#about" },
+    { name: t('nav.skills'), href: "#projects" },
+    { name: t('nav.contact'), href: "#contact" },
+    { name: t('nav.certificates'), href: "/zoubaa/certificates" }
   ];
 
   return (
@@ -365,6 +380,14 @@ const Contact = () => {
                   <li key={index}>
                     <a
                       href={link.href}
+                      onClick={(e) => {
+                        if (link.href.startsWith('#') && isPortfolioPage) {
+                          scrollToSection(e, link.href);
+                        } else if (link.href.startsWith('#')) {
+                          e.preventDefault();
+                          navigate(`/${link.href}`);
+                        }
+                      }}
                       className={`text-base transition-colors duration-300 ${drakeMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-600 hover:text-blue-600'}`}
                     >
                       {link.name}

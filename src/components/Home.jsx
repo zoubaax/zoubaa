@@ -7,6 +7,7 @@ import { getCVUrl } from '../services/cvService';
 import zoubaaImage from '../assets/img/zoubaa2.jpg';
 import handIcon from '../assets/img/hand-icon.png';
 import resumePDF from '../assets/img/ZOUBAA-Mohammed.pdf';
+// import ShapeGrid from './ShapeGrid';
 
 const scrollToSection = (e, sectionId) => {
   e.preventDefault();
@@ -35,7 +36,22 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen flex items-center justify-center p-4 md:p-10 font-sans antialiased relative overflow-hidden ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
+    <div className={`min-h-screen flex items-center justify-center p-4 md:p-10 font-sans antialiased relative overflow-hidden transition-colors duration-700 ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
+      
+      {/* Interactive Shape Grid Background - Uncomment to enable */}
+      {/* 
+      <div className="absolute inset-0 w-full h-full z-0 opacity-40">
+        <ShapeGrid 
+          speed={0.5}
+          squareSize={40}
+          direction='diagonal'
+          borderColor={drakeMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'}
+          hoverFillColor={drakeMode ? '#1A1E37' : '#e2e8f0'}
+          shape='square'
+          hoverTrailAmount={5}
+        />
+      </div>
+      */}
 
       <div className="max-w-6xl w-full flex flex-col pt-20 pb-10 md:py-12 md:flex-row items-center gap-6 md:gap-12 relative z-10">
         {/* Image Column */}

@@ -18,7 +18,7 @@ import ProjectDetails from './pages/ProjectDetails.jsx'
 
 function App() {
   const location = useLocation()
-  const isDashboard = location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/zoubaa/dashboard')
+  const isDashboard = location.pathname.startsWith('/dashboard')
 
   return (
     <AuthProvider>

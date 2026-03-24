@@ -19,13 +19,18 @@ import ProjectDetails from './pages/ProjectDetails.jsx'
 function App() {
   const location = useLocation()
   const isDashboard = location.pathname.startsWith('/dashboard')
+  const isProjectDetails = location.pathname.startsWith('/projects/')
+  const hideSplash = isDashboard || isProjectDetails
 
   return (
     <AuthProvider>
       <ThemeProvider>
-        {!isDashboard && <SplashCursor />}
+        {!hideSplash && <SplashCursor />}
         <Routes>
           <Route path="/" element={<Portfolio />} />
+          <Route path="/about" element={<Portfolio />} />
+          <Route path="/projects" element={<Portfolio />} />
+          <Route path="/contact" element={<Portfolio />} />
           <Route path="/login" element={<Login />} />
           <Route path="/certificates" element={<CertificatesPage />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />

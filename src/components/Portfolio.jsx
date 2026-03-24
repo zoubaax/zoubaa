@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import Navbar from './Navbar.jsx'
 import Home from './Home.jsx'
 import About from './About.jsx'
@@ -13,6 +14,7 @@ import { useTheme } from '../contexts/ThemeContext'
 
 function Portfolio() {
   const { isDarkMode: drakeMode } = useTheme()
+  const location = useLocation()
   const [loading, setLoading] = useState(() => {
     // Check if we've already shown the preloader in this session
     return !sessionStorage.getItem('has-loaded');
@@ -27,6 +29,29 @@ function Portfolio() {
       return () => clearTimeout(timer);
     }
   }, [loading]);
+
+  // Handle scroll based on pathname or hash
+  useEffect(() => {
+    if (!loading) {
+      // Prioritize hash if present, otherwise check pathname for section routes
+      const hashId = window.location.hash.replace('#', '');
+      const pathId = location.pathname.substring(1); // e.g., 'contact' from '/contact'
+      
+      const targetId = hashId || (['about', 'projects', 'contact'].includes(pathId) ? pathId : null);
+      
+      if (targetId) {
+        const element = document.getElementById(targetId);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      } else if (location.pathname === '/' || location.pathname === '/zoubaa/' || location.pathname === '/zoubaa') {
+        // Scroll to top for root home
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }, [loading, location.pathname, location.hash]);
 
   if (loading) {
     return <Preloader />;

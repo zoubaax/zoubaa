@@ -18,7 +18,7 @@ const Navbar = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   // Check if we're on the portfolio page (home page)
-  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa';
+  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa' || location.pathname === '/zoubaa/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -143,9 +143,9 @@ const Navbar = () => {
               return (
                 <li key={item} className="cursor-target relative group">
                   <a
-                    href="/zoubaa/certificates"
+                    href="/certificates"
                     onClick={(e) => {
-                      if (location.pathname === '/certificates' || location.pathname === '/zoubaa/certificates') {
+                      if (location.pathname === '/certificates') {
                         e.preventDefault();
                       }
                     }}
@@ -164,13 +164,16 @@ const Navbar = () => {
             return (
               <li key={item} className="cursor-target relative group">
                 <a
-                  href={isPortfolioPage ? `#${id}` : `/#${id}`}
+                  href={id === 'home' ? '/' : `/${id}`}
                   onClick={(e) => {
                     if (!isPortfolioPage) {
                       e.preventDefault();
-                      navigate(id === 'home' ? '/' : `/#${id}`);
+                      navigate(id === 'home' ? '/' : `/${id}`);
                     } else {
+                      // Optionally update path and scroll
+                      e.preventDefault();
                       scrollToSection(e, id);
+                      // navigate(`/${id}`); // Uncomment if you want URL to change when scrolling
                     }
                   }}
                   className={`transition-all duration-300 text-sm tracking-wide font-bold ${isActive
@@ -346,9 +349,9 @@ const Navbar = () => {
                 return (
                   <a
                     key={item}
-                    href="/zoubaa/certificates"
+                    href="/certificates"
                     onClick={(e) => {
-                      if (location.pathname === '/certificates' || location.pathname === '/zoubaa/certificates') {
+                      if (location.pathname === '/certificates') {
                         e.preventDefault();
                       }
                     }}
@@ -367,7 +370,7 @@ const Navbar = () => {
                 return (
                   <a
                     key={item}
-                    href={isPortfolioPage ? "#home" : "/"}
+                    href="/"
                     onClick={(e) => {
                       if (!isPortfolioPage) {
                         e.preventDefault();
@@ -390,11 +393,11 @@ const Navbar = () => {
               return (
                 <a
                   key={item}
-                  href={isPortfolioPage ? `#${id}` : `/#${id}`}
+                  href={id === 'home' ? '/' : `/${id}`}
                   onClick={(e) => {
                     if (!isPortfolioPage) {
                       e.preventDefault();
-                      navigate(`/#${id}`);
+                      navigate(id === 'home' ? '/' : `/${id}`);
                       closeMenu();
                     } else {
                       scrollToSection(e, id);

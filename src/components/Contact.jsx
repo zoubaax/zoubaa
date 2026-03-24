@@ -12,7 +12,7 @@ const Contact = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa';
+  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa' || location.pathname === '/zoubaa/';
 
   const scrollToSection = (e, id) => {
     if (e && e.preventDefault) e.preventDefault();
@@ -126,11 +126,11 @@ const Contact = () => {
   ];
 
   const quickLinks = [
-    { name: t('nav.home'), href: "#home" },
-    { name: t('nav.about'), href: "#about" },
-    { name: t('nav.skills'), href: "#projects" },
-    { name: t('nav.contact'), href: "#contact" },
-    { name: t('nav.certificates'), href: "/zoubaa/certificates" }
+    { name: t('nav.home'), href: "/" },
+    { name: t('nav.about'), href: "/about" },
+    { name: t('nav.skills'), href: "/projects" },
+    { name: t('nav.contact'), href: "/contact" },
+    { name: t('nav.certificates'), href: "/certificates" }
   ];
 
   return (
@@ -381,11 +381,21 @@ const Contact = () => {
                     <a
                       href={link.href}
                       onClick={(e) => {
-                        if (link.href.startsWith('#') && isPortfolioPage) {
-                          scrollToSection(e, link.href);
-                        } else if (link.href.startsWith('#')) {
-                          e.preventDefault();
-                          navigate(`/${link.href}`);
+                        const path = link.href;
+                        const isSection = ['/about', '/projects', '/contact'].includes(path);
+                        const sectionId = path.substring(1);
+                        
+                        if (isPortfolioPage && isSection) {
+                          scrollToSection(e, sectionId);
+                        } else if (path.startsWith('#') && isPortfolioPage) {
+                           scrollToSection(e, path);
+                        } else if (path !== '#') {
+                          // Let the browser handle the link naturally if it's an external path
+                          // Or use navigate for internal routes
+                          if (path.startsWith('/')) {
+                            e.preventDefault();
+                            navigate(path);
+                          }
                         }
                       }}
                       className={`text-base transition-colors duration-300 ${drakeMode ? 'text-gray-400 hover:text-cyan-400' : 'text-gray-600 hover:text-blue-600'}`}

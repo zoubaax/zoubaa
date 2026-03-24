@@ -127,8 +127,8 @@
   },
   "home": {
     "greeting": "Salut ! Je suis ZOUBAA Mohammed",
-    "wave_alt": "Salutation",
-    "intro": "Développeur full-stack et étudiant en génie informatique, passionné par la création d'applications web modernes avec React, Node.js et les pratiques DevOps.",
+    "headline": "Développeur Full-Stack | Étudiant en Génie IA | Passionné de DevOps",
+    "intro": "Je conçois des applications évolutives alliant systèmes backend robustes et expériences utilisateur fluides. Spécialisé en développement Full Stack et intégration IA/DevOps.",
     "contact_button": "Contactez-moi",
     "resume_button": "Mon CV",
     "github": "GitHub",

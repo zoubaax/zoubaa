@@ -17,8 +17,8 @@ const Navbar = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Check if we're on the portfolio page (home page)
-  const isPortfolioPage = location.pathname === '/' || location.pathname === '/zoubaa' || location.pathname === '/zoubaa/';
+  // Check if we're on a portfolio-related page (clean URLs or root)
+  const isPortfolioPage = ['/', '/about', '/projects', '/contact', '/zoubaa', '/zoubaa/'].includes(location.pathname);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -238,21 +238,19 @@ const Navbar = () => {
             )}
           </button>
 
-          {/* Language Switcher (compact) - Desktop */}
-          <div className="hidden md:block">
+          {/* Language Switcher (compact) */}
+          <div className="flex items-center">
             <LanguageSwitcher compact />
           </div>
 
-          {/* Language Switcher (compact) - Mobile outside */}
-          <div className="md:hidden">
-            <LanguageSwitcher compact />
-          </div>
-
-          {/* Explore Button */}
+          {/* Explore Button - Only visible on Large Desktops */}
           <a
-            href="#contact"
-            onClick={(e) => scrollToSection(e, 'contact')}
-            className={`cursor-target hidden lg:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-bold text-sm transform hover:-translate-y-0.5 shadow-sm hover:shadow-lg ${drakeMode
+            href="/contact"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/contact');
+            }}
+            className={`cursor-target hidden xl:flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 hover:scale-105 font-bold text-sm transform hover:-translate-y-0.5 shadow-sm hover:shadow-lg ${drakeMode
               ? "border-cyan-500/50 text-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10"
               : "border-blue-500/50 text-blue-600 bg-blue-500/5 hover:bg-blue-500/10"
               }`}
@@ -274,9 +272,9 @@ const Navbar = () => {
             </svg>
           </a>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Standard toggle */}
           <button
-            className="cursor-target block md:hidden p-3 rounded-xl transition-all duration-300 hover:scale-110 transform hover:-translate-y-0.5"
+            className="cursor-target flex md:hidden p-3 rounded-xl transition-all duration-300 hover:scale-110 transform hover:-translate-y-0.5"
             onClick={openMenu}
             aria-label="Open menu"
           >

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Download, Github, Linkedin } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { getCVUrl } from '../services/cvService';
 import zoubaaImage from '../assets/img/zoubaa2.jpg';
@@ -21,6 +22,7 @@ const scrollToSection = (e, sectionId) => {
 };
 
 export default function Home() {
+  const navigate = useNavigate();
   const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
   const [dynamicCvUrl, setDynamicCvUrl] = useState(resumePDF);
@@ -53,7 +55,7 @@ export default function Home() {
       </div>
       */}
 
-      <div className="max-w-6xl w-full flex flex-col pt-20 pb-10 md:py-12 md:flex-row items-center gap-6 md:gap-12 relative z-10">
+      <div className="max-w-6xl w-full flex flex-col pt-24 pb-12 md:py-16 md:flex-row items-center gap-10 md:gap-14 relative z-10">
         {/* Image Column */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -63,14 +65,15 @@ export default function Home() {
           className="w-full md:w-1/2 flex justify-center order-1 md:order-2"
         >
           <div className="cursor-target group relative w-full max-w-[280px] sm:max-w-sm md:max-w-md">
-            <div className={`aspect-square overflow-hidden rounded-2xl shadow-2xl border-4 ${drakeMode ? 'border-transparent' : 'border-white'}`}>
+            <div className={`aspect-square overflow-hidden rounded-3xl shadow-2xl border-2 md:border-4 ${drakeMode ? 'border-cyan-500/20' : 'border-white'}`}>
               <img
                 src={zoubaaImage}
                 alt="Mohammed Zoubaa"
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
               />
             </div>
-            <div className="absolute inset-0 bg-[#4C7766]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none"></div>
+            {/* Subtle Glow behind image */}
+            <div className={`absolute -inset-4 rounded-full blur-3xl opacity-20 -z-10 ${drakeMode ? 'bg-cyan-500' : 'bg-blue-500'}`}></div>
           </div>
         </motion.div>
 
@@ -80,66 +83,76 @@ export default function Home() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="w-full md:w-1/2 px-2 flex flex-col items-center md:items-start text-center md:text-left order-2 md:order-1"
+          className="w-full md:w-1/2 px-4 flex flex-col items-center md:items-start text-center md:text-left order-2 md:order-1"
         >
-          {/* Name Section */}
-          <div className="cursor-target mb-4">
-            <h1 className={`flex items-end justify-center md:justify-start gap-2 text-xl md:text-2xl font-medium ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
-              {t('home.greeting', { defaultValue: "Hi! I'm ZOUBAA Mohammed" })}
+          {/* Greeting Section */}
+          <div className="cursor-target mb-3">
+            <h1 className={`flex items-center justify-center md:justify-start gap-2 text-xl md:text-3xl font-bold ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
+              {t('home.greeting')}
               <img
                 src={handIcon}
                 alt={t('home.wave_alt', { defaultValue: 'Wave' })}
-                className="w-6 animate-bounce"
+                className="w-6 md:w-8 animate-bounce"
               />
             </h1>
           </div>
 
-          {/* Title Section */}
-          <div className="cursor-target mb-8">
-            <p className={`max-w-3xl mx-auto md:mx-0 text-base md:text-lg leading-relaxed ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              {t('home.intro', { defaultValue: "Full-stack developer and Computer Engineering student, passionate about building modern web applications with React, Node.js, and DevOps practices." })}
+          {/* Headline Section */}
+          <div className="cursor-target mb-4">
+             <div className={`text-sm md:text-lg font-extrabold tracking-wide uppercase bg-clip-text text-transparent bg-gradient-to-r ${drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-600 to-cyan-500'}`}>
+               {t('home.headline')}
+             </div>
+          </div>
+
+          {/* Intro Section */}
+          <div className="cursor-target mb-10 text-justify md:text-left">
+            <p className={`max-w-2xl mx-auto md:mx-0 text-base md:text-lg leading-relaxed font-medium ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              {t('home.intro')}
             </p>
           </div>
 
-          {/* Buttons Section */}
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 w-full sm:w-auto">
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 w-full sm:w-auto">
             <a
-              href="#contact"
-              onClick={(e) => scrollToSection(e, 'contact')}
-              className="cursor-target w-full sm:w-auto px-6 py-3 border rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 font-medium group text-sm"
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/contact');
+              }}
+              className="cursor-target w-full sm:w-64 md:w-auto px-8 py-4 border rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white flex items-center justify-center gap-3 hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 font-bold group text-sm md:text-base transform hover:-translate-y-1"
             >
               {t('home.contact_button', { defaultValue: 'Contact me' })}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
 
             <a
               href={dynamicCvUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`cursor-target w-full sm:w-auto px-6 py-3 border rounded-full flex items-center justify-center gap-2 transition-all duration-300 font-medium group text-sm ${drakeMode
-                ? 'bg-white/5 border-gray-500 text-white hover:bg-white/10'
-                : 'bg-white border-gray-500 text-gray-700 hover:bg-gray-100 shadow-sm'
+              className={`cursor-target w-full sm:w-64 md:w-auto px-8 py-4 border rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-bold group text-sm md:text-base transform hover:-translate-y-1 ${drakeMode
+                ? 'bg-white/5 border-gray-600 text-white hover:bg-white/10 hover:border-gray-400 shadow-lg'
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-xl'
                 }`}
             >
               {t('home.resume_button', { defaultValue: 'My resume' })}
-              <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+              <Download className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
             </a>
           </div>
 
           {/* Social Links */}
-          <div className="flex justify-center md:justify-start space-x-6 mt-10">
-            <a href="https://github.com/zoubaax" target="_blank" rel="noopener noreferrer" className="cursor-target text-gray-600 hover:text-blue-500 transition-all duration-300 flex items-center justify-center gap-3 group font-medium">
-              <div className={`p-2 rounded-full shadow-sm group-hover:shadow-md transition-all duration-300 ${drakeMode ? 'bg-white/10 group-hover:bg-white/20' : 'bg-white group-hover:bg-blue-50'}`}>
-                <Github className="w-5 h-5 transition-colors duration-300" />
+          <div className="flex justify-center md:justify-start items-center space-x-8 mt-12 w-full md:w-auto">
+            <a href="https://github.com/zoubaax" target="_blank" rel="noopener noreferrer" className="cursor-target group flex flex-col items-center gap-2">
+              <div className={`p-4 rounded-2xl transition-all duration-300 transform group-hover:scale-110 group-hover:-translate-y-1 ${drakeMode ? 'bg-white/10 group-hover:bg-white/20 text-white' : 'bg-white group-hover:bg-blue-50 text-gray-700 shadow-sm'}`}>
+                <Github className="w-6 h-6" />
               </div>
-              <span className={`text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>{t('home.github', { defaultValue: 'GitHub' })}</span>
+              <span className={`text-xs font-bold tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-all duration-300 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>{t('home.github', { defaultValue: 'GitHub' })}</span>
             </a>
 
-            <a href="https://www.linkedin.com/in/zoubaa-mohammed-398266350" target="_blank" rel="noopener noreferrer" className="cursor-target text-gray-600 hover:text-blue-500 transition-all duration-300 flex items-center justify-center gap-3 group font-medium">
-              <div className={`p-2 rounded-full shadow-sm group-hover:shadow-md transition-all duration-300 ${drakeMode ? 'bg-white/10 group-hover:bg-white/20' : 'bg-white group-hover:bg-blue-50'}`}>
-                <Linkedin className="w-5 h-5 transition-colors duration-300" />
+            <a href="https://www.linkedin.com/in/zoubaa-mohammed-398266350" target="_blank" rel="noopener noreferrer" className="cursor-target group flex flex-col items-center gap-2">
+              <div className={`p-4 rounded-2xl transition-all duration-300 transform group-hover:scale-110 group-hover:-translate-y-1 ${drakeMode ? 'bg-white/10 group-hover:bg-white/20 text-white' : 'bg-white group-hover:bg-blue-50 text-gray-700 shadow-sm'}`}>
+                <Linkedin className="w-6 h-6" />
               </div>
-              <span className={`text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>{t('home.linkedin', { defaultValue: 'LinkedIn' })}</span>
+              <span className={`text-xs font-bold tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-all duration-300 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>{t('home.linkedin', { defaultValue: 'LinkedIn' })}</span>
             </a>
           </div>
         </motion.div>

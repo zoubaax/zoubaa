@@ -127,8 +127,8 @@
   },
   "home": {
     "greeting": "Hi! I'm ZOUBAA Mohammed",
-    "wave_alt": "Wave",
-    "intro": "Full-stack developer and Computer Engineering student, passionate about building modern web applications with React, Node.js, and DevOps practices.",
+    "headline": "Full-Stack Developer | AI Engineering Student | DevOps Enthusiast",
+    "intro": "I build scalable applications that bridge the gap between robust backend systems and seamless user experiences. Specializing in Full Stack development and AI/DevOps integration.",
     "contact_button": "Contact me",
     "resume_button": "My resume",
     "github": "GitHub",

@@ -55,7 +55,7 @@ export default function Home() {
       </div>
       */}
 
-      <div className="max-w-6xl w-full flex flex-col pt-24 pb-12 md:py-16 md:flex-row items-center gap-10 md:gap-14 relative z-10">
+      <div className="max-w-6xl w-full flex flex-col pt-24 pb-6 md:py-16 md:flex-row items-center gap-10 md:gap-14 relative z-10">
         {/* Image Column */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -112,30 +112,30 @@ export default function Home() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 w-full sm:w-auto">
+          <div className="flex flex-row items-center justify-center md:justify-start gap-2 w-full max-w-sm sm:max-w-none">
             <a
               href="/contact"
               onClick={(e) => {
                 e.preventDefault();
                 navigate('/contact');
               }}
-              className="cursor-target w-full sm:w-64 md:w-auto px-8 py-4 border rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white flex items-center justify-center gap-3 hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 font-bold group text-sm md:text-base transform hover:-translate-y-1"
+              className="cursor-target flex-1 md:w-auto px-4 sm:px-8 py-3 sm:py-4 border rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white flex items-center justify-center gap-1.5 sm:gap-3 hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 font-bold group text-[10px] xs:text-xs md:text-base transform hover:-translate-y-1"
             >
-              {t('home.contact_button', { defaultValue: 'Contact me' })}
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <span className="whitespace-nowrap">{t('home.contact_button', { defaultValue: 'Contact me' })}</span>
+              <ArrowRight className="w-3.5 h-3.5 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </a>
 
             <a
               href={dynamicCvUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`cursor-target w-full sm:w-64 md:w-auto px-8 py-4 border rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-bold group text-sm md:text-base transform hover:-translate-y-1 ${drakeMode
+              className={`cursor-target flex-1 md:w-auto px-4 sm:px-8 py-3 sm:py-4 border rounded-xl flex items-center justify-center gap-1.5 sm:gap-3 transition-all duration-300 font-bold group text-[10px] xs:text-xs md:text-base transform hover:-translate-y-1 ${drakeMode
                 ? 'bg-white/5 border-gray-600 text-white hover:bg-white/10 hover:border-gray-400 shadow-lg'
                 : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 shadow-md hover:shadow-xl'
                 }`}
             >
-              {t('home.resume_button', { defaultValue: 'My resume' })}
-              <Download className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
+              <span className="whitespace-nowrap">{t('home.resume_button', { defaultValue: 'My resume' })}</span>
+              <Download className="w-3.5 h-3.5 sm:w-5 sm:h-5 group-hover:translate-y-1 transition-transform" />
             </a>
           </div>
 

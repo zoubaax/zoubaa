@@ -124,10 +124,10 @@ const WorkHistory = () => {
   );
 
   return (
-    <div className={`min-h-screen py-20 px-4 sm:px-6 relative ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
+    <div className={`min-h-screen py-12 px-4 sm:px-6 relative ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12">
           <div className="cursor-target inline-flex items-center gap-4 mb-6">
             <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
             <span className={`text-sm font-semibold tracking-widest uppercase ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>

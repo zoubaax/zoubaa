@@ -66,11 +66,11 @@ function Portfolio() {
           <Home />
         </section>
 
-        <section id="about" className="min-h-screen bg-transparent">
+        <section id="about" className="bg-transparent">
           <About />
         </section>
 
-        <section id="projects" className="min-h-screen bg-transparent">
+        <section id="projects" className="bg-transparent">
           <MySkills />
         </section>
 

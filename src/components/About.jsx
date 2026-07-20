@@ -39,15 +39,28 @@ import supabase_img from '../assets/img/supabase.png';
 import LOGOFMPDF from '../assets/img/LOGO-FMPDF.png';
 import NewDev from '../assets/img/NewDev.jpeg';
 import fiverr from '../assets/img/fiverr.webp';
+import { getExperiences } from '../services/experiencesService';
+import { getTechnologies } from '../services/technologiesService';
 const WorkHistory = () => {
   const { isDarkMode: drakeMode } = useTheme();
   const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [activeSection, setActiveSection] = useState('work');
+  const [dynamicExperiences, setDynamicExperiences] = useState([]);
+  const [dynamicTechnologies, setDynamicTechnologies] = useState([]);
 
   useEffect(() => {
     setIsVisible(true);
+    const fetchData = async () => {
+      const [expRes, techRes] = await Promise.all([
+        getExperiences(),
+        getTechnologies()
+      ]);
+      if (expRes.data && expRes.data.length > 0) setDynamicExperiences(expRes.data);
+      if (techRes.data && techRes.data.length > 0) setDynamicTechnologies(techRes.data);
+    };
+    fetchData();
   }, []);
 
   const getTechIcon = (tech) => {
@@ -83,7 +96,11 @@ const WorkHistory = () => {
     return companyLogos[company] || null;
   };
 
-  const experiences = t('data.experiences', { returnObjects: true }) || [];
+  const tExperiences = t('data.experiences', { returnObjects: true }) || [];
+  // Show dynamic experiences first (from dashboard), then fall back static ones not already present
+  const experiences = dynamicExperiences.length > 0
+    ? [...dynamicExperiences, ...tExperiences]
+    : tExperiences;
   const education = t('data.education', { returnObjects: true }) || [];
 
   const displayedExperiences = showAll ? experiences : experiences.slice(0, 2);
@@ -97,8 +114,10 @@ const WorkHistory = () => {
 
   const TechStack = ({ technologies }) => (
     <div className="flex flex-wrap gap-2">
-      {technologies.map((tech, i) => {
-        const techIcon = getTechIcon(tech);
+      {(technologies || []).map((tech, i) => {
+        const dynamicTech = dynamicTechnologies.find(t => t.name === tech);
+        const techIcon = (dynamicTech && dynamicTech.image_url) ? dynamicTech.image_url : getTechIcon(tech);
+        
         return (
           <div
             key={i}
@@ -110,12 +129,12 @@ const WorkHistory = () => {
             {techIcon && (
               <img
                 src={techIcon}
-                alt={tech}
-                className="w-4 h-4"
+                alt={`${tech} icon`}
+                className="w-5 h-5 object-contain"
               />
             )}
-            <span className={`text-sm font-medium ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              {tech}
+            <span className={`text-sm font-semibold transition-colors duration-300 ${drakeMode ? 'text-gray-300' : 'text-gray-700'
+              }`}>{tech}
             </span>
           </div>
         );
@@ -266,7 +285,8 @@ const WorkHistory = () => {
         {activeSection === 'work' && (
           <div className="grid md:grid-cols-2 gap-8">
             {displayedExperiences.map((exp, index) => {
-              const companyLogo = getCompanyLogo(exp.company);
+              const companyLogo = exp.image_url || getCompanyLogo(exp.company);
+              const role = exp.title || exp.role;
               return (
                 <Card
                   key={index}
@@ -282,28 +302,36 @@ const WorkHistory = () => {
                     <div className="flex items-start gap-4 mb-3">
                       {/* Company Logo */}
                       <div className="flex-shrink-0">
-                        <img
-                          src={companyLogo}
-                          alt={`${exp.company} logo`}
-                          className="w-12 h-12"
-                        />
+                        {companyLogo ? (
+                          <img
+                            src={companyLogo}
+                            alt={`${exp.company} logo`}
+                            className="w-12 h-12 rounded object-contain bg-white p-1"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded bg-gray-200 flex items-center justify-center">
+                            <Briefcase className="w-6 h-6 text-gray-500" />
+                          </div>
+                        )}
                       </div>
 
                       <div className="flex-1">
                         <h3 className={`text-xl font-bold mb-1 ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
-                          {exp.role}
+                          {role}
                         </h3>
                         <p className={`text-lg font-semibold mb-2 ${drakeMode ? 'text-blue-400' : 'text-blue-600'}`}>
                           {exp.company}
                         </p>
                       </div>
 
-                      <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${drakeMode
-                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                        : 'bg-blue-100 text-blue-700 border border-blue-200'
-                        }`}>
-                        {exp.type}
-                      </span>
+                      {exp.type && (
+                        <span className={`cursor-target px-3 py-1 text-sm font-medium rounded-full transition-all duration-300 hover:scale-105 ${drakeMode
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                          : 'bg-blue-100 text-blue-700 border border-blue-200'
+                          }`}>
+                          {exp.type}
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-4 text-sm">
@@ -311,10 +339,12 @@ const WorkHistory = () => {
                         <Calendar className="w-4 h-4" />
                         <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.duration}</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.location}</span>
-                      </div>
+                      {exp.location && (
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-4 h-4" />
+                          <span className={drakeMode ? 'text-gray-300' : 'text-gray-600'}>{exp.location}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -325,33 +355,35 @@ const WorkHistory = () => {
                     </p>
 
                     {/* Achievements */}
-                    <div className="mb-6">
-                      <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
-                        }`}>
-                        <Award className="w-4 h-4" />
-                        {t('about.key_achievements')}
-                      </h4>
-                      <div className="space-y-2">
-                        {exp.achievements.map((achievement, i) => (
-                          <div key={i} className="flex items-start gap-3 cursor-target group">
-                            <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-300 group-hover:scale-150 ${drakeMode ? 'bg-blue-400' : 'bg-blue-500'
-                              }`}></div>
-                            <p className={`flex-1 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'} group-hover:translate-x-1 transition-transform duration-300`}>
-                              {achievement}
-                            </p>
-                          </div>
-                        ))}
+                    {exp.achievements && exp.achievements.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
+                          }`}>
+                          <Award className="w-4 h-4" />
+                          {t('about.key_achievements')}
+                        </h4>
+                        <div className="space-y-2">
+                          {exp.achievements.map((achievement, i) => (
+                            <div key={i} className="flex items-start gap-3 cursor-target group">
+                              <div className={`w-2 h-2 rounded-full mt-2 transition-all duration-300 group-hover:scale-150 ${drakeMode ? 'bg-blue-400' : 'bg-blue-500'
+                                }`}></div>
+                              <p className={`flex-1 text-sm ${drakeMode ? 'text-gray-300' : 'text-gray-600'} group-hover:translate-x-1 transition-transform duration-300`}>
+                                {achievement}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Technologies */}
                     <div>
                       <h4 className={`flex items-center gap-2 text-sm font-semibold uppercase tracking-wider mb-3 ${drakeMode ? 'text-blue-400' : 'text-blue-600'
                         }`}>
                         <Code className="w-4 h-4" />
-                        {t('about.tech_stack')}
+                        {t('about.technologies')}
                       </h4>
-                      <TechStack technologies={exp.technologies} />
+                      <TechStack technologies={exp.skills || exp.technologies || []} />
                     </div>
                   </div>
                 </Card>

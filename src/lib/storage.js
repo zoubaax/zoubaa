@@ -6,6 +6,7 @@ export const STORAGE_BUCKETS = {
   CERTIFICATES: 'certificates',
   TECHNOLOGIES: 'technologies',
   CV: 'cv',
+  EXPERIENCES: 'experiences',
 }
 
 /**

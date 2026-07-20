@@ -161,6 +161,7 @@ function DashboardLayout() {
                   {location.pathname === '/dashboard/certificates' && 'Certificates'}
                   {location.pathname === '/dashboard/projects' && 'Projects'}
                   {location.pathname === '/dashboard/technologies' && 'Technologies'}
+                  {location.pathname === '/dashboard/experiences' && 'Experiences'}
                 </h1>
                 <p className={`text-sm transition-colors duration-300 ${isDarkMode ? 'text-cyan-300' : 'text-blue-600'
                   }`}>

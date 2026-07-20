@@ -36,9 +36,9 @@ function Portfolio() {
       // Prioritize hash if present, otherwise check pathname for section routes
       const hashId = window.location.hash.replace('#', '');
       const pathId = location.pathname.substring(1); // e.g., 'contact' from '/contact'
-      
+
       const targetId = hashId || (['about', 'projects', 'contact'].includes(pathId) ? pathId : null);
-      
+
       if (targetId) {
         const element = document.getElementById(targetId);
         if (element) {

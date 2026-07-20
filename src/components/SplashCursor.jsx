@@ -1,6 +1,33 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-function SplashCursor({
+function SplashCursor(props) {
+    const location = useLocation();
+    const [isVisible, setIsVisible] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const path = location.pathname.replace(/\/$/, '') || '/';
+            const isPortfolioRoute = ['/', '/about', '/projects', '/contact'].includes(path);
+            
+            if (isPortfolioRoute) {
+                setIsVisible(window.scrollY < window.innerHeight * 0.5);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [location.pathname]);
+
+    if (!isVisible) return null;
+
+    return <SplashCursorImpl {...props} />;
+}
+
+function SplashCursorImpl({
     SIM_RESOLUTION = 128,
     DYE_RESOLUTION = 1440,
     CAPTURE_RESOLUTION = 512,
@@ -670,6 +697,8 @@ function SplashCursor({
         let lastUpdateTime = Date.now();
         let colorUpdateTimer = 0.0;
 
+        let animationFrameId;
+
         function updateFrame() {
             const dt = calcDeltaTime();
             if (resizeCanvas()) initFramebuffers();
@@ -677,7 +706,7 @@ function SplashCursor({
             applyInputs();
             step(dt);
             render(null);
-            requestAnimationFrame(updateFrame);
+            animationFrameId = requestAnimationFrame(updateFrame);
         }
 
         function calcDeltaTime() {
@@ -1036,6 +1065,7 @@ function SplashCursor({
         updateFrame();
 
         return () => {
+            cancelAnimationFrame(animationFrameId);
             window.removeEventListener('mousedown', onMouseDown);
             document.body.removeEventListener('mousemove', onMouseMoveFirst);
             window.removeEventListener('mousemove', onMouseMove);

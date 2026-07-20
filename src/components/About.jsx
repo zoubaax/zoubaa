@@ -145,24 +145,6 @@ const WorkHistory = () => {
   return (
     <div className={`min-h-screen py-12 px-4 sm:px-6 relative ${drakeMode ? 'bg-[#050A30]' : 'bg-[#eff9ff]'}`}>
       <div className="max-w-6xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="cursor-target inline-flex items-center gap-4 mb-6">
-            <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-cyan-400 to-blue-500' : 'from-blue-500 to-cyan-500'}`}></div>
-            <span className={`text-sm font-semibold tracking-widest uppercase ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
-              {t('about.my_journey')}
-            </span>
-            <div className={`w-16 h-0.5 bg-gradient-to-r ${drakeMode ? 'from-blue-500 to-cyan-400' : 'from-cyan-500 to-blue-500'}`}></div>
-          </div>
-
-          <h2 className={`text-5xl md:text-6xl font-bold mb-6 leading-tight ${drakeMode ? 'text-white' : 'text-gray-900'}`}>
-            {t('about.title')}
-          </h2>
-
-          <p className={`max-w-3xl mx-auto text-xl leading-relaxed mb-12 ${drakeMode ? 'text-gray-300' : 'text-gray-700'}`}>
-            {t('about.subtitle')}
-          </p>
-        </div>
 
         {/* Navigation Tabs */}
         <div className="flex justify-center mb-12">

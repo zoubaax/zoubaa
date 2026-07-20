@@ -125,15 +125,28 @@
     "english": "English",
     "french": "Français"
   },
-  "home": {
-    "greeting": "Hi! I'm ZOUBAA Mohammed",
-    "headline": "Full-Stack Developer | AI Engineering Student | DevOps Enthusiast",
-    "intro": "I build scalable applications that bridge the gap between robust backend systems and seamless user experiences. Specializing in Full Stack development and AI/DevOps integration.",
-    "contact_button": "Contact me",
-    "resume_button": "My resume",
-    "github": "GitHub",
-    "linkedin": "LinkedIn"
-  },
+    "home": {
+      "engineer_label": "THE ENGINEER",
+      "name": "ZOUBAA MOHAMMED",
+      "headline": "QA Engineer · DevOps · Full-Stack",
+      "intro_mobile": "QA & DevOps Engineer with a full-stack background. I build reliable, automated, and scalable systems.",
+      "intro_desktop_1": "I am a QA & DevOps Engineer with a solid full-stack background, driven by quality, automation, and scalable infrastructure.",
+      "intro_desktop_2": "My approach combines rigorous testing with CI/CD pipelines. I don't just ship code — I engineer reliable, secure systems.",
+      "contact_button": "Contact me",
+      "resume_button": "My Resume",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "technical_dna": "TECHNICAL DNA",
+      "dna": {
+        "qa": "QA Automation & Testing",
+        "devops": "CI/CD Pipelines (DevOps)",
+        "cloud": "Cloud Infrastructure",
+        "fullstack": "Full-Stack Development"
+      },
+      "status_label": "STATUS",
+      "status_available": "AVAILABLE",
+      "connect_label": "CONNECT"
+    },
   "data": {
     "experiences": [
       {

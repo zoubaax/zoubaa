@@ -125,15 +125,28 @@
     "english": "English",
     "french": "Français"
   },
-  "home": {
-    "greeting": "Salut ! Je suis ZOUBAA Mohammed",
-    "headline": "Développeur Full-Stack | Étudiant en Génie IA | Passionné de DevOps",
-    "intro": "Je conçois des applications évolutives alliant systèmes backend robustes et expériences utilisateur fluides. Spécialisé en développement Full Stack et intégration IA/DevOps.",
-    "contact_button": "Contactez-moi",
-    "resume_button": "Mon CV",
-    "github": "GitHub",
-    "linkedin": "LinkedIn"
-  },
+    "home": {
+      "engineer_label": "L'INGÉNIEUR",
+      "name": "ZOUBAA MOHAMMED",
+      "headline": "Ingénieur QA · DevOps · Full-Stack",
+      "intro_mobile": "Ingénieur QA & DevOps avec un parcours full-stack. Je construis des systèmes fiables, automatisés et évolutifs.",
+      "intro_desktop_1": "Je suis un ingénieur QA & DevOps avec une solide base full-stack, motivé par la qualité, l'automatisation et les infrastructures évolutives.",
+      "intro_desktop_2": "Mon approche combine des tests rigoureux avec des pipelines CI/CD. Je ne me contente pas de livrer du code — je conçois des systèmes fiables et sécurisés.",
+      "contact_button": "Contactez-moi",
+      "resume_button": "Mon CV",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "technical_dna": "ADN TECHNIQUE",
+      "dna": {
+        "qa": "Automatisation & Tests QA",
+        "devops": "Pipelines CI/CD (DevOps)",
+        "cloud": "Infrastructure Cloud",
+        "fullstack": "Développement Full-Stack"
+      },
+      "status_label": "STATUT",
+      "status_available": "DISPONIBLE",
+      "connect_label": "CONNECTER"
+    },
   "data": {
     "experiences": [
       {

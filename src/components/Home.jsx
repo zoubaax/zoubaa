@@ -24,9 +24,9 @@ export default function Home() {
 
   const dna = [
     { icon: ShieldCheck, label: t('home.dna.qa', { defaultValue: 'QA Automation & Testing' }) },
-    { icon: Cloud, label: t('home.dna.devops', { defaultValue: 'CI/CD Pipelines (DevOps)' }) },
-    { icon: ServerCog, label: t('home.dna.cloud', { defaultValue: 'Cloud Infrastructure' }) },
-    { icon: Cpu, label: t('home.dna.fullstack', { defaultValue: 'Full-Stack Development' }) },
+    { icon: Cloud,       label: t('home.dna.devops', { defaultValue: 'CI/CD Pipelines (DevOps)' }) },
+    { icon: ServerCog,   label: t('home.dna.cloud', { defaultValue: 'Cloud Infrastructure' }) },
+    { icon: Cpu,         label: t('home.dna.fullstack', { defaultValue: 'Full-Stack Development' }) },
   ];
 
   return (
@@ -37,25 +37,23 @@ export default function Home() {
       <div className={`absolute bottom-1/4 right-1/4 w-56 h-56 rounded-full blur-[80px] opacity-10 pointer-events-none ${drakeMode ? 'bg-blue-500' : 'bg-cyan-400'}`} />
 
       {/* ══════════════════════════════════════════════
-          MOBILE LAYOUT  (hidden on sm and above)
+          MOBILE LAYOUT
       ══════════════════════════════════════════════ */}
       <div className="block sm:hidden relative z-10">
-        {/* Big portrait photo — fills screen width, tall enough to show person properly */}
         <div className="px-5 pt-28">
           <div className="relative">
-            {/* 4 corner bracket decorations */}
-            <div className={`absolute -top-2 -left-2 w-7 h-7 border-t-2 border-l-2 z-10 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-            <div className={`absolute -top-2 -right-2 w-7 h-7 border-t-2 border-r-2 z-10 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-            <div className={`absolute -bottom-2 -left-2 w-7 h-7 border-b-2 border-l-2 z-10 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-            <div className={`absolute -bottom-2 -right-2 w-7 h-7 border-b-2 border-r-2 z-10 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-            {/* Glow */}
+            {/* Corner brackets — tighter, larger */}
+            <div className={`absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 z-10 rounded-tl-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+            <div className={`absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 z-10 rounded-tr-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+            <div className={`absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 z-10 rounded-bl-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+            <div className={`absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 z-10 rounded-br-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
             <div className={`absolute -inset-3 rounded-2xl blur-2xl opacity-20 -z-10 ${drakeMode ? 'bg-cyan-500' : 'bg-blue-400'}`} />
-            {/* Photo */}
-            <div className="w-full h-[85vw] overflow-hidden rounded-2xl">
+            {/* Photo — taller to better crop the bookshelf top */}
+            <div className="w-full h-[92vw] overflow-hidden rounded-2xl">
               <img
                 src={zoubaaImage}
                 alt="Zoubaa Mohammed"
-                className="w-full h-full object-cover object-[center_bottom]"
+                className="w-full h-full object-cover object-[50%_38%]"
               />
             </div>
           </div>
@@ -63,13 +61,13 @@ export default function Home() {
 
         {/* Content below image */}
         <div className="px-5 pt-6 pb-10">
-          {/* Label + Name + Title */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             className="text-center mb-5"
           >
+            {/* Label — symmetric lines on both sides */}
             <div className="inline-flex items-center gap-2 mb-3">
               <div className={`w-5 h-0.5 ${drakeMode ? 'bg-cyan-400' : 'bg-blue-500'}`} />
               <span className={`text-xs font-bold tracking-[0.2em] uppercase ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
@@ -147,24 +145,25 @@ export default function Home() {
       </div>
 
       {/* ══════════════════════════════════════════════
-          DESKTOP LAYOUT  (hidden on mobile)
+          DESKTOP LAYOUT
       ══════════════════════════════════════════════ */}
-      <div className="hidden sm:flex items-center justify-center px-6 md:px-10 min-h-screen pt-20 relative z-10">
-        <div className="max-w-5xl w-full flex flex-row items-center gap-12 lg:gap-20 py-16">
+      <div className="hidden sm:flex items-start justify-center px-6 md:px-10 min-h-screen pt-28 pb-16 relative z-10">
+        <div className="max-w-5xl w-full flex flex-row gap-14 lg:gap-20">
 
           {/* LEFT — Text */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 flex flex-col items-start text-left"
+            className="flex-1 flex flex-col items-start text-left pt-4"
           >
-            {/* Label */}
-            <div className="inline-flex items-center gap-3 mb-4">
+            {/* FIX 4 — symmetric lines on both sides of label */}
+            <div className="inline-flex items-center gap-3 mb-5">
               <div className={`w-6 h-0.5 ${drakeMode ? 'bg-cyan-400' : 'bg-blue-500'}`} />
               <span className={`text-xs font-bold tracking-[0.2em] uppercase ${drakeMode ? 'text-cyan-400' : 'text-blue-600'}`}>
                 {t('home.engineer_label', { defaultValue: 'THE ENGINEER' })}
               </span>
+              <div className={`w-6 h-0.5 ${drakeMode ? 'bg-cyan-400' : 'bg-blue-500'}`} />
             </div>
 
             {/* Name */}
@@ -179,7 +178,7 @@ export default function Home() {
 
             {/* Bio */}
             <p className={`max-w-lg text-base leading-relaxed mb-2 ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              {t('home.intro_desktop_1', { defaultValue: "I am a QA & DevOps Engineer with a solid full-stack background, driven by quality, automation, and scalable infrastructure." })}
+              {t('home.intro_desktop_1', { defaultValue: 'I am a QA & DevOps Engineer with a solid full-stack background, driven by quality, automation, and scalable infrastructure.' })}
             </p>
             <p className={`max-w-lg text-base leading-relaxed mb-8 ${drakeMode ? 'text-gray-400' : 'text-gray-500'}`}>
               {t('home.intro_desktop_2', { defaultValue: "My approach combines rigorous testing with CI/CD pipelines. I don't just ship code — I engineer reliable, secure systems." })}
@@ -206,9 +205,10 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Bottom: DNA + Status + Connect */}
-            <div className="flex flex-wrap gap-10">
-              <div>
+            {/* FIX 3 — DNA + CONNECT in a better balanced row */}
+            <div className={`w-full flex flex-wrap items-start gap-8 pt-8 border-t ${drakeMode ? 'border-white/10' : 'border-gray-200'}`}>
+              {/* Technical DNA */}
+              <div className="flex-1 min-w-[180px]">
                 <p className={`text-xs font-bold tracking-widest uppercase mb-3 ${drakeMode ? 'text-gray-500' : 'text-gray-400'}`}>
                   {t('home.technical_dna', { defaultValue: 'TECHNICAL DNA' })}
                 </p>
@@ -222,36 +222,30 @@ export default function Home() {
                 </ul>
               </div>
 
-              <div className="flex flex-col gap-5">
-                <div>
-                  <p className={`text-xs font-bold tracking-widest uppercase mb-3 ${drakeMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                    {t('home.status_label', { defaultValue: 'STATUS' })}
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-                    </span>
-                    <span className={`text-xs font-bold tracking-widest ${drakeMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {t('home.status_available', { defaultValue: 'AVAILABLE' })}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <p className={`text-xs font-bold tracking-widest uppercase mb-3 ${drakeMode ? 'text-gray-500' : 'text-gray-400'}`}>
-                    {t('home.connect_label', { defaultValue: 'CONNECT' })}
-                  </p>
-                  <div className="flex gap-2">
-                    <a href="https://github.com/zoubaax" target="_blank" rel="noopener noreferrer"
-                      className={`cursor-target p-2.5 rounded-xl transition-all duration-300 hover:scale-110 ${drakeMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white text-gray-700 shadow-sm hover:bg-gray-100'}`}>
-                      <Github className="w-4 h-4" />
-                    </a>
-                    <a href="https://www.linkedin.com/in/zoubaa-mohammed-398266350" target="_blank" rel="noopener noreferrer"
-                      className={`cursor-target p-2.5 rounded-xl transition-all duration-300 hover:scale-110 ${drakeMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-white text-gray-700 shadow-sm hover:bg-gray-100'}`}>
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                  </div>
+              {/* CONNECT — icon-only buttons */}
+              <div>
+                <p className={`text-xs font-bold tracking-widest uppercase mb-3 ${drakeMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                  {t('home.connect_label', { defaultValue: 'CONNECT' })}
+                </p>
+                <div className="flex gap-2">
+                  <a
+                    href="https://github.com/zoubaax"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="GitHub"
+                    className={`cursor-target p-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${drakeMode ? 'bg-white/10 hover:bg-white/20 text-white border border-white/10' : 'bg-white text-gray-700 border border-gray-200 hover:border-gray-300 shadow-sm'}`}
+                  >
+                    <Github className="w-5 h-5" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/zoubaa-mohammed-398266350"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="LinkedIn"
+                    className={`cursor-target p-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${drakeMode ? 'bg-[#0A66C2]/80 hover:bg-[#0A66C2] text-white border border-[#0A66C2]/50' : 'bg-[#0A66C2] hover:bg-[#0958a8] text-white border border-[#0A66C2]'}`}
+                  >
+                    <Linkedin className="w-5 h-5" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -262,27 +256,34 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            className="shrink-0"
+            className="shrink-0 flex flex-col gap-4"
           >
+            {/* FIX 1+2 — Taller photo + tighter brackets that hug the frame */}
             <div className="relative">
-              <div className={`absolute -top-3 -left-3 w-7 h-7 border-t-2 border-l-2 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-              <div className={`absolute -top-3 -right-3 w-7 h-7 border-t-2 border-r-2 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-              <div className={`absolute -bottom-3 -left-3 w-7 h-7 border-b-2 border-l-2 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
-              <div className={`absolute -bottom-3 -right-3 w-7 h-7 border-b-2 border-r-2 ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+              <div className={`absolute -top-2.5 -left-2.5 w-9 h-9 border-t-2 border-l-2 rounded-tl-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+              <div className={`absolute -top-2.5 -right-2.5 w-9 h-9 border-t-2 border-r-2 rounded-tr-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+              <div className={`absolute -bottom-2.5 -left-2.5 w-9 h-9 border-b-2 border-l-2 rounded-bl-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
+              <div className={`absolute -bottom-2.5 -right-2.5 w-9 h-9 border-b-2 border-r-2 rounded-br-sm ${drakeMode ? 'border-cyan-400' : 'border-blue-500'}`} />
               <div className={`absolute -inset-4 rounded-2xl blur-3xl opacity-20 -z-10 ${drakeMode ? 'bg-cyan-500' : 'bg-blue-400'}`} />
 
-              <div className="w-72 h-[380px] rounded-2xl overflow-hidden">
+              {/* Taller container to crop the bookshelf top, crop anchored to face */}
+              <div className="w-72 h-[430px] rounded-2xl overflow-hidden">
                 <img
                   src={zoubaaImage}
                   alt="Zoubaa Mohammed"
-                  className="w-full h-full object-cover object-[center_bottom] hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover object-[50%_38%] hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>
+
+
           </motion.div>
 
         </div>
       </div>
+
+      {/* FIX 7 — Subtle section separator */}
+      <div className={`absolute bottom-0 left-0 right-0 h-px ${drakeMode ? 'bg-gradient-to-r from-transparent via-white/10 to-transparent' : 'bg-gradient-to-r from-transparent via-blue-200/60 to-transparent'}`} />
 
     </div>
   );

@@ -4,24 +4,19 @@ const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // 1. Check localStorage first
-    const saved = localStorage.getItem('dashboard-theme')
-    if (saved) return saved === 'dark'
+    // 1. Check localStorage first (only honour an explicit user choice)
+    const saved = localStorage.getItem('theme-user-choice')
+    if (saved !== null) return saved === 'dark'
 
-    // 2. Otherwise check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return true
-    }
-
-    // 3. Fallback to dark mode (default for this portfolio)
-    return true
+    // 2. Fallback to light mode (default for this portfolio)
+    return false
   })
 
   useEffect(() => {
     // Listen for system theme changes if no manual preference is set
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
     const handleChange = (e) => {
-      const saved = localStorage.getItem('dashboard-theme')
+      const saved = localStorage.getItem('theme-user-choice')
       if (!saved) {
         setIsDarkMode(e.matches)
       }
@@ -29,8 +24,8 @@ export function ThemeProvider({ children }) {
 
     mediaQuery.addEventListener('change', handleChange)
 
-    // Save theme preference to localStorage
-    localStorage.setItem('dashboard-theme', isDarkMode ? 'dark' : 'light')
+    // Save theme preference to localStorage only after a user toggle
+    // (initial write is handled inside toggleTheme)
 
     // Apply theme class to document root for global styles
     if (isDarkMode) {
@@ -41,7 +36,11 @@ export function ThemeProvider({ children }) {
   }, [isDarkMode])
 
   const toggleTheme = () => {
-    setIsDarkMode(prev => !prev)
+    setIsDarkMode(prev => {
+      const next = !prev
+      localStorage.setItem('theme-user-choice', next ? 'dark' : 'light')
+      return next
+    })
   }
 
   return (

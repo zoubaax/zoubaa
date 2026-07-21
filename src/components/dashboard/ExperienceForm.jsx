@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { X, Image as ImageIcon, Plus, Trash2, Check } from 'lucide-react'
 import { getTechnologies } from '../../services/technologiesService'
+import { useTheme } from '../../contexts/ThemeContext'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const YEARS = Array.from({ length: 30 }, (_, i) => new Date().getFullYear() - i)
 const JOB_TYPES = ['Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship']
 
 function ExperienceForm({ experience = null, onSave, onCancel, loading = false }) {
+  const { isDarkMode } = useTheme()
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -160,59 +162,59 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
     onSave(processedFormData, imageFile)
   }
 
+  // Reusable theme-aware class helpers
+  const label = `block text-sm font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-700'}`
+  const input = `w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-all ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400' : 'bg-white border-gray-300 focus:border-blue-500 text-gray-900 placeholder-gray-400'}`
+  const select = `w-full px-4 py-3 rounded-xl border-2 focus:outline-none transition-all ${isDarkMode ? 'bg-[#0A1A4D] border-white/10 focus:border-cyan-400 text-white' : 'bg-white border-gray-300 focus:border-blue-500 text-gray-900'}`
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Title */}
         <div>
-          <label className="block text-sm font-semibold text-white mb-2">Job Title *</label>
+          <label className={label}>Job Title *</label>
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleInputChange}
-            className={`w-full px-4 py-3 rounded-xl bg-white/5 border-2 ${errors.title ? 'border-red-500/50' : 'border-white/10 focus:border-cyan-400'} text-white placeholder-gray-400 focus:outline-none transition-all`}
+            className={`${input} ${errors.title ? 'border-red-500' : ''}`}
             placeholder="e.g. Full-Stack Developer"
           />
-          {errors.title && <p className="mt-1 text-sm text-red-400">{errors.title}</p>}
+          {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title}</p>}
         </div>
 
         {/* Company */}
         <div>
-          <label className="block text-sm font-semibold text-white mb-2">Company *</label>
+          <label className={label}>Company *</label>
           <input
             type="text"
             name="company"
             value={formData.company}
             onChange={handleInputChange}
-            className={`w-full px-4 py-3 rounded-xl bg-white/5 border-2 ${errors.company ? 'border-red-500/50' : 'border-white/10 focus:border-cyan-400'} text-white placeholder-gray-400 focus:outline-none transition-all`}
+            className={`${input} ${errors.company ? 'border-red-500' : ''}`}
             placeholder="e.g. Fiverr - Freelance"
           />
-          {errors.company && <p className="mt-1 text-sm text-red-400">{errors.company}</p>}
+          {errors.company && <p className="mt-1 text-sm text-red-500">{errors.company}</p>}
         </div>
 
         {/* Type */}
         <div>
-          <label className="block text-sm font-semibold text-white mb-2">Job Type</label>
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-xl bg-[#0A1A4D] border-2 border-white/10 focus:border-cyan-400 text-white focus:outline-none transition-all"
-          >
+          <label className={label}>Job Type</label>
+          <select name="type" value={formData.type} onChange={handleInputChange} className={select}>
             {JOB_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
           </select>
         </div>
 
         {/* Location */}
         <div>
-          <label className="block text-sm font-semibold text-white mb-2">Location</label>
+          <label className={label}>Location</label>
           <input
             type="text"
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+            className={input}
             placeholder="e.g. Remote"
           />
         </div>
@@ -220,24 +222,24 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
 
       {/* Duration Selectors */}
       <div>
-        <label className="block text-sm font-semibold text-white mb-2">Duration *</label>
+        <label className={label}>Duration *</label>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="flex w-full sm:w-auto gap-2">
-            <select name="startMonth" value={formData.startMonth} onChange={handleInputChange} className="w-full sm:w-auto px-4 py-3 rounded-xl bg-[#0A1A4D] border-2 border-white/10 focus:border-cyan-400 text-white focus:outline-none transition-all">
+            <select name="startMonth" value={formData.startMonth} onChange={handleInputChange} className={`${select} sm:w-auto`}>
               {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
-            <select name="startYear" value={formData.startYear} onChange={handleInputChange} className="w-full sm:w-auto px-4 py-3 rounded-xl bg-[#0A1A4D] border-2 border-white/10 focus:border-cyan-400 text-white focus:outline-none transition-all">
+            <select name="startYear" value={formData.startYear} onChange={handleInputChange} className={`${select} sm:w-auto`}>
               {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
             </select>
           </div>
-          <span className="text-gray-400 font-bold">—</span>
+          <span className={`font-bold ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>—</span>
           <div className="flex w-full sm:w-auto gap-2">
-            <select name="endMonth" value={formData.endMonth} onChange={handleInputChange} className="w-full sm:w-auto px-4 py-3 rounded-xl bg-[#0A1A4D] border-2 border-white/10 focus:border-cyan-400 text-white focus:outline-none transition-all">
+            <select name="endMonth" value={formData.endMonth} onChange={handleInputChange} className={`${select} sm:w-auto`}>
               <option value="Present">Present</option>
               {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
             {formData.endMonth !== 'Present' && (
-              <select name="endYear" value={formData.endYear} onChange={handleInputChange} className="w-full sm:w-auto px-4 py-3 rounded-xl bg-[#0A1A4D] border-2 border-white/10 focus:border-cyan-400 text-white focus:outline-none transition-all">
+              <select name="endYear" value={formData.endYear} onChange={handleInputChange} className={`${select} sm:w-auto`}>
                 {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             )}
@@ -247,13 +249,13 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-semibold text-white mb-2">Description</label>
+        <label className={label}>Description</label>
         <textarea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
           rows={3}
-          className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white placeholder-gray-400 focus:outline-none transition-all"
+          className={input}
           placeholder="Providing full-stack development services..."
         />
       </div>
@@ -261,40 +263,40 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
       {/* Key Achievements */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="block text-sm font-semibold text-white">Key Achievements</label>
-          <button type="button" onClick={addAchievement} className="text-xs flex items-center gap-1 text-cyan-400 hover:text-cyan-300">
+          <label className={label}>Key Achievements</label>
+          <button type="button" onClick={addAchievement} className="text-xs flex items-center gap-1 text-cyan-500 hover:text-cyan-400">
             <Plus className="w-3 h-3" /> Add Bullet
           </button>
         </div>
         <div className="space-y-2">
           {formData.achievements.map((achievement, index) => (
             <div key={index} className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-blue-500 shrink-0"></div>
+              <div className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
               <input
                 type="text"
                 value={achievement}
                 onChange={(e) => updateAchievement(index, e.target.value)}
-                className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-cyan-400 text-white placeholder-gray-500 focus:outline-none"
+                className={`flex-1 px-4 py-2 rounded-lg border focus:outline-none transition-all ${isDarkMode ? 'bg-white/5 border-white/10 focus:border-cyan-400 text-white placeholder-gray-500' : 'bg-white border-gray-300 focus:border-blue-500 text-gray-900 placeholder-gray-400'}`}
                 placeholder="Delivered successful projects..."
               />
-              <button type="button" onClick={() => removeAchievement(index)} className="p-2 text-red-400 hover:text-red-300">
+              <button type="button" onClick={() => removeAchievement(index)} className="p-2 text-red-400 hover:text-red-500">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
           ))}
           {formData.achievements.length === 0 && (
-            <p className="text-sm text-gray-500 italic">No achievements added. Click "Add Bullet" to create one.</p>
+            <p className={`text-sm italic ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>No achievements added. Click "Add Bullet" to create one.</p>
           )}
         </div>
       </div>
 
       {/* Technologies Multi-Select */}
       <div>
-        <label className="block text-sm font-semibold text-white mb-2">Technologies / Skills</label>
+        <label className={label}>Technologies / Skills</label>
         {techLoading ? (
-          <p className="text-sm text-gray-400">Loading technologies...</p>
+          <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Loading technologies...</p>
         ) : (
-          <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 border-2 border-white/10 rounded-xl bg-white/5">
+          <div className={`flex flex-wrap gap-2 max-h-48 overflow-y-auto p-4 border-2 rounded-xl ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-gray-200 bg-gray-50'}`}>
             {availableTechs.map(tech => {
               const isSelected = formData.skills.includes(tech.name)
               return (
@@ -304,20 +306,22 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
                   onClick={() => toggleSkill(tech.name)}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all ${
                     isSelected
-                      ? 'bg-blue-500/20 border-blue-400 text-white'
-                      : 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'
+                      ? isDarkMode
+                        ? 'bg-blue-500/20 border-blue-400 text-white'
+                        : 'bg-blue-50 border-blue-400 text-blue-700'
+                      : isDarkMode
+                        ? 'bg-white/5 border-transparent text-gray-400 hover:bg-white/10'
+                        : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-100'
                   }`}
                 >
-                  {tech.image_url ? (
-                    <img src={tech.image_url} alt={tech.name} className="w-4 h-4 object-contain" />
-                  ) : null}
+                  {tech.image_url && <img src={tech.image_url} alt={tech.name} className="w-4 h-4 object-contain" />}
                   <span className="text-sm font-medium">{tech.name}</span>
                   {isSelected && <Check className="w-3 h-3 text-blue-400" />}
                 </button>
               )
             })}
             {availableTechs.length === 0 && (
-              <p className="text-sm text-gray-500">No technologies found in the dashboard.</p>
+              <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>No technologies found in the dashboard.</p>
             )}
           </div>
         )}
@@ -326,38 +330,38 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
       {/* Image Upload & Order */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-white mb-2">Company Logo</label>
+          <label className={label}>Company Logo</label>
           {imagePreview ? (
             <div className="relative">
-              <img src={imagePreview} alt="Preview" className="w-full h-32 object-contain rounded-xl border-2 border-white/10 bg-white/5 p-4" />
-              <button type="button" onClick={handleRemoveImage} className="absolute top-2 right-2 p-2 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/30 transition-all">
+              <img src={imagePreview} alt="Preview" className={`w-full h-32 object-contain rounded-xl border-2 p-4 ${isDarkMode ? 'border-white/10 bg-white/5' : 'border-gray-200 bg-gray-50'}`} />
+              <button type="button" onClick={handleRemoveImage} className="absolute top-2 right-2 p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-400/30 transition-all">
                 <X className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <label className="cursor-target flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-white/20 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
-              <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
-              <p className="text-sm text-gray-400 font-semibold">Click to upload logo</p>
+            <label className={`cursor-target flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl transition-all ${isDarkMode ? 'border-white/20 bg-white/5 hover:bg-white/10' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}`}>
+              <ImageIcon className={`w-8 h-8 mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-400'}`} />
+              <p className={`text-sm font-semibold ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Click to upload logo</p>
               <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
             </label>
           )}
-          {errors.image && <p className="mt-1 text-sm text-red-400">{errors.image}</p>}
+          {errors.image && <p className="mt-1 text-sm text-red-500">{errors.image}</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-white mb-2">Display Order (Higher = First)</label>
+          <label className={label}>Display Order (Higher = First)</label>
           <input
             type="number"
             name="order"
             value={formData.order}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/5 border-2 border-white/10 focus:border-cyan-400 text-white focus:outline-none transition-all"
+            className={input}
           />
         </div>
       </div>
 
       {/* Actions */}
-      <div className="flex gap-3 pt-4 border-t border-white/10">
+      <div className={`flex gap-3 pt-4 border-t ${isDarkMode ? 'border-white/10' : 'border-gray-200'}`}>
         <button
           type="submit"
           disabled={loading}
@@ -369,7 +373,7 @@ function ExperienceForm({ experience = null, onSave, onCancel, loading = false }
           type="button"
           onClick={onCancel}
           disabled={loading}
-          className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all disabled:opacity-50"
+          className={`px-6 py-3 rounded-xl border transition-all disabled:opacity-50 ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white border-white/20' : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300'}`}
         >
           Cancel
         </button>
